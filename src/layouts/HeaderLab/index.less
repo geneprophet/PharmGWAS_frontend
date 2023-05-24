@@ -1,0 +1,32 @@
+.header {
+  width: 100%;
+  height: 200px;
+  text-align: center;
+}
+.header:before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  //filter: blur(2px);
+  //background-size: cover;
+  width: 100%;
+  height: 200px;
+  //background: url('../../assets/header.jpg');
+  //-webkit-filter: blur(3px);
+  filter: blur(5px);
+  content: ''; /*-1 可以当背景*/
+}
+.logo {
+  display: flex;
+  width: 200px;
+  margin-left: 30px;
+}
+.text {
+  position: relative;
+  margin-top: 20px;
+  color: #f0f0f0;
+  //color: #001529;
+  font-size: 40px;
+  font-family: 'Arial Black';
+}
