@@ -23,27 +23,36 @@ const errorHandler = function (error: any) {
 };
 export const extendRequest = extend({ errorHandler });
 
-export const getRemoteTwas = async ({
-  pageSize,
-  pageIndex,
-  trait,
-  tissue,
-  gene,
-}: {
-  pageSize: number;
-  pageIndex: number;
+export const getRemoteDataset = async ({
+                                          pageSize,
+                                          pageIndex,
+                                          keyword,
+                                          trait,
+                                          pmid,
+                                          dataset,
+                                         sort_field,
+                                         sort_direction
+                                        }: {
+  pageSize: number | undefined;
+  pageIndex: number | undefined;
+  keyword: string | undefined;
   trait: string | undefined;
-  tissue: string | undefined;
-  gene: string | undefined;
+  pmid: string | undefined;
+  dataset: string | undefined;
+  sort_field: string | undefined;
+  sort_direction: string | undefined;
 }) => {
-  return extendRequest(API_PREFIX + '/twas', {
+  return extendRequest(API_PREFIX + '/dataset', {
     method: 'get',
     params: {
       pageSize: pageSize,
       pageIndex: pageIndex,
+      keyword: keyword,
       trait: trait,
-      tissue: tissue,
-      gene: gene,
+      pmid: pmid,
+      dataset: dataset,
+      sort_field:sort_field,
+      sort_direction:sort_direction
     },
   })
     .then(function (response) {
@@ -53,28 +62,27 @@ export const getRemoteTwas = async ({
       return false;
     });
 };
-
-export const getRemoteTwaslike = async ({
-  pageSize,
-  pageIndex,
-  trait,
-  tissue,
-  gene,
-}: {
-  pageSize: number;
-  pageIndex: number;
+export const getRemoteDatasetLike = async ({
+                                         pageSize,
+                                         pageIndex,
+                                             trait,
+                                             pmid,
+                                             dataset
+                                       }: {
+  pageSize: number | undefined;
+  pageIndex: number | undefined;
   trait: string | undefined;
-  tissue: string | undefined;
-  gene: string | undefined;
+  pmid: string | undefined;
+  dataset: string | undefined;
 }) => {
-  return extendRequest(API_PREFIX + '/twaslike', {
+  return extendRequest(API_PREFIX + '/datasetlike', {
     method: 'get',
     params: {
       pageSize: pageSize,
       pageIndex: pageIndex,
       trait: trait,
-      tissue: tissue,
-      gene: gene,
+      pmid:pmid,
+      dataset:dataset
     },
   })
     .then(function (response) {

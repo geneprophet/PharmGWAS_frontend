@@ -11,26 +11,22 @@ export default [
         path: '/home',
         component: '@/pages/index',
       },
-      // {
-      //   path: '/browse/',
-      //   component: '@/pages/Browse',
-      // },
-      // {
-      //   path: '/contact',
-      //   component: '@/pages/Contact',
-      // },
-      // {
-      //   path: '/download',
-      //   component: '@/pages/Download',
-      // },
+      {
+        path: '/datasetoverview',
+        component: '@/pages/DatasetOverview',
+      },
+      {
+        path: '/contact',
+        component: '@/pages/Contact',
+      },
+      {
+        path: '/download',
+        component: '@/pages/Download',
+      },
       {
         path: '/test',
         component: '@/pages/Test',
       },
-      // {
-      //   path: '/twas/:name',
-      //   component: '@/pages/TWAS',
-      // },
       // {
       //   path: '/documentation',
       //   component: '@/pages/Documentation',

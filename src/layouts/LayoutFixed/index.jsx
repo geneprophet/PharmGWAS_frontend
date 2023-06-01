@@ -32,8 +32,8 @@ import {
   BrowseIcon,
   BenchmarkIcon,
   OnlineIcon,
-  LandscapeIcon,
-} from '../../components/Icons/index';
+  LandscapeIcon, DrugIcon, VSIcon
+} from "../../components/Icons/index";
 export default function (props) {
   // console.log(props);
   const [selectKey, setSelectkey] = useState('1');
@@ -42,7 +42,7 @@ export default function (props) {
       setSelectkey('3');
     } else if (history.location.pathname.startsWith('/browse')) {
       setSelectkey('2');
-    } else if (history.location.pathname.startsWith('/summary')) {
+    } else if (history.location.pathname.startsWith('/datasetoverview')) {
       setSelectkey('2');
     } else if (history.location.pathname.startsWith('/twosmr')) {
       setSelectkey('4');
@@ -94,27 +94,29 @@ export default function (props) {
           label: (
             <a
               onClick={() => {
-                history.push('/traitoverview');
+                history.push('/datasetoverview');
               }}
             >
-              <strong style={{ color: '#252746' }}>Overview</strong>
+              <strong style={{ color: '#252746' }}>GWAS Datasets</strong>
             </a>
           ),
           key: '10',
+          icon: <DatasetIcon />,
         },
         {
           label: (
             <a
               onClick={() => {
-                history.push('/herit/all');
+                history.push('/drugoverview');
               }}
             >
               <strong style={{ color: '#252746' }}>
-                Heritability Analysis
+                CMap Signatures
               </strong>
             </a>
           ),
           key: '3',
+          icon: <DrugIcon/>,
         },
         {
           label: (
@@ -123,46 +125,11 @@ export default function (props) {
                 history.push('/twosmr/all');
               }}
             >
-              <strong style={{ color: '#252746' }}>Two Sample MR</strong>
+              <strong style={{ color: '#252746' }}>GEO Signatures</strong>
             </a>
           ),
           key: '4',
-        },
-        {
-          label: (
-            <a
-              onClick={() => {
-                history.push('/smroverview');
-              }}
-            >
-              <strong style={{ color: '#252746' }}>SMR Overview</strong>
-            </a>
-          ),
-          key: '5',
-        },
-        {
-          label: (
-            <a
-              onClick={() => {
-                history.push('/colocoverview');
-              }}
-            >
-              <strong style={{ color: '#252746' }}>Colocalization</strong>
-            </a>
-          ),
-          key: '6',
-        },
-        {
-          label: (
-            <a
-              onClick={() => {
-                history.push('/finemapping/AD_Marioni_2018');
-              }}
-            >
-              <strong style={{ color: '#252746' }}>Fine mapping</strong>
-            </a>
-          ),
-          key: '11',
+          icon: <VSIcon />,
         },
       ],
     },
@@ -173,11 +140,11 @@ export default function (props) {
             history.push('/smroverview');
           }}
         >
-          <strong style={{ color: '#252746' }}>SMR</strong>
+          <strong style={{ color: '#252746' }}>Explore</strong>
         </a>
       ),
       key: '5',
-      icon: <BenchmarkIcon />,
+      icon: <ExploreIcon />,
     },
     {
       label: (
@@ -186,7 +153,7 @@ export default function (props) {
             history.push('/colocoverview');
           }}
         >
-          <strong style={{ color: '#252746' }}>Colocalization</strong>
+          <strong style={{ color: '#252746' }}>XXXXX</strong>
         </a>
       ),
       key: '6',
@@ -205,19 +172,19 @@ export default function (props) {
       key: '7',
       icon: <DocumentationIcon />,
     },
-    // {
-    //   label: (
-    //     <a
-    //       onClick={() => {
-    //         history.push('/download');
-    //       }}
-    //     >
-    //       <strong style={{ color: '#252746' }}>Download</strong>
-    //     </a>
-    //   ),
-    //   key: '8',
-    //   icon: <DownloadOutlined />,
-    // },
+    {
+      label: (
+        <a
+          onClick={() => {
+            history.push('/download');
+          }}
+        >
+          <strong style={{ color: '#252746' }}>Download</strong>
+        </a>
+      ),
+      key: '8',
+      icon: <DownloadOutlined />,
+    },
     {
       label: (
         <a
