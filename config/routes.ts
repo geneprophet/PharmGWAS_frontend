@@ -16,6 +16,14 @@ export default [
         component: '@/pages/DatasetOverview',
       },
       {
+        path: '/cmapoverview',
+        component: '@/pages/CMapOverview',
+      },
+      {
+        path: '/geooverview',
+        component: '@/pages/GEOOverview',
+      },
+      {
         path: '/contact',
         component: '@/pages/Contact',
       },
@@ -27,10 +35,10 @@ export default [
         path: '/test',
         component: '@/pages/Test',
       },
-      // {
-      //   path: '/documentation',
-      //   component: '@/pages/Documentation',
-      // },
+      {
+        path: '/documentation',
+        component: '@/pages/Documentation',
+      },
     ],
   },
 ];

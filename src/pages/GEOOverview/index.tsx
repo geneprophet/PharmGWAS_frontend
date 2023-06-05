@@ -1,102 +1,64 @@
 import React, { useEffect, useState } from "react";
 import styles from './index.less';
-import { getRemoteDataset, getRemoteDatasetLike } from "@/pages/DatasetOverview/service";
-import { ApartmentOutlined, SearchOutlined } from '@ant-design/icons';
+import { getRemoteGEO, getRemoteGEOLike } from "@/pages/GEOOverview/service";
+import { Breadcrumb, Col, Divider, Row, Select, Space } from "antd";
+import { URL_PREFIX ,uniqueArray} from '@/common/constants';
+import { ProTable } from "@ant-design/pro-table";
 import { Parser } from 'json2csv';
-// @ts-ignore
-import { URL_PREFIX,uniqueArray } from '@/common/constants';
-import {
-  Breadcrumb,
-  Col,
-  Divider,
-  Table,
-  Row,
-  Select,
-  Space,
-  Typography,
-} from 'antd';
-import { ProColumns, ProTable } from "@ant-design/pro-table";
 import {
   AnalysisIcon
 } from "../../components/Icons/index";
 export default function Page(props: any) {
-  const [keyword, setKeyword] = useState(undefined);
-  const [datasets, setDatasets] = useState(undefined);
+  const [geosignatures, setGeosignatures] = useState(undefined);
   const [loading, setLoading] = useState<boolean>(true);
   const [total, setTotal] = useState(0);
   const [pagesize, setPagesize] = useState(10);
   const [pageindex, setPageindex] = useState(1);
-
   interface SearchKeywords {
-    trait: string | undefined;
-    pmid: string | undefined;
-    dataset: string | undefined;
+    accession: string | undefined;
+    series_id: string | undefined;
+    description: string | undefined;
     sort_field: string | undefined;
     sort_direction: string | undefined;
-  }
-
+  };
   const [keywords, setKeywords] = useState<SearchKeywords>({});
-  // useEffect(() => {
-  //   console.log(props.match.params.name);
-  //   setKeyword(props.match.params.name);
-  // }, [props]);
-
-  useEffect(() => {
-    if (keyword) {
-      getRemoteDataset({
-        pageSize: pagesize,
-        pageIndex: pageindex,
-        keyword: keyword,
-        trait:undefined,
-        pmid:undefined,
-        dataset:undefined,
-        sort_field:undefined,
-        sort_direction:undefined
-      }).then((res) => {
-        // console.log(res.data);
-        setLoading(false);
-        setDatasets(res.data);
-        setTotal(res.meta.total);
-      });
-    }
-  }, [keyword]);
   useEffect(()=>{
-    getRemoteDataset({
+    getRemoteGEO({
       pageSize: pagesize,
       pageIndex: pageindex,
-      keyword: undefined,
-      trait:undefined,
-      pmid:undefined,
-      dataset:undefined,
-      sort_field:undefined,
-      sort_direction:undefined
+      accession:  undefined,
+      series_id:  undefined,
+      description:  undefined,
+      sort_field: undefined,
+      sort_direction: undefined
     }).then((res) => {
       setLoading(false);
-      setDatasets(res.data);
+      setGeosignatures(res.data);
       setTotal(res.meta.total);
     });
   },[]);
-  const [datasetnamelist, setDatasetnamelist] = useState([]);
-  const [traitlist, setTraitlist] = useState([]);
-  const [pmidlist, setPmidlist] = useState([]);
 
+  const [accessionlist, setAccessionlist] = useState([]);
+  const [seriesidlist, setSeriesidlist] = useState([]);
+  const [descriptionlist, setDescriptionlist] = useState([]);
   const [selectitems, setSelectitems] = useState([]);
   const [selectitemsrowkey, setSelectitemsrowkey] = useState([]);
-  const columns = [
-    Table.SELECTION_COLUMN,
+
+  const columns =[
     {
-      title: <strong style={{ fontFamily: 'sans-serif' }}>Dataset ID</strong>,
-      key: 'datasetid',
-      dataIndex: 'datasetid',
+      title: <strong style={{ fontFamily: 'sans-serif' }}>Signature ID</strong>,
+      key: 'accession',
+      dataIndex: 'accession',
+      width:200,
+      // tooltip: 'A unique identifier for a perturbagen',
       ellipsis: true,
-      // width: 150,
       search: false,
-      sorter: true,
+      sorter:true,
       render: (text: string, record: any) => (
         <span>
-          <a href={URL_PREFIX + '/trait/' + record.datasetid} target={'_blank'}>
+          <a href={URL_PREFIX + '/geo/' + record.accession} target={'_blank'}>
             <Space style={{ fontWeight: 'bold' }}>
-              {record.datasetid}
+              {record.accession}
               <AnalysisIcon />
             </Space>
           </a>
@@ -104,61 +66,64 @@ export default function Page(props: any) {
       ),
     },
     {
-      title: <strong style={{ fontFamily: 'sans-serif' }}>Dataset Name</strong>,
-      key: 'dataset',
-      dataIndex: 'dataset',
+      title: <strong style={{ fontFamily: 'sans-serif' }}>GEO Series</strong>,
+      key: 'series_id',
+      dataIndex: 'series_id',
+      // tooltip: 'A unique identifier for a perturbagen',
       ellipsis: true,
-      sorter: true,
+      width:200,
+      search: true,
+      sorter:true,
       renderFormItem: () => {
-        const options = datasetnamelist.map((item) => (
+        const options = seriesidlist.map((item) => (
           <Select.Option key={item} value={item} type={item}>
             {item}
           </Select.Option>
         ));
         return (
           <Select
-            key={'datasetSelect'}
+            key={'seriesSelect'}
             showSearch={true}
-            placeholder={'input and select a dataset'}
+            placeholder={'input and select a GEO Series'}
             filterOption={false}
             onFocus={async () => {
-              const remoteKeywords = await getRemoteDatasetLike({
+              const remoteKeywords = await getRemoteGEOLike({
                 pageSize: 100,
                 pageIndex: 1,
-                trait: keywords.trait,
-                pmid: keywords.pmid,
-                dataset: undefined,
+                accession: keywords.accession,
+                series_id:undefined,
+                description: keywords.description,
               });
               if (remoteKeywords) {
                 const nameList = new Set();
                 remoteKeywords.data.forEach(function (v) {
                   if (v) {
-                    nameList.add(v.dataset);
+                    nameList.add(v.series_id);
                   }
                 });
-                setDatasetnamelist(nameList);
+                setSeriesidlist(nameList);
               }
             }}
             onSearch={async (value: string) => {
-              const remoteKeywords = await getRemoteDatasetLike({
+              const remoteKeywords = await getRemoteGEOLike({
                 pageSize: 100,
                 pageIndex: 1,
-                trait: keywords.trait,
-                pmid: keywords.pmid,
-                dataset: value,
+                accession: keywords.accession,
+                series_id: value,
+                description: keywords.description,
               });
               if (remoteKeywords) {
                 const nameList = new Set();
                 remoteKeywords.data.forEach(function (v) {
                   if (v) {
-                    nameList.add(v.dataset);
+                    nameList.add(v.series_id);
                   }
                 });
-                setDatasetnamelist(nameList);
+                setSeriesidlist(nameList);
               }
             }}
             onChange={(value) => {
-              setKeywords({ ...keywords, dataset: value });
+              setKeywords({ ...keywords, series_id: value });
               // console.log(value)
             }}
           >
@@ -166,79 +131,73 @@ export default function Page(props: any) {
           </Select>
         );
       },
-    },
-    {
-      title: <strong style={{ fontFamily: 'sans-serif' }}>Dataset Source</strong>,
-      key: 'source',
-      dataIndex: 'source',
-      ellipsis: true,
-      search: false,
-      sorter: true,
       render: (text: string, record: any) => (
         <span>
-          <a href={record.url} target={'_blank'}>
-              {record.source}
+          <a href={'https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=' + record.series_id} target={'_blank'}>
+            {record.series_id}
           </a>
         </span>
       ),
     },
     {
-      title: <strong style={{ fontFamily: 'sans-serif' }}>Trait</strong>,
-      key: 'trait',
-      dataIndex: 'trait',
+      title: <strong style={{ fontFamily: 'sans-serif' }}>Description</strong>,
+      key: 'description',
+      dataIndex: 'description',
+      // tooltip: 'A unique identifier for a perturbagen',
       ellipsis: true,
       search: true,
-      sorter: true,
+      width:600,
+      sorter:true,
       renderFormItem: () => {
-        const options = traitlist.map((item) => (
+        const options = descriptionlist.map((item) => (
           <Select.Option key={item} value={item} type={item}>
             {item}
           </Select.Option>
         ));
         return (
           <Select
-            key={'traitSelect'}
+            key={'descriptionSelect'}
             showSearch={true}
-            placeholder={'input and select a trait'}
+            placeholder={'input and select a Description'}
             filterOption={false}
             onFocus={async () => {
-              const remoteKeywords = await getRemoteDatasetLike({
+              const remoteKeywords = await getRemoteGEOLike({
                 pageSize: 100,
                 pageIndex: 1,
-                trait: undefined,
-                pmid: keywords.pmid,
-                dataset: keywords.dataset,
+                accession: keywords.accession,
+                series_id:keywords.series_id,
+                description: undefined,
               });
               if (remoteKeywords) {
                 const nameList = new Set();
                 remoteKeywords.data.forEach(function (v) {
                   if (v) {
-                    nameList.add(v.trait);
+                    nameList.add(v.description);
                   }
                 });
-                setTraitlist(nameList);
+                setDescriptionlist(nameList);
               }
             }}
             onSearch={async (value: string) => {
-              const remoteKeywords = await getRemoteDatasetLike({
+              const remoteKeywords = await getRemoteGEOLike({
                 pageSize: 100,
                 pageIndex: 1,
-                trait: value,
-                pmid: keywords.pmid,
-                dataset: keywords.dataset,
+                accession: keywords.accession,
+                series_id: keywords.series_id,
+                description: value,
               });
               if (remoteKeywords) {
                 const nameList = new Set();
                 remoteKeywords.data.forEach(function (v) {
                   if (v) {
-                    nameList.add(v.trait);
+                    nameList.add(v.description);
                   }
                 });
-                setTraitlist(nameList);
+                setDescriptionlist(nameList);
               }
             }}
             onChange={(value) => {
-              setKeywords({ ...keywords, trait: value });
+              setKeywords({ ...keywords, description: value });
               // console.log(value)
             }}
           >
@@ -246,140 +205,52 @@ export default function Page(props: any) {
           </Select>
         );
       },
-    },
-    // {
-    //   title: <strong style={{ fontFamily: 'sans-serif' }}>Trait Description</strong>,
-    //   key: 'trait_description',
-    //   dataIndex: 'trait_description',
-    //   ellipsis: true,
-    //   search: false,
-    // },
-    {
-      title: <strong style={{ fontFamily: 'sans-serif' }}>Trait Type</strong>,
-      key: 'trait_type',
-      dataIndex: 'trait_type',
-      ellipsis: true,
-      sorter: true,
-      search: false,
-    },
-    {
-      title: <strong style={{ fontFamily: 'sans-serif' }}>Sample Size</strong>,
-      key: 'total',
-      dataIndex: 'total',
-      ellipsis: true,
-      search: false,
-      sorter: true
     },
     {
       title: <strong style={{ fontFamily: 'sans-serif' }}>#Cases</strong>,
-      key: 'n_case',
-      dataIndex: 'n_case',
+      key: 'pert_num',
+      dataIndex: 'pert_num',
+      // tooltip: 'A unique identifier for a perturbagen',
       ellipsis: true,
       search: false,
-      sorter: true
+      width:120,
+      sorter:true,
     },
     {
       title: <strong style={{ fontFamily: 'sans-serif' }}>#Controls</strong>,
-      key: 'n_control',
-      dataIndex: 'n_control',
+      key: 'ctrl_num',
+      dataIndex: 'ctrl_num',
+      // tooltip: 'A unique identifier for a perturbagen',
       ellipsis: true,
       search: false,
-      sorter: true
+      sorter:true,
+      width:120,
     },
     {
-      title: <strong style={{ fontFamily: 'sans-serif' }}>PMID</strong>,
-      key: 'pmid',
-      dataIndex: 'pmid',
-      ellipsis: true,
-      search: true,
-      sorter: true,
-      renderFormItem: () => {
-        const options = pmidlist.map((item) => (
-          <Select.Option key={item} value={item} type={item}>
-            {item}
-          </Select.Option>
-        ));
-        return (
-          <Select
-            key={'pmidSelect'}
-            showSearch={true}
-            placeholder={'input and select a PMID'}
-            filterOption={false}
-            onFocus={async () => {
-              const remoteKeywords = await getRemoteDatasetLike({
-                pageSize: 100,
-                pageIndex: 1,
-                trait: keywords.trait,
-                pmid: undefined,
-                dataset: keywords.dataset,
-              });
-              if (remoteKeywords) {
-                const nameList = new Set();
-                remoteKeywords.data.forEach(function (v) {
-                  if (v) {
-                    nameList.add(v.pmid);
-                  }
-                });
-                setPmidlist(nameList);
-              }
-            }}
-            onSearch={async (value: string) => {
-              const remoteKeywords = await getRemoteDatasetLike({
-                pageSize: 100,
-                pageIndex: 1,
-                trait: keywords.trait,
-                pmid: value,
-                dataset: keywords.dataset,
-              });
-              if (remoteKeywords) {
-                const nameList = new Set();
-                remoteKeywords.data.forEach(function (v) {
-                  if (v) {
-                    nameList.add(v.pmid);
-                  }
-                });
-                setPmidlist(nameList);
-              }
-            }}
-            onChange={(value) => {
-              setKeywords({ ...keywords, pmid: value });
-              // console.log(value)
-            }}
-          >
-            {options}
-          </Select>
-        );
-      },
-      render: (text: string, record) => (
-        <span>
-          <a
-            className={styles.link}
-            href={record.pmid.startsWith("http") ? record.pmid :'https://pubmed.ncbi.nlm.nih.gov/' + record.pmid}
-            target={'_blank'}
-          >
-            <Space>
-              {record.pmid}
-            </Space>
-          </a>
-        </span>
-      ),
-    },
-    {
-      title: <strong style={{ fontFamily: 'sans-serif' }}>Publish Year</strong>,
-      key: 'year',
-      dataIndex: 'year',
+      title: <strong style={{ fontFamily: 'sans-serif' }}>Case Samples</strong>,
+      key: 'pert_gsm',
+      dataIndex: 'pert_gsm',
+      // tooltip: 'A unique identifier for a perturbagen',
       ellipsis: true,
       search: false,
-      sorter: true,
     },
     {
-      title: <strong style={{ fontFamily: 'sans-serif' }}>First Author</strong>,
-      key: 'first_author',
-      dataIndex: 'first_author',
+      title: <strong style={{ fontFamily: 'sans-serif' }}>Control Samples</strong>,
+      key: 'ctrl_gsm',
+      dataIndex: 'ctrl_gsm',
+      // tooltip: 'A unique identifier for a perturbagen',
       ellipsis: true,
       search: false,
-      sorter: true,
-    }
+    },
+    // {
+    //   title: <strong style={{ fontFamily: 'sans-serif' }}>extrap_score</strong>,
+    //   key: 'extrap_score',
+    //   dataIndex: 'extrap_score',
+    //   // tooltip: 'A unique identifier for a perturbagen',
+    //   ellipsis: true,
+    //   search: false,
+    //   sorter:true,
+    // },
   ];
 
   return (
@@ -395,7 +266,7 @@ export default function Page(props: any) {
             <Breadcrumb.Item>
               <a href="">
                 <strong style={{ fontFamily: 'sans-serif' }}>
-                  GWAS Datasets
+                  GEO Signatures
                 </strong>
               </a>
             </Breadcrumb.Item>
@@ -409,7 +280,7 @@ export default function Page(props: any) {
             columns={columns}
             bordered={true}
             options={false}
-            dataSource={datasets}
+            dataSource={geosignatures}
             loading={loading}
             scroll={{ x: 2000 }}
             rowKey={(record: any) => {
@@ -432,38 +303,34 @@ export default function Page(props: any) {
             }}
             onSubmit={() => {
               setLoading(true);
-              getRemoteDataset({
+              getRemoteGEO({
                 pageSize: pagesize,
                 pageIndex: 1,
-                keyword:undefined,
-                trait:keywords.trait,
-                pmid:keywords.pmid,
-                dataset:keywords.dataset,
-                sort_field:undefined,
-                sort_direction:undefined
+                accession:  keywords.accession,
+                series_id:  keywords.series_id,
+                description:  keywords.description,
+                sort_field: undefined,
+                sort_direction: undefined,
               }).then((res) => {
-                setDatasets(res.data);
+                setGeosignatures(res.data);
                 setLoading(false);
                 setTotal(res.meta.total);
               });
             }}
-            onReset={() => {
+            onReset={()=>{
               setLoading(true);
-              getRemoteDataset({
+              getRemoteGEO({
                 pageSize: 10,
                 pageIndex: 1,
-                keyword:undefined,
-                trait:undefined,
-                pmid:undefined,
-                dataset:undefined,
-                sort_field:undefined,
-                sort_direction:undefined
+                accession:  undefined,
+                series_id:  undefined,
+                description:  undefined,
+                sort_field: undefined,
+                sort_direction: undefined,
               }).then((res) => {
-                setDatasets(res.data);
+                setGeosignatures(res.data);
                 setLoading(false);
                 setTotal(res.meta.total);
-                setPagesize(res.meta.pageSize);
-                setKeywords({});
               });
             }}
             onChange={(pagination, filters, sorter, extra) => {
@@ -474,17 +341,16 @@ export default function Page(props: any) {
               setKeywords({ ...keywords, sort_field: sorter.field });
               setKeywords({ ...keywords, sort_direction: sorter.order });
               setLoading(true);
-              getRemoteDataset({
+              getRemoteGEO({
                 pageSize: pagination.pageSize,
                 pageIndex: pagination.current,
-                keyword:keyword,
-                trait:keywords.trait,
-                pmid:keywords.pmid,
-                dataset:keywords.dataset,
+                accession:  keywords.accession,
+                series_id:  keywords.series_id,
+                description:  keywords.description,
                 sort_field: sorter.field,
                 sort_direction: sorter.order,
               }).then((res) => {
-                setDatasets(res.data);
+                setGeosignatures(res.data);
                 setLoading(false);
                 setTotal(res.meta.total);
               });
@@ -558,19 +424,14 @@ export default function Page(props: any) {
                     onClick={() => {
                       let element = document.createElement('a');
                       const fields = [
-                        'datasetid',
-                        'dataset',
-                        'trait',
-                        'trait_description',
-                        'trait_type',
-                        'n_case',
-                        'n_control',
-                        'total',
-                        'pmid',
-                        'year',
-                        'first_author',
-                        'source',
-                        'url',
+                        'accession',
+                        'series_id',
+                        'description',
+                        'pert_num',
+                        'ctrl_num',
+                        'pert_gsm',
+                        'ctrl_gsm',
+                        'extrap_score'
                       ];
                       const json2csvParser = new Parser({ fields });
                       const csv = json2csvParser.parse(selectitems);
@@ -581,7 +442,7 @@ export default function Page(props: any) {
                       );
                       element.setAttribute(
                         'download',
-                        'GWAS_Datasets.csv',
+                        'GEO_Signatures.csv',
                       );
                       element.style.display = 'none';
                       document.body.appendChild(element);

@@ -38,36 +38,24 @@ export default function (props) {
   // console.log(props);
   const [selectKey, setSelectkey] = useState('1');
   useEffect(() => {
-    if (history.location.pathname.startsWith('/herit')) {
-      setSelectkey('3');
-    } else if (history.location.pathname.startsWith('/browse')) {
+    if (history.location.pathname.startsWith('/browse')) {
       setSelectkey('2');
     } else if (history.location.pathname.startsWith('/datasetoverview')) {
-      setSelectkey('2');
-    } else if (history.location.pathname.startsWith('/twosmr')) {
+      setSelectkey('2-1');
+    } else if (history.location.pathname.startsWith('/cmapoverview')) {
+      setSelectkey('2-2');
+    } else if (history.location.pathname.startsWith('/geooverview')) {
+      setSelectkey('2-3');
+    } else if (history.location.pathname.startsWith('/explore')) {
+      setSelectkey('3');
+    } else if (history.location.pathname.startsWith('/xxx')) {
       setSelectkey('4');
-    } else if (history.location.pathname.startsWith('/smr')) {
-      setSelectkey('5');
-    } else if (history.location.pathname.startsWith('/coloc')) {
-      setSelectkey('6');
-    } else if (history.location.pathname.startsWith('/documentation')) {
-      setSelectkey('7');
     } else if (history.location.pathname.startsWith('/download')) {
-      setSelectkey('8');
+      setSelectkey('5');
+    } else if (history.location.pathname.startsWith('/documentation')) {
+      setSelectkey('6');
     } else if (history.location.pathname.startsWith('/contact')) {
-      setSelectkey('9');
-    } else if (history.location.pathname.startsWith('/trait')) {
-      setSelectkey('10');
-    } else if (history.location.pathname.startsWith('/twas')) {
-      setSelectkey('2');
-    } else if (history.location.pathname.startsWith('/magma')) {
-      setSelectkey('2');
-    } else if (history.location.pathname.startsWith('/garfield')) {
-      setSelectkey('2');
-    } else if (history.location.pathname.startsWith('/finemapping')) {
-      setSelectkey('11');
-    } else if (history.location.pathname.startsWith('/ldsc')) {
-      setSelectkey('2');
+      setSelectkey('7');
     }
     // console.log(history.location.pathname);
   }, [history.location]);
@@ -100,14 +88,14 @@ export default function (props) {
               <strong style={{ color: '#252746' }}>GWAS Datasets</strong>
             </a>
           ),
-          key: '10',
+          key: '2-1',
           icon: <DatasetIcon />,
         },
         {
           label: (
             <a
               onClick={() => {
-                history.push('/drugoverview');
+                history.push('/cmapoverview');
               }}
             >
               <strong style={{ color: '#252746' }}>
@@ -115,20 +103,20 @@ export default function (props) {
               </strong>
             </a>
           ),
-          key: '3',
+          key: '2-2',
           icon: <DrugIcon/>,
         },
         {
           label: (
             <a
               onClick={() => {
-                history.push('/twosmr/all');
+                history.push('/geooverview');
               }}
             >
               <strong style={{ color: '#252746' }}>GEO Signatures</strong>
             </a>
           ),
-          key: '4',
+          key: '2-3',
           icon: <VSIcon />,
         },
       ],
@@ -137,13 +125,13 @@ export default function (props) {
       label: (
         <a
           onClick={() => {
-            history.push('/smroverview');
+            history.push('/explore');
           }}
         >
           <strong style={{ color: '#252746' }}>Explore</strong>
         </a>
       ),
-      key: '5',
+      key: '3',
       icon: <ExploreIcon />,
     },
     {
@@ -156,21 +144,8 @@ export default function (props) {
           <strong style={{ color: '#252746' }}>XXXXX</strong>
         </a>
       ),
-      key: '6',
+      key: '4',
       icon: <LandscapeIcon />,
-    },
-    {
-      label: (
-        <a
-          onClick={() => {
-            history.push('/documentation');
-          }}
-        >
-          <strong style={{ color: '#252746' }}>Documentation</strong>
-        </a>
-      ),
-      key: '7',
-      icon: <DocumentationIcon />,
     },
     {
       label: (
@@ -182,8 +157,21 @@ export default function (props) {
           <strong style={{ color: '#252746' }}>Download</strong>
         </a>
       ),
-      key: '8',
+      key: '5',
       icon: <DownloadOutlined />,
+    },
+    {
+      label: (
+        <a
+          onClick={() => {
+            history.push('/documentation');
+          }}
+        >
+          <strong style={{ color: '#252746' }}>Documentation</strong>
+        </a>
+      ),
+      key: '6',
+      icon: <DocumentationIcon />,
     },
     {
       label: (
@@ -195,7 +183,7 @@ export default function (props) {
           <strong style={{ color: '#252746' }}>Contact</strong>
         </a>
       ),
-      key: '9',
+      key: '7',
       icon: <ContactIcon />,
     },
   ];
