@@ -167,7 +167,7 @@ const Footer = () => {
       <Row justify={'center'}>
         <Col md={12}>
           <Text>
-            © 2021 National Genomics Data Center,
+            © 2023 National Genomics Data Center,
             <span>
               <a href="http://english.big.cas.cn" target="_blank">
                 China National Center for Bioinformation / Beijing Institute of

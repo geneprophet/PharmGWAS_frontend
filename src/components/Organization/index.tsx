@@ -197,8 +197,8 @@ export default function Page(props: any) {
             enabled: false,
           },
           chart: {
-            height: 800,
-            width: window.innerWidth - 400,
+            height: 700,
+            width: (window.innerWidth/5)*3,
             inverted: true,
           },
           title: {
@@ -258,7 +258,7 @@ export default function Page(props: any) {
                 style: { fontSize: 'larger' },
               },
               borderColor: 'white',
-              nodeWidth: 125,
+              nodeWidth: 80,
             },
           ],
           tooltip: {

@@ -38,7 +38,9 @@ export default function (props) {
   // console.log(props);
   const [selectKey, setSelectkey] = useState('1');
   useEffect(() => {
-    if (history.location.pathname.startsWith('/browse')) {
+    if (history.location.pathname.startsWith('/home')) {
+      setSelectkey('1');
+    } else if (history.location.pathname.startsWith('/browse')) {
       setSelectkey('2');
     } else if (history.location.pathname.startsWith('/datasetoverview')) {
       setSelectkey('2-1');
@@ -211,7 +213,7 @@ export default function (props) {
               >
                 <Image
                   src={logo}
-                  style={{ width: '42%', float: 'right' }}
+                  style={{ width: '20%', float: 'right',paddingTop:'7px' }}
                   preview={false}
                   onClick={() => {
                     history.push('/home');
