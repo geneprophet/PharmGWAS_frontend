@@ -41,25 +41,25 @@ export default function Page(props: any) {
   //   setKeyword(props.match.params.name);
   // }, [props]);
 
-  useEffect(() => {
-    if (keyword) {
-      getRemoteDataset({
-        pageSize: pagesize,
-        pageIndex: pageindex,
-        keyword: keyword,
-        trait:undefined,
-        pmid:undefined,
-        dataset:undefined,
-        sort_field:undefined,
-        sort_direction:undefined
-      }).then((res) => {
-        // console.log(res.data);
-        setLoading(false);
-        setDatasets(res.data);
-        setTotal(res.meta.total);
-      });
-    }
-  }, [keyword]);
+  // useEffect(() => {
+  //   if (keyword) {
+  //     getRemoteDataset({
+  //       pageSize: pagesize,
+  //       pageIndex: pageindex,
+  //       keyword: keyword,
+  //       trait:undefined,
+  //       pmid:undefined,
+  //       dataset:undefined,
+  //       sort_field:undefined,
+  //       sort_direction:undefined
+  //     }).then((res) => {
+  //       // console.log(res.data);
+  //       setLoading(false);
+  //       setDatasets(res.data);
+  //       setTotal(res.meta.total);
+  //     });
+  //   }
+  // }, [keyword]);
   useEffect(()=>{
     getRemoteDataset({
       pageSize: pagesize,
@@ -94,7 +94,7 @@ export default function Page(props: any) {
       sorter: true,
       render: (text: string, record: any) => (
         <span>
-          <a href={URL_PREFIX + '/trait/' + record.datasetid} target={'_blank'}>
+          <a href={URL_PREFIX + '/cmapresult/' + record.dataset} target={'_blank'}>
             <Space style={{ fontWeight: 'bold' }}>
               {record.datasetid}
               <AnalysisIcon />
@@ -477,7 +477,7 @@ export default function Page(props: any) {
               getRemoteDataset({
                 pageSize: pagination.pageSize,
                 pageIndex: pagination.current,
-                keyword:keyword,
+                keyword:undefined,
                 trait:keywords.trait,
                 pmid:keywords.pmid,
                 dataset:keywords.dataset,
