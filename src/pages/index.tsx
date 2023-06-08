@@ -33,6 +33,7 @@ export default function IndexPage() {
   const [data, setData] = useState();
   const [nodes, setNodes] = useState();
   const chartRef: any = useRef(); //拿到DOM容器
+  const [svg, setSvg] = useState(undefined);
 
   useEffect(()=>{
     const a = [
@@ -140,21 +141,24 @@ export default function IndexPage() {
       setSvg(res);
     });
   },[]);
-  const [svg, setSvg] = useState(undefined);
+
   useEffect(()=>{
-    const myChart = echarts.init(chartRef.current,null,{renderer:'svg'}); //echart初始化容器
+    const myChart = echarts.init(chartRef.current,'auto',{renderer:'svg'}); //echart初始化容器
     echarts.registerMap('organ_diagram', { svg: svg });
     let option = {
       tooltip: {},
       geo: {
-        left: 10,
-        right: '50%',
+        left: '10%',
+        right: '10%',
         map: 'organ_diagram',
-        selectedMode: 'multiple',
+        selectedMode: 'single',
+        itemStyle: {
+          color: null,
+        },
         emphasis: {
           focus: 'self',
           itemStyle: {
-            color: null
+            color: "#9AC5F4",
           },
           label: {
             position: 'bottom',
@@ -166,7 +170,9 @@ export default function IndexPage() {
         blur: {},
         select: {
           itemStyle: {
-            color: '#b50205'
+            color: null,
+            // shadowColor: 'rgba(0, 0, 0, 0.5)',
+            // shadowBlur: 10
           },
           label: {
             show: false,
@@ -175,48 +181,54 @@ export default function IndexPage() {
           }
         }
       },
-      grid: {
-        left: '60%',
-        top: '20%',
-        bottom: '20%'
-      },
-      xAxis: {},
-      yAxis: {
-        data: [
-          'heart',
-          'large-intestine',
-          'small-intestine',
-          'spleen',
-          'kidney',
-          'lung',
-          'liver'
-        ]
-      },
-      series: [
-        {
-          type: 'bar',
-          emphasis: {
-            focus: 'self'
-          },
-          data: [121, 321, 141, 52, 198, 289, 139]
-        }
-      ]
+      // grid: {
+      //   left: '60%',
+      //   right: '20%',
+      //   top: '10%',
+      //   bottom: '20%'
+      // },
+      // xAxis: {},
+      // yAxis: {
+      //   data: [
+      //     'heart',
+      //     'large-intestine',
+      //     'small-intestine',
+      //     'spleen',
+      //     'kidney',
+      //     'lung',
+      //     'liver'
+      //   ]
+      // },
+      // series: [
+      //   {
+      //     type: 'bar',
+      //     emphasis: {
+      //       focus: 'self'
+      //     },
+      //     data: [121, 321, 141, 52, 198, 289, 139]
+      //   }
+      // ]
     };
     myChart.setOption(option);
-    myChart.on('mouseover', { seriesIndex: 0 }, function (event) {
-      myChart.dispatchAction({
-        type: 'highlight',
-        geoIndex: 0,
-        name: event.name
-      });
+    myChart.on('click', { geoIndex: 0,name: 'heart' }, function (param) {
+      console.log("click")
+      console.log(param.name)
+      window.open("https://cn.bing.com/search?q="+param.name,'_blank')
     });
-    myChart.on('mouseout', { seriesIndex: 0 }, function (event) {
-      myChart.dispatchAction({
-        type: 'downplay',
-        geoIndex: 0,
-        name: event.name
-      });
-    });
+    // myChart.on('mouseover', { seriesIndex: 0 }, function (event) {
+    //   myChart.dispatchAction({
+    //     type: 'highlight',
+    //     geoIndex: 0,
+    //     name: event.name
+    //   });
+    // });
+    // myChart.on('mouseout', { seriesIndex: 0 }, function (event) {
+    //   myChart.dispatchAction({
+    //     type: 'downplay',
+    //     geoIndex: 0,
+    //     name: event.name
+    //   });
+    // });
   },[svg]);
 
   return (
@@ -283,7 +295,7 @@ export default function IndexPage() {
             <div
               ref={chartRef}
               className={styles.charts}
-              style={{ height: '800px', width: '100%' }}
+              style={{ height: '700px', width: '100%' }}
             ></div>
           </Row>
           <Divider />

@@ -24,7 +24,8 @@ export const extendRequest = extend({ errorHandler });
 
 export const getRemoteSVG = async () => {
   //https://ngdc.cncb.ac.cn/cedr/img/workflow.svg
-  return extendRequest('https://ngdc.cncb.ac.cn/cedr/img/Veins_Medical_Diagram_clip_art.svg', {
+  //https://ngdc.cncb.ac.cn/cedr/img/Veins_Medical_Diagram_clip_art.svg
+  return extendRequest('https://ngdc.cncb.ac.cn/cedr/img/workflow.svg', {
     method: 'get',
   })
     .then(function (response) {
