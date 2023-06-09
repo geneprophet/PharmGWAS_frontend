@@ -28,6 +28,7 @@ export const getRemoteCMapResult = async ({
                                       pageIndex,
                                             dataset,
                                             tissue,
+                                            cmap_name,
                                             sig_index,
                                       sort_field,
                                       sort_direction
@@ -36,6 +37,7 @@ export const getRemoteCMapResult = async ({
   pageIndex: number | undefined;
   dataset: string | undefined;
   tissue: string | undefined;
+  cmap_name:string | undefined;
   sig_index: string | undefined;
   sort_field: string | undefined;
   sort_direction: string | undefined;
@@ -47,6 +49,7 @@ export const getRemoteCMapResult = async ({
       pageIndex: pageIndex,
       dataset: dataset,
       tissue: tissue,
+      cmap_name:cmap_name,
       sig_index: sig_index,
       sort_field:sort_field,
       sort_direction:sort_direction
@@ -64,12 +67,14 @@ export const getRemoteCMapResultLike = async ({
                                           pageIndex,
                                                 dataset,
                                                 tissue,
+                                                cmap_name,
                                                 sig_index,
                                         }: {
   pageSize: number | undefined;
   pageIndex: number | undefined;
   dataset: string | undefined;
   tissue: string | undefined;
+  cmap_name:string | undefined;
   sig_index: string | undefined;
 }) => {
   return extendRequest(API_PREFIX + '/cmapresultlike', {
@@ -79,7 +84,38 @@ export const getRemoteCMapResultLike = async ({
       pageIndex: pageIndex,
       dataset: dataset,
       tissue: tissue,
+      cmap_name:cmap_name,
       sig_index: sig_index,
+    },
+  })
+    .then(function (response) {
+      return response;
+    })
+    .catch(function (error) {
+      return false;
+    });
+};
+export const getRemoteDeTSResult = async ({
+                                            pageSize,
+                                            pageIndex,
+                                            dataset,
+                                            sort_field,
+                                            sort_direction
+                                          }: {
+  pageSize: number | undefined;
+  pageIndex: number | undefined;
+  dataset: string | undefined;
+  sort_field: string | undefined;
+  sort_direction: string | undefined;
+}) => {
+  return extendRequest(API_PREFIX + '/dets', {
+    method: 'get',
+    params: {
+      pageSize: pageSize,
+      pageIndex: pageIndex,
+      dataset: dataset,
+      sort_field:sort_field,
+      sort_direction:sort_direction
     },
   })
     .then(function (response) {
