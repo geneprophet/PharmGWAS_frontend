@@ -42,15 +42,15 @@ export default function (props) {
       setSelectkey('1');
     } else if (history.location.pathname.startsWith('/browse')) {
       setSelectkey('2');
-    } else if (history.location.pathname.startsWith('/datasetoverview')) {
+    } else if (history.location.pathname.startsWith('/datasetoverview') | history.location.pathname.startsWith("/datasetresult")) {
       setSelectkey('2-1');
     } else if (history.location.pathname.startsWith('/cmapoverview')) {
       setSelectkey('2-2');
     } else if (history.location.pathname.startsWith('/geooverview')) {
       setSelectkey('2-3');
-    } else if (history.location.pathname.startsWith('/explore')) {
+    } else if (history.location.pathname.startsWith('/explorecmap')) {
       setSelectkey('3');
-    } else if (history.location.pathname.startsWith('/xxx')) {
+    } else if (history.location.pathname.startsWith('/exploregeo')) {
       setSelectkey('4');
     } else if (history.location.pathname.startsWith('/download')) {
       setSelectkey('5');
@@ -127,10 +127,10 @@ export default function (props) {
       label: (
         <a
           onClick={() => {
-            history.push('/explore');
+            history.push('/explorecmap');
           }}
         >
-          <strong style={{ color: '#252746' }}>Explore</strong>
+          <strong style={{ color: '#252746' }}>Explore CMap</strong>
         </a>
       ),
       key: '3',
@@ -140,10 +140,10 @@ export default function (props) {
       label: (
         <a
           onClick={() => {
-            history.push('/colocoverview');
+            history.push('/exploregeo');
           }}
         >
-          <strong style={{ color: '#252746' }}>XXXXX</strong>
+          <strong style={{ color: '#252746' }}>Explore GEO</strong>
         </a>
       ),
       key: '4',

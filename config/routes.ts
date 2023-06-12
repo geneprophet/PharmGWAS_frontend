@@ -20,12 +20,16 @@ export default [
         component: '@/pages/CMapOverview',
       },
       {
-        path: '/cmapresult/:name',
-        component: '@/pages/CMapResult',
+        path: '/datasetresult/:name',
+        component: '@/pages/DatasetResult',
       },
       {
         path: '/geooverview',
         component: '@/pages/GEOOverview',
+      },
+      {
+        path: '/explorecmap/:dataset/:tissue/:cmapname',
+        component: '@/pages/ExploreCMap',
       },
       {
         path: '/contact',

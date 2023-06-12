@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styles from './index.less';
 import { getRemoteCMap, getRemoteCMapLike } from "@/pages/CMapOverview/service";
-import { getRemoteCMapResult, getRemoteCMapResultLike, getRemoteDeTSResult } from "@/pages/CMapResult/service";
+import { getRemoteCMapResult, getRemoteCMapResultLike, getRemoteDeTSResult } from "@/pages/DatasetResult/service";
 import { Breadcrumb, Col, Divider, Row, Select, Space, Table,Descriptions,Typography} from "antd";
 const { Title, Text, Paragraph } = Typography;
 import { URL_PREFIX ,uniqueArray} from '@/common/constants';
@@ -10,6 +10,7 @@ import {
 } from "../../components/Icons/index";
 import { ProTable } from "@ant-design/pro-table";
 import { Parser } from 'json2csv';
+import { getRemoteDataset } from "@/pages/DatasetOverview/service";
 export default function Page(props: any) {
   const [cmapresult, setCmapresult] = useState(undefined);
   const [loading, setLoading] = useState<boolean>(true);
@@ -59,7 +60,25 @@ export default function Page(props: any) {
       });
     }
   },[name]);
-
+  const [dataset, setDataset] = useState(undefined);
+  useEffect(()=>{
+    if(name){
+      getRemoteDataset({
+        pageSize: pagesize,
+        pageIndex: pageindex,
+        keyword: undefined,
+        trait:undefined,
+        pmid:undefined,
+        dataset:name,
+        sort_field:undefined,
+        sort_direction:undefined
+      }).then((res) => {
+        // setLoading(false);
+        setDataset(res.data[0]);
+        setTotal(res.meta.total);
+      });
+    }
+  },[name]);
   interface deTS {
     dataset: string | undefined;
     top_1: string | undefined;
@@ -97,14 +116,14 @@ export default function Page(props: any) {
       key: 'id',
       dataIndex: 'id',
       ellipsis: true,
-      width: 150,
+      width: 200,
       search: false,
       sorter: true,
       render: (text: string, record: any) => (
         <span>
           <a href={URL_PREFIX + '/cmapresult/' + record.dataset} target={'_blank'}>
             <Space style={{ fontWeight: 'bold' }}>
-              {'PA'+record.id.toString().padStart(10,'0')}
+              {'PCMAP'+record.id.toString().padStart(10,'0')}
               <AnalysisIcon />
             </Space>
           </a>
@@ -527,7 +546,7 @@ export default function Page(props: any) {
               <Breadcrumb.Item>
                 <a href="">
                   <strong style={{ fontFamily: 'sans-serif' }}>
-                    {name}
+                    {dataset?.datasetid}
                   </strong>
                 </a>
               </Breadcrumb.Item>
@@ -537,8 +556,18 @@ export default function Page(props: any) {
         <Divider />
         <Row justify={'center'}>
           <Title level={2}>
-            Dataset Name: <span style={{ color: '#F15412' }}>{name}</span>
+            Dataset ID: <span style={{ color: '#F15412' }}>{dataset?.datasetid}</span>
           </Title>
+          <Col md={22}>
+            <Descriptions title={"Dataset Meta Information"} bordered={true} >
+              <Descriptions.Item label="Dataset Name">{dataset?.dataset}</Descriptions.Item>
+              <Descriptions.Item label="Trait">{dataset?.trait}</Descriptions.Item>
+              <Descriptions.Item label="PMID"><a href={"https://pubmed.ncbi.nlm.nih.gov/"+dataset?.pmid} target={"_blank"}>{dataset?.pmid}</a></Descriptions.Item>
+              <Descriptions.Item label="Sample Size">{dataset?.total}</Descriptions.Item>
+              <Descriptions.Item label="Number of Cases">{dataset?.n_case}</Descriptions.Item>
+              <Descriptions.Item label="Number of Controls">{dataset?.n_control}</Descriptions.Item>
+            </Descriptions>
+          </Col>
         </Row>
         <Divider/>
         <Row justify={'center'}>
@@ -547,14 +576,17 @@ export default function Page(props: any) {
               <Descriptions.Item label="TOP 1">{detsresult.top_1?.replace("_"," ")}</Descriptions.Item>
               <Descriptions.Item label="TOP 2">{detsresult.top_2?.replace("_"," ")}</Descriptions.Item>
               <Descriptions.Item label="TOP 3">{detsresult.top_3?.replace("_"," ")}</Descriptions.Item>
-              <Descriptions.Item label="P-value 1">{detsresult.pvalue_1}</Descriptions.Item>
-              <Descriptions.Item label="P-value 2">{detsresult.pvalue_2}</Descriptions.Item>
-              <Descriptions.Item label="P-value 3">{detsresult.pvalue_3}</Descriptions.Item>
+              <Descriptions.Item label="P-value 1">{detsresult.pvalue_1 < 0.001 ? detsresult.pvalue_1?.toExponential(4) : detsresult.pvalue_1?.toFixed(4)}</Descriptions.Item>
+              <Descriptions.Item label="P-value 2">{detsresult.pvalue_2 < 0.001 ? detsresult.pvalue_2?.toExponential(4) : detsresult.pvalue_2?.toFixed(4)}</Descriptions.Item>
+              <Descriptions.Item label="P-value 3">{detsresult.pvalue_3 < 0.001 ? detsresult.pvalue_3?.toExponential(4) : detsresult.pvalue_3?.toFixed(4)}</Descriptions.Item>
             </Descriptions>
           </Col>
         </Row>
         <Divider/>
         <Row justify={'center'}>
+          <Title level={2}>
+            CMap Results
+          </Title>
           <Col md={24}>
             <ProTable
               columns={columns}
@@ -755,6 +787,13 @@ export default function Page(props: any) {
               }}
             />
           </Col>
+        </Row>
+        <Divider/>
+        <Row justify={'center'}>
+          <Title level={2}>
+            GEO Results
+          </Title>
+
         </Row>
     </div>
   );
