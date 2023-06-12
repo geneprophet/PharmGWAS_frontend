@@ -321,7 +321,9 @@ export default function Page(props: any) {
       search: false,
       sorter:true,
       render:(text,record,index) => {
-        if (Math.abs(record.wtcs) < 0.01){
+        if (record.wtcs == 0){
+          return record.wtcs
+        }else if (Math.abs(record.wtcs) < 0.01){
           return record.wtcs.toExponential(4)
         }else {
           return record.wtcs.toFixed(4)
@@ -585,7 +587,7 @@ export default function Page(props: any) {
         <Divider/>
         <Row justify={'center'}>
           <Title level={2}>
-            CMap Results
+            CMap Results Overview
           </Title>
           <Col md={24}>
             <ProTable
@@ -791,7 +793,7 @@ export default function Page(props: any) {
         <Divider/>
         <Row justify={'center'}>
           <Title level={2}>
-            GEO Results
+            GEO Results Overview
           </Title>
 
         </Row>

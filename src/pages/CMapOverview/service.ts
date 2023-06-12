@@ -28,6 +28,7 @@ export const getRemoteCMap = async ({
                                          pageIndex,
                                       pert_id,
                                       sig_id,
+                                      sig_index,
                                       cmap_name,
                                       cell_iname,
                                       pert_idose,
@@ -39,6 +40,7 @@ export const getRemoteCMap = async ({
   pageIndex: number | undefined;
   pert_id: string | undefined;
   sig_id: string | undefined;
+  sig_index: string | undefined;
   cmap_name: string | undefined;
   cell_iname: string | undefined;
   pert_idose: string | undefined;
@@ -53,6 +55,7 @@ export const getRemoteCMap = async ({
       pageIndex: pageIndex,
       pert_id: pert_id,
       sig_id: sig_id,
+      sig_index:sig_index,
       cmap_name: cmap_name,
       cell_iname: cell_iname,
       pert_idose: pert_idose,

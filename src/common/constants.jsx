@@ -2,7 +2,7 @@
 // export const API_PREFIX = 'http://192.168.129.137:90/pharmgwas/api';
 export const API_PREFIX = 'http://127.0.0.1:9000/pharmgwas/api';
 // export const IMG_PREFIX = 'http://192.168.129.137:90/pharmgwas/img/';
-export const IMG_PREFIX = 'https://ngdc.cncb.ac.cn/braincatalog/img/';
+export const IMG_PREFIX = 'https://ngdc.cncb.ac.cn/cedr/pharmgwas/img/';
 // export const URL_PREFIX = 'http://192.168.129.137:90/pharmgwas';
 export const URL_PREFIX = 'http://127.0.0.1:8000/pharmgwas';
 // export const URL_PREFIX = 'https://ngdc.cncb.ac.cn/pharmgwas';

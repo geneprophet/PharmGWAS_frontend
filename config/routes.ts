@@ -28,7 +28,7 @@ export default [
         component: '@/pages/GEOOverview',
       },
       {
-        path: '/explorecmap/:dataset/:tissue/:cmapname',
+        path: '/explorecmap/:dataset/:tissue/:sig_index',
         component: '@/pages/ExploreCMap',
       },
       {
