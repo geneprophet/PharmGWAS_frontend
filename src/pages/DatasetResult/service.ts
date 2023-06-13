@@ -27,6 +27,7 @@ export const getRemoteCMapResult = async ({
                                       pageSize,
                                       pageIndex,
                                             dataset,
+                                            datasetid,
                                             tissue,
                                             cmap_name,
                                             sig_index,
@@ -36,6 +37,7 @@ export const getRemoteCMapResult = async ({
   pageSize: number | undefined;
   pageIndex: number | undefined;
   dataset: string | undefined;
+  datasetid: number | undefined;
   tissue: string | undefined;
   cmap_name:string | undefined;
   sig_index: string | undefined;
@@ -48,6 +50,7 @@ export const getRemoteCMapResult = async ({
       pageSize: pageSize,
       pageIndex: pageIndex,
       dataset: dataset,
+      datasetid:datasetid,
       tissue: tissue,
       cmap_name:cmap_name,
       sig_index: sig_index,
@@ -66,6 +69,7 @@ export const getRemoteCMapResultLike = async ({
                                           pageSize,
                                           pageIndex,
                                                 dataset,
+                                                datasetid,
                                                 tissue,
                                                 cmap_name,
                                                 sig_index,
@@ -73,6 +77,7 @@ export const getRemoteCMapResultLike = async ({
   pageSize: number | undefined;
   pageIndex: number | undefined;
   dataset: string | undefined;
+  datasetid: number | undefined;
   tissue: string | undefined;
   cmap_name:string | undefined;
   sig_index: string | undefined;
@@ -83,6 +88,7 @@ export const getRemoteCMapResultLike = async ({
       pageSize: pageSize,
       pageIndex: pageIndex,
       dataset: dataset,
+      datasetid:datasetid,
       tissue: tissue,
       cmap_name:cmap_name,
       sig_index: sig_index,

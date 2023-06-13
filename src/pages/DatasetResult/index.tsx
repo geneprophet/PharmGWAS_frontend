@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from "react";
 import styles from './index.less';
-import { getRemoteCMap, getRemoteCMapLike } from "@/pages/CMapOverview/service";
 import { getRemoteCMapResult, getRemoteCMapResultLike, getRemoteDeTSResult } from "@/pages/DatasetResult/service";
 import { Breadcrumb, Col, Divider, Row, Select, Space, Table,Descriptions,Typography} from "antd";
 const { Title, Text, Paragraph } = Typography;
 import { URL_PREFIX ,uniqueArray} from '@/common/constants';
 import {
   AnalysisIcon
-} from "../../components/Icons/index";
+} from "@/components/Icons/index";
 import { ProTable } from "@ant-design/pro-table";
 import { Parser } from 'json2csv';
 import { getRemoteDataset } from "@/pages/DatasetOverview/service";
@@ -20,6 +19,7 @@ export default function Page(props: any) {
 
   interface SearchKeywords {
     dataset: string | undefined;
+    datasetid: number | undefined;
     tissue: string | undefined;
     cmap_name:string | undefined;
     sig_index: string | undefined;
@@ -42,24 +42,6 @@ export default function Page(props: any) {
   const [selectitems, setSelectitems] = useState([]);
   const [selectitemsrowkey, setSelectitemsrowkey] = useState([]);
 
-  useEffect(()=>{
-    if(name){
-      getRemoteCMapResult({
-        pageSize: pagesize,
-        pageIndex: pageindex,
-        dataset:  name,
-        tissue:  undefined,
-        cmap_name:undefined,
-        sig_index:  undefined,
-        sort_field: undefined,
-        sort_direction: undefined
-      }).then((res) => {
-        setLoading(false);
-        setCmapresult(res.data);
-        setTotal(res.meta.total);
-      });
-    }
-  },[name]);
   const [dataset, setDataset] = useState(undefined);
   useEffect(()=>{
     if(name){
@@ -73,12 +55,32 @@ export default function Page(props: any) {
         sort_field:undefined,
         sort_direction:undefined
       }).then((res) => {
-        // setLoading(false);
         setDataset(res.data[0]);
-        setTotal(res.meta.total);
+        setKeywords({ ...keywords, datasetid: res.data[0].id });
       });
     }
   },[name]);
+
+  useEffect(()=>{
+    if(dataset){
+      getRemoteCMapResult({
+        pageSize: pagesize,
+        pageIndex: pageindex,
+        dataset:  dataset.dataset,
+        datasetid: keywords.datasetid,
+        tissue:  undefined,
+        cmap_name:undefined,
+        sig_index:  undefined,
+        sort_field: undefined,
+        sort_direction: undefined
+      }).then((res) => {
+        setLoading(false);
+        setCmapresult(res.data);
+        setTotal(res.meta.total);
+      });
+    }
+  },[dataset]);
+
   interface deTS {
     dataset: string | undefined;
     top_1: string | undefined;
@@ -121,7 +123,7 @@ export default function Page(props: any) {
       sorter: true,
       render: (text: string, record: any) => (
         <span>
-          <a href={URL_PREFIX + '/cmapresult/' + record.dataset} target={'_blank'}>
+          <a href={URL_PREFIX + '/explorecmap/' + record.dataset + "/" + record.tissue + "/" + record.sig_index} target={'_blank'}>
             <Space style={{ fontWeight: 'bold' }}>
               {'PCMAP'+record.id.toString().padStart(10,'0')}
               <AnalysisIcon />
@@ -176,25 +178,6 @@ export default function Page(props: any) {
                 setTissuelist(nameList);
               }
             }}
-            // onSearch={async (value: string) => {
-            //   const remoteKeywords = await getRemoteCMapResultLike({
-            //     pageSize: 100,
-            //     pageIndex: 1,
-            //     dataset:keywords.dataset,
-            //     tissue:value,
-            //     cmap_name: keywords.cmap_name,
-            //     sig_index: keywords.sig_index,
-            //   });
-            //   if (remoteKeywords) {
-            //     const nameList = new Set();
-            //     remoteKeywords.data.forEach(function (v) {
-            //       if (v) {
-            //         nameList.add(v.tissue);
-            //       }
-            //     });
-            //     setTissuelist(nameList);
-            //   }
-            // }}
             onChange={(value) => {
               setKeywords({ ...keywords, tissue: value });
               // console.log(value)
@@ -246,6 +229,7 @@ export default function Page(props: any) {
                 pageSize: 100,
                 pageIndex: 1,
                 dataset:keywords.dataset,
+                datasetid:keywords.datasetid,
                 tissue:keywords.tissue,
                 cmap_name: undefined,
                 sig_index: keywords.sig_index,
@@ -265,6 +249,7 @@ export default function Page(props: any) {
                 pageSize: 100,
                 pageIndex: 1,
                 dataset:keywords.dataset,
+                datasetid:keywords.datasetid,
                 tissue:keywords.tissue,
                 cmap_name: value,
                 sig_index: keywords.sig_index,
@@ -621,6 +606,7 @@ export default function Page(props: any) {
                   pageSize: pagesize,
                   pageIndex: 1,
                   dataset:  keywords.dataset,
+                  datasetid:keywords.datasetid,
                   tissue:  keywords.tissue,
                   cmap_name:keywords.cmap_name,
                   sig_index:  keywords.sig_index,
@@ -638,6 +624,7 @@ export default function Page(props: any) {
                   pageSize: 10,
                   pageIndex: 1,
                   dataset:  keywords.dataset,
+                  datasetid:keywords.datasetid,
                   tissue:  undefined,
                   cmap_name:undefined,
                   sig_index: undefined,
@@ -661,6 +648,7 @@ export default function Page(props: any) {
                   pageSize: pagination.pageSize,
                   pageIndex: pagination.current,
                   dataset:keywords.dataset,
+                  datasetid:keywords.datasetid,
                   tissue:keywords.tissue,
                   cmap_name:keywords.cmap_name,
                   sig_index:keywords.sig_index,

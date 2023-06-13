@@ -12,14 +12,29 @@ const { Title, Text, Paragraph } = Typography;
 export default function Page(props:any) {
   interface SearchKeywords {
     dataset: string | undefined;
+    datasetid: number | undefined;
     tissue: string | undefined;
     sig_index:string | undefined;
   };
-  const [keywords, setKeywords] = useState<SearchKeywords | undefined>(undefined);
+  const [keywords, setKeywords] = useState<SearchKeywords>({});
+  const [dataset, setDataset] = useState(undefined);
 
   useEffect(() => {
-    console.log(props.match.params);
-    setKeywords({dataset:props.match.params.dataset,tissue:props.match.params.tissue,sig_index:props.match.params.sig_index})
+    if (props){
+      getRemoteDataset({
+        pageSize: pagesize,
+        pageIndex: pageindex,
+        keyword: undefined,
+        trait:undefined,
+        pmid:undefined,
+        dataset: props.match.params.dataset,
+        sort_field:undefined,
+        sort_direction:undefined
+      }).then((res) => {
+        setDataset(res.data[0]);
+        setKeywords({dataset:props.match.params.dataset,datasetid:res.data[0].id,tissue:props.match.params.tissue,sig_index:props.match.params.sig_index})
+      });
+    }
   }, [props]);
 
   const [loading, setLoading] = useState<boolean>(true);
@@ -27,55 +42,34 @@ export default function Page(props:any) {
   const [pagesize, setPagesize] = useState(10);
   const [pageindex, setPageindex] = useState(1);
 
-  const [dataset, setDataset] = useState(undefined);
-  useEffect(()=>{
-    if(keywords){
-      getRemoteDataset({
-        pageSize: pagesize,
-        pageIndex: pageindex,
-        keyword: undefined,
-        trait:undefined,
-        pmid:undefined,
-        dataset:keywords.dataset,
-        sort_field:undefined,
-        sort_direction:undefined
-      }).then((res) => {
-        setDataset(res.data[0]);
-      });
-    }
-  },[keywords]);
-
   const [cmapresult, setCmapresult] = useState(undefined);
-
   useEffect(()=>{
-    if(keywords){
+    if(dataset){
       getRemoteCMapResult({
         pageSize: pagesize,
         pageIndex: pageindex,
         dataset:  keywords.dataset,
+        datasetid:  keywords.datasetid,
         tissue:  keywords.tissue,
         cmap_name:undefined,
         sig_index:  keywords.sig_index,
         sort_field: undefined,
         sort_direction: undefined
       }).then((res) => {
-        setLoading(false);
         setCmapresult(res.data[0]);
-        setTotal(res.meta.total);
       });
     }
-  },[keywords]);
+  },[dataset]);
 
   const [cmapsignatures, setCmapsignatures] = useState(undefined);
-
   useEffect(()=>{
-    if(keywords){
+    if(props){
       getRemoteCMap({
         pageSize: pagesize,
         pageIndex: pageindex,
         pert_id:  undefined,
         sig_id:  undefined,
-        sig_index:  undefined,
+        sig_index:  props.match.params.sig_index,
         cmap_name:  undefined,
         cell_iname: undefined,
         pert_idose:  undefined,
@@ -83,13 +77,10 @@ export default function Page(props:any) {
         sort_field: undefined,
         sort_direction: undefined
       }).then((res) => {
-        setLoading(false);
         setCmapsignatures(res.data[0]);
-        setTotal(res.meta.total);
       });
     }
-  },[keywords]);
-
+  },[props]);
 
   return (
     <div>
@@ -134,10 +125,10 @@ export default function Page(props:any) {
           <Descriptions title={"Meta Information"} bordered={true} >
             <Descriptions.Item label="Trait Name">{dataset?.trait}</Descriptions.Item>
             <Descriptions.Item label="Dataset Name">{dataset?.dataset}</Descriptions.Item>
-            <Descriptions.Item label="Source PMID"><a href={"https://pubmed.ncbi.nlm.nih.gov/"+dataset?.pmid} target={"_blank"}>{dataset?.pmid}</a></Descriptions.Item>
-            <Descriptions.Item label="CMap Name">{cmapresult?.cmap_name}</Descriptions.Item>
+            <Descriptions.Item label="Tissue">{cmapresult?.tissue.replace("_"," ")}</Descriptions.Item>
+            <Descriptions.Item label="CMap Name">{cmapsignatures?.cmap_name}</Descriptions.Item>
             <Descriptions.Item label="CMap Signature ID">{cmapsignatures?.sig_id}</Descriptions.Item>
-            <Descriptions.Item label="InChiKey">{cmapsignatures?.inchikey}</Descriptions.Item>
+            <Descriptions.Item label="InChiKey">{cmapsignatures?.inchi_key}</Descriptions.Item>
             <Descriptions.Item label="Cell Line">{cmapsignatures?.cell_iname}</Descriptions.Item>
             <Descriptions.Item label="Dose">{cmapsignatures?.pert_idose}</Descriptions.Item>
             <Descriptions.Item label="Time">{cmapsignatures?.pert_itime}</Descriptions.Item>
@@ -147,10 +138,20 @@ export default function Page(props:any) {
       <Divider/>
       <Row justify={'center'}>
         <Title level={2}>
+          Overview  of the Six Evaluation Methods
+        </Title>
+      </Row>
+      <Row justify={'center'}>
+        <Col md={12}>
+          <Radar data={cmapresult} />
+        </Col>
+      </Row>
+      <Divider/>
+      <Row justify={'center'}>
+        <Title level={2}>
           GSEA of disease up/down regulated genes in the pre-ranked list of CMap signature
         </Title>
       </Row>
-      <Divider/>
       <Row justify={'center'}>
         <Col md={12} style={{textAlign:'center'}}>
           <Image
@@ -170,10 +171,9 @@ export default function Page(props:any) {
         </Col>
       </Row>
       <Divider/>
+
       <Row>
-        <Col md={12}>
-            <Radar data={"kk"} />
-        </Col>
+
       </Row>
     </div>
   );

@@ -25,13 +25,13 @@ export default function Index(props: any) {
             fontSize: '20'
           },
           indicator: [
-            { name: 'WTCS', max: 0 },
-            { name: 'XSum', max: 0 },
-            { name: 'CSS', max: 0 },
-            { name: 'CSS P-value', max: 1 },
-            { name: 'Spearman', max: 0 },
-            { name: 'Pearson', max: 0 },
-            { name: 'Cosine', max: 0 }
+            { name: 'WTCS', max: 1 },
+            { name: 'XSum', max: 20 },
+            { name: 'CSS', max: 0.2 },
+            { name: '-log10(CSS P-value)', max: 2 },
+            { name: 'Spearman', max: 0.3 },
+            { name: 'Pearson', max: 0.3 },
+            { name: 'Cosine', max: 0.3 }
           ],
           splitNumber:4,
           scale:false,
@@ -42,7 +42,7 @@ export default function Index(props: any) {
             type: 'radar',
             data: [
               {
-                value: [-5, -11, -0.04, 0.3, -0.015,-0.0928, -0.0967],
+                value: [-props.data.wtcs, -props.data.xsum, -props.data.css, -Math.log10(props.data.css_pvalue), -props.data.spearman,-props.data.pearson, -props.data.cosine],
                 name: 'Actual Spending',
                 areaStyle: {
                   color: new echarts.graphic.RadialGradient(0.1, 0.6, 1, [
@@ -59,7 +59,7 @@ export default function Index(props: any) {
                 label: {
                   show: true,
                   formatter: function (params) {
-                    return params.value;
+                    return -params.value;
                   }
                 }
               }
