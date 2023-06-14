@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import styles from './index.less';
-import { Breadcrumb, Col, Descriptions, Divider, Row, Typography, Image } from "antd";
+import { Breadcrumb, Col, Descriptions, Divider, Row, Typography, Image,Spin  } from "antd";
 import { URL_PREFIX ,uniqueArray,IMG_PREFIX} from '@/common/constants';
 import { getRemoteDataset } from "@/pages/DatasetOverview/service";
 import { getRemoteCMapResult } from "@/pages/DatasetResult/service";
 import { getRemoteCMap } from "@/pages/CMapOverview/service";
 import notapplied from '@/assets/notapplied.png';
 import Radar from "@/components/Radar";
+import Bar from '@/components/Bar';
+import { getRemoteSpredixcanDown, getRemoteSpredixcanUP } from "@/pages/ExploreCMap/service";
 const { Title, Text, Paragraph } = Typography;
 //http://127.0.0.1:8000/pharmgwas/explore/CARDIoGRAMplusC4D__28209224__Coronary_Artery_Disease/Artery_Coronary/abiraterone
 export default function Page(props:any) {
@@ -56,6 +58,7 @@ export default function Page(props:any) {
         sort_field: undefined,
         sort_direction: undefined
       }).then((res) => {
+        setLoading(false);
         setCmapresult(res.data[0]);
       });
     }
@@ -82,6 +85,69 @@ export default function Page(props:any) {
     }
   },[props]);
 
+  const [spredixcanup, setSpredixcanup] = useState([]);
+  const [spredixcandown, setSpredixcandown] = useState([]);
+  useEffect(()=>{
+    if (dataset){
+      getRemoteSpredixcanUP({
+        pageSize: 100,
+        pageIndex: 1,
+        dataset:  keywords.dataset,
+        tissue:keywords.tissue,
+        sort_field: undefined,
+        sort_direction: undefined
+      }).then((res)=>{
+        setSpredixcanup(res.data);
+      })
+    }
+  },[dataset]);
+  useEffect(()=>{
+    if (dataset){
+      getRemoteSpredixcanDown({
+        pageSize: 100,
+        pageIndex: 1,
+        dataset:  keywords.dataset,
+        tissue:keywords.tissue,
+        sort_field: undefined,
+        sort_direction: undefined
+      }).then((res)=>{
+        setSpredixcandown(res.data);
+      })
+    }
+  },[dataset]);
+
+  const [bardata1, setBardata1] = useState({});
+  const [bardata2, setBardata2] = useState({});
+  useEffect(()=>{
+    if (spredixcanup.length > 0 && spredixcandown.length > 0){
+      // console.log(spredixcanup);
+      // console.log(spredixcandown);
+      const gene_name_list_up = [];
+      const zscore_list_up = [];
+      const gene_name_list_down = [];
+      const zscore_list_down = [];
+      spredixcanup.map((item) =>{
+        gene_name_list_up.push(item.gene_name);
+        zscore_list_up.push(item.zscore);
+      });
+      spredixcandown.map((item) =>{
+        gene_name_list_down.push(item.gene_name);
+        zscore_list_down.push(item.zscore);
+      });
+      const min = Math.min(...zscore_list_down);
+      const max = Math.max(...zscore_list_up);
+      console.log(min);
+      setBardata1({
+        title:"S-PrediXcan Up/Down regulated genes",
+        min:min,
+        max:max,
+        gene_name_list_up:gene_name_list_up,
+        zscore_list_up:zscore_list_up,
+        gene_name_list_down:gene_name_list_down,
+        zscore_list_down:zscore_list_down,
+      });
+    }
+  },[spredixcanup,spredixcandown]);
   return (
     <div>
       <Row>
@@ -116,8 +182,13 @@ export default function Page(props:any) {
           </Breadcrumb>
         </Col>
       </Row>
+      <Row style={{display:loading ? "flex" : "none"}} justify={'center'}>
+        <Col md={2}>
+          <Spin size={"large"}/>
+        </Col>
+      </Row>
       <Divider />
-      <Row justify={'center'}>
+      <Row justify={'center'} >
         <Title level={2}>
           CMap Result ID: <span style={{ color: '#F15412' }}>{'PCMAP'+cmapresult?.id.toString().padStart(10,'0')}</span>
         </Title>
@@ -137,7 +208,7 @@ export default function Page(props:any) {
       </Row>
       <Divider/>
       <Row justify={'center'}>
-        <Title level={2}>
+        <Title level={2} >
           Overview  of the Six Evaluation Methods
         </Title>
       </Row>
@@ -171,9 +242,13 @@ export default function Page(props:any) {
         </Col>
       </Row>
       <Divider/>
-
-      <Row>
-
+      <Row justify={'center'}>
+        <Col md={12}>
+          <Bar data={bardata1}/>
+        </Col>
+        <Col md={12}>
+          <Bar />
+        </Col>
       </Row>
     </div>
   );

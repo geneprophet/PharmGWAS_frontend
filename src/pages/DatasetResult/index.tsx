@@ -105,7 +105,6 @@ export default function Page(props: any) {
           top_2: res.data[0].top_2,pvalue_2:res.data[0].pvalue_2,
           top_3: res.data[0].top_3,pvalue_3:res.data[0].pvalue_3,
         });
-        console.log(detsresult);
       })
     }
   },[name]);

@@ -24,6 +24,10 @@ export default [
         component: '@/pages/DatasetResult',
       },
       {
+        path: '/cmapresult/:name',
+        component: '@/pages/CMapResult',
+      },
+      {
         path: '/geooverview',
         component: '@/pages/GEOOverview',
       },

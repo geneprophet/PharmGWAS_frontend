@@ -94,7 +94,7 @@ export default function Page(props: any) {
       sorter: true,
       render: (text: string, record: any) => (
         <span>
-          <a href={URL_PREFIX + '/cmapresult/' + record.dataset} target={'_blank'}>
+          <a href={URL_PREFIX + '/datasetresult/' + record.dataset} target={'_blank'}>
             <Space style={{ fontWeight: 'bold' }}>
               {record.datasetid}
               <AnalysisIcon />

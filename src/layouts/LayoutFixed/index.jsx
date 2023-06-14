@@ -44,7 +44,7 @@ export default function (props) {
       setSelectkey('2');
     } else if (history.location.pathname.startsWith('/datasetoverview') | history.location.pathname.startsWith("/datasetresult")) {
       setSelectkey('2-1');
-    } else if (history.location.pathname.startsWith('/cmapoverview')) {
+    } else if (history.location.pathname.startsWith('/cmapoverview') | history.location.pathname.startsWith("/cmapresult")) {
       setSelectkey('2-2');
     } else if (history.location.pathname.startsWith('/geooverview')) {
       setSelectkey('2-3');
