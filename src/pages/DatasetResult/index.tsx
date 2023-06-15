@@ -633,6 +633,9 @@ export default function Page(props: any) {
                   setCmapresult(res.data);
                   setLoading(false);
                   setTotal(res.meta.total);
+                  setKeywords({ ...keywords, tissue: undefined });
+                  setKeywords({ ...keywords, cmap_name: undefined });
+                  setKeywords({ ...keywords, sig_index: undefined });
                 });
               }}
               onChange={(pagination, filters, sorter, extra) => {
@@ -729,6 +732,7 @@ export default function Page(props: any) {
                         let element = document.createElement('a');
                         const fields = [
                           'dataset',
+                          'trait',
                           'tissue',
                           'spredixcan_up_gene',
                           'spredixcan_down_gene',

@@ -27,7 +27,7 @@ export const getRemoteResultCMap = async ({
                                             pageSize,
                                             pageIndex,
                                             dataset,
-                                            datasetid,
+                                            trait,
                                             tissue,
                                             cmap_name,
                                             sig_index,
@@ -37,7 +37,7 @@ export const getRemoteResultCMap = async ({
   pageSize: number | undefined;
   pageIndex: number | undefined;
   dataset: string | undefined;
-  datasetid: number | undefined;
+  trait: string | undefined;
   tissue: string | undefined;
   cmap_name:string | undefined;
   sig_index: string | undefined;
@@ -50,7 +50,7 @@ export const getRemoteResultCMap = async ({
       pageSize: pageSize,
       pageIndex: pageIndex,
       dataset: dataset,
-      datasetid:datasetid,
+      trait:trait,
       tissue: tissue,
       cmap_name:cmap_name,
       sig_index: sig_index,
@@ -69,7 +69,7 @@ export const getRemoteResultCMapLike = async ({
                                                 pageSize,
                                                 pageIndex,
                                                 dataset,
-                                                datasetid,
+                                                trait,
                                                 tissue,
                                                 cmap_name,
                                                 sig_index,
@@ -77,7 +77,7 @@ export const getRemoteResultCMapLike = async ({
   pageSize: number | undefined;
   pageIndex: number | undefined;
   dataset: string | undefined;
-  datasetid: number | undefined;
+  trait: string | undefined;
   tissue: string | undefined;
   cmap_name:string | undefined;
   sig_index: string | undefined;
@@ -88,7 +88,7 @@ export const getRemoteResultCMapLike = async ({
       pageSize: pageSize,
       pageIndex: pageIndex,
       dataset: dataset,
-      datasetid:datasetid,
+      trait:trait,
       tissue: tissue,
       cmap_name:cmap_name,
       sig_index: sig_index,

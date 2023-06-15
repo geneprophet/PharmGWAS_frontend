@@ -38,7 +38,6 @@ export default function Page(props: any) {
     });
   },[]);
 
-  const [accessionlist, setAccessionlist] = useState([]);
   const [seriesidlist, setSeriesidlist] = useState([]);
   const [descriptionlist, setDescriptionlist] = useState([]);
   const [selectitems, setSelectitems] = useState([]);
@@ -331,6 +330,7 @@ export default function Page(props: any) {
                 setGeosignatures(res.data);
                 setLoading(false);
                 setTotal(res.meta.total);
+                setKeywords({});
               });
             }}
             onChange={(pagination, filters, sorter, extra) => {

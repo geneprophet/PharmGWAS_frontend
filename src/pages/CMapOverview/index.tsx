@@ -504,6 +504,7 @@ export default function Page(props: any) {
                 setCmapsignatures(res.data);
                 setLoading(false);
                 setTotal(res.meta.total);
+                setKeywords({});
               });
             }}
             onChange={(pagination, filters, sorter, extra) => {

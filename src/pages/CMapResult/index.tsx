@@ -3,8 +3,7 @@ import styles from './index.less';
 import { Breadcrumb, Col, Descriptions, Divider, Row, Select, Space, Table, Typography } from "antd";
 import { URL_PREFIX ,uniqueArray} from '@/common/constants';
 import { getRemoteCMap } from "@/pages/CMapOverview/service";
-import { getRemoteResultCMap } from "@/pages/CMapResult/service";
-import { getRemoteCMapResultLike, getRemoteDeTSResult } from "@/pages/DatasetResult/service";
+import { getRemoteResultCMap, getRemoteResultCMapLike } from "@/pages/CMapResult/service";
 import { ProTable } from "@ant-design/pro-table";
 import { Parser } from 'json2csv';
 const { Title, Text, Paragraph } = Typography;
@@ -50,7 +49,7 @@ export default function Page(props: any) {
         pageSize: pagesize,
         pageIndex: pageindex,
         dataset:  undefined,
-        datasetid: undefined,
+        trait: undefined,
         tissue:  undefined,
         cmap_name:undefined,
         sig_index:  name,
@@ -68,14 +67,12 @@ export default function Page(props: any) {
     dataset: string | undefined;
     tissue: string | undefined;
     trait:string | undefined;
-    cmap_name:string | undefined;
-    sig_index: string | undefined;
     sort_field: string | undefined;
     sort_direction: string | undefined;
   };
   const [keywords, setKeywords] = useState<SearchKeywords>({});
-  const [traitlist, setTraitlist] = useState([]);
-  const [tissuelist, setTissuelist] = useState([]);
+  const [traitnamelist, setTraitnamelist] = useState([]);
+  const [tissuenamelist, setTissuenamelist] = useState([]);
 
   const [selectitems, setSelectitems] = useState([]);
   const [selectitemsrowkey, setSelectitemsrowkey] = useState([]);
@@ -108,6 +105,67 @@ export default function Page(props: any) {
       search: true,
       width:200,
       sorter:true,
+      renderFormItem: () => {
+        const options = traitnamelist.map((item) => (
+          <Select.Option key={item} value={item} type={item}>
+            {item}
+          </Select.Option>
+        ));
+        return (
+          <Select
+            key={'traitnameSelect'}
+            showSearch={true}
+            placeholder={'input and select a Trait'}
+            filterOption={false}
+            onFocus={async () => {
+              const remoteKeywords = await getRemoteResultCMapLike({
+                pageSize: 100,
+                pageIndex: 1,
+                dataset: undefined,
+                trait: undefined,
+                tissue:keywords.tissue,
+                cmap_name: undefined,
+                sig_index: name,
+              });
+              if (remoteKeywords) {
+                const nameList = new Set();
+                remoteKeywords.data.forEach(function (v) {
+                  if (v) {
+                    nameList.add(v.trait);
+                  }
+                });
+                setTraitnamelist(nameList);
+              }
+            }}
+            onSearch={async (value: string) => {
+              const remoteKeywords = await getRemoteResultCMapLike({
+                pageSize: 100,
+                pageIndex: 1,
+                dataset:undefined,
+                trait:value,
+                tissue:keywords.tissue,
+                cmap_name: undefined,
+                sig_index: name,
+              });
+              if (remoteKeywords) {
+                const nameList = new Set();
+                remoteKeywords.data.forEach(function (v) {
+                  if (v) {
+                    nameList.add(v.trait);
+                  }
+                });
+                setTraitnamelist(nameList);
+              }
+            }}
+            onChange={(value) => {
+              setKeywords({ ...keywords, trait: value });
+              // console.log(value)
+            }}
+          >
+            {options}
+          </Select>
+        );
+      },
     },
     {
       title: <strong style={{ fontFamily: 'sans-serif' }}>Dataset</strong>,
@@ -126,6 +184,67 @@ export default function Page(props: any) {
       search: true,
       width: 150,
       sorter:true,
+      renderFormItem: () => {
+        const options = tissuenamelist.map((item) => (
+          <Select.Option key={item} value={item} type={item}>
+            {item}
+          </Select.Option>
+        ));
+        return (
+          <Select
+            key={'tissuenameSelect'}
+            showSearch={true}
+            placeholder={'input and select a Tissue'}
+            filterOption={false}
+            onFocus={async () => {
+              const remoteKeywords = await getRemoteResultCMapLike({
+                pageSize: 100,
+                pageIndex: 1,
+                dataset:undefined,
+                trait: keywords.trait,
+                tissue: undefined,
+                cmap_name: undefined,
+                sig_index: name,
+              });
+              if (remoteKeywords) {
+                const nameList = new Set();
+                remoteKeywords.data.forEach(function (v) {
+                  if (v) {
+                    nameList.add(v.tissue);
+                  }
+                });
+                setTissuenamelist(nameList);
+              }
+            }}
+            onSearch={async (value: string) => {
+              const remoteKeywords = await getRemoteResultCMapLike({
+                pageSize: 100,
+                pageIndex: 1,
+                dataset:undefined,
+                trait:keywords.trait,
+                tissue:value,
+                cmap_name: undefined,
+                sig_index: name,
+              });
+              if (remoteKeywords) {
+                const nameList = new Set();
+                remoteKeywords.data.forEach(function (v) {
+                  if (v) {
+                    nameList.add(v.tissue);
+                  }
+                });
+                setTissuenamelist(nameList);
+              }
+            }}
+            onChange={(value) => {
+              setKeywords({ ...keywords, tissue: value });
+              // console.log(value)
+            }}
+          >
+            {options}
+          </Select>
+        );
+      },
     },
     {
       title: <strong style={{ fontFamily: 'sans-serif' }}>CMap Name</strong>,
@@ -136,14 +255,6 @@ export default function Page(props: any) {
       width: 150,
       sorter:true,
     },
-    // {
-    //   title: <strong style={{ fontFamily: 'sans-serif' }}>sig_index</strong>,
-    //   key: 'sig_index',
-    //   dataIndex: 'sig_index',
-    //   ellipsis: true,
-    //   search: false,
-    //   sorter:true,
-    // },
     {
       title: <strong style={{ fontFamily: 'sans-serif' }}>WTCS</strong>,
       key: 'wtcs',
@@ -432,6 +543,183 @@ export default function Page(props: any) {
               pageSizeOptions: [10, 20, 50, 100],
               showQuickJumper: true,
               showSizeChanger: true,
+            }}
+            onSubmit={() => {
+              setLoading(true);
+              getRemoteResultCMap({
+                pageSize: pagesize,
+                pageIndex: 1,
+                dataset:  keywords.dataset,
+                trait:keywords.trait,
+                tissue:  keywords.tissue,
+                cmap_name:undefined,
+                sig_index:  name,
+                sort_field: undefined,
+                sort_direction: undefined,
+              }).then((res) => {
+                setCmapresult(res.data);
+                setLoading(false);
+                setTotal(res.meta.total);
+              });
+            }}
+            onReset={()=>{
+              setLoading(true);
+              getRemoteResultCMap({
+                pageSize: pagesize,
+                pageIndex: 1,
+                dataset:  undefined,
+                trait:undefined,
+                tissue:  undefined,
+                cmap_name:undefined,
+                sig_index:  name,
+                sort_field: undefined,
+                sort_direction: undefined,
+              }).then((res) => {
+                setCmapresult(res.data);
+                setLoading(false);
+                setTotal(res.meta.total);
+                setKeywords({});
+              });
+            }}
+            onChange={(pagination, filters, sorter, extra) => {
+              // console.log(pagination);
+              // console.log(sorter);
+              setPageindex(pagination.current);
+              setPagesize(pagination.pageSize);
+              setKeywords({ ...keywords, sort_field: sorter.field });
+              setKeywords({ ...keywords, sort_direction: sorter.order });
+              setLoading(true);
+              getRemoteResultCMap({
+                pageSize: pagination.pageSize,
+                pageIndex: pagination.current,
+                dataset:keywords.dataset,
+                trait:keywords.trait,
+                tissue:keywords.tissue,
+                cmap_name:undefined,
+                sig_index:name,
+                sort_field: sorter.field,
+                sort_direction: sorter.order,
+              }).then((res) => {
+                setCmapresult(res.data);
+                setLoading(false);
+                setTotal(res.meta.total);
+              });
+            }}
+            rowSelection={{
+              fixed: true,
+              onSelect: (record, selected, selectedRows, nativeEvent) => {
+                if (selected) {
+                  let a = Array.from(new Set(selectitems.concat(selectedRows)));
+                  let b = a.filter((res) => res != undefined);
+                  setSelectitems(b);
+                  let c = b.map((value) => value.id + 'table');
+                  setSelectitemsrowkey(c);
+                } else {
+                  let b = selectitems.filter((x) => x.id != record.id);
+                  setSelectitems(b);
+                  let c = b.map((value) => value.id + 'table');
+                  setSelectitemsrowkey(c);
+                }
+              },
+              onSelectAll: (selected, selectedRows, changeRows) => {
+                if (selected) {
+                  let a = uniqueArray(selectitems.concat(changeRows), 'id');
+                  let b = a.filter((res) => res != undefined);
+                  setSelectitems(b);
+                  let c = b.map((value) => value.id + 'table');
+                  setSelectitemsrowkey(c);
+                } else {
+                  let a = new Set();
+                  changeRows.forEach((value) => {
+                    a.add(value.id);
+                  });
+                  let b = selectitems.filter((x) => !a.has(x.id));
+                  setSelectitems(b);
+                  let c = b.map((value) => value.id + 'table');
+                  setSelectitemsrowkey(c);
+                }
+              },
+              selectedRowKeys: selectitemsrowkey,
+            }}
+            tableAlertRender={({
+                                 selectedRowKeys,
+                                 selectedRows,
+                                 onCleanSelected,
+                               }) => {
+              const onCancelselected = () => {
+                setSelectitems([]);
+                setSelectitemsrowkey([]);
+              };
+              return (
+                <Space size={24}>
+                  <span>
+                    {selectitems.length} items selected
+                    <span onClick={onCancelselected}>
+                      <a style={{ marginLeft: 8 }} onClick={onCleanSelected}>
+                        Clear selected
+                      </a>
+                    </span>
+                  </span>
+                </Space>
+              );
+            }}
+            tableAlertOptionRender={({
+                                       selectedRowKeys,
+                                       selectedRows,
+                                       onCleanSelected,
+                                     }) => {
+              return (
+                <Space size={20}>
+                  <a
+                    onClick={() => {
+                      let element = document.createElement('a');
+                      const fields = [
+                        'dataset',
+                        'trait',
+                        'tissue',
+                        'spredixcan_up_gene',
+                        'spredixcan_down_gene',
+                        'sig_index',
+                        'cmap_name',
+                        'cmap_up_gene',
+                        'cmap_down_gene',
+                        'es_up',
+                        'es_down',
+                        'es_up_padj',
+                        'es_down_padj',
+                        'wtcs',
+                        'xsum',
+                        'css',
+                        'css_pvalue',
+                        'spearman',
+                        'xspearman',
+                        'pearson',
+                        'xpearson',
+                        'cosine',
+                        'xcos',
+                      ];
+                      const json2csvParser = new Parser({ fields });
+                      const csv = json2csvParser.parse(selectitems);
+                      element.setAttribute(
+                        'href',
+                        'data:text/csv;charset=utf-8,' +
+                        encodeURIComponent(csv),
+                      );
+                      element.setAttribute(
+                        'download',
+                        'Run_with_CMap_Results.csv',
+                      );
+                      element.style.display = 'none';
+                      document.body.appendChild(element);
+                      element.click();
+                      document.body.removeChild(element);
+                      onCleanSelected;
+                    }}
+                  >
+                    Download
+                  </a>
+                </Space>
+              );
             }}
           />
         </Col>
