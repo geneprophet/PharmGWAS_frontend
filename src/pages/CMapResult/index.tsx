@@ -22,6 +22,7 @@ export default function Page(props: any) {
       getRemoteCMap({
         pageSize: pagesize,
         pageIndex: pageindex,
+        keyword:undefined,
         pert_id:  undefined,
         sig_id:  undefined,
         sig_index:  props.match.params.name,
@@ -481,7 +482,7 @@ export default function Page(props: any) {
               </a>
             </Breadcrumb.Item>
             <Breadcrumb.Item>
-              <a href="/cmapoverview">
+              <a href="/cmapoverview/all">
                 <strong style={{ fontFamily: 'sans-serif' }}>
                   CMap Signatures
                 </strong>
@@ -517,7 +518,10 @@ export default function Page(props: any) {
         </Col>
       </Row>
       <Divider/>
-      <Row>
+      <Row justify={'center'}>
+        <Title level={2}>
+          CMap Results Overview
+        </Title>
         <Col md={24}>
           <ProTable
             columns={columns}

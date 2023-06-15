@@ -84,7 +84,7 @@ export default function (props) {
           label: (
             <a
               onClick={() => {
-                history.push('/datasetoverview');
+                history.push('/datasetoverview/all');
               }}
             >
               <strong style={{ color: '#252746' }}>GWAS Datasets</strong>
@@ -97,7 +97,7 @@ export default function (props) {
           label: (
             <a
               onClick={() => {
-                history.push('/cmapoverview');
+                history.push('/cmapoverview/all');
               }}
             >
               <strong style={{ color: '#252746' }}>

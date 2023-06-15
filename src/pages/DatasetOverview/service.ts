@@ -65,12 +65,14 @@ export const getRemoteDataset = async ({
 export const getRemoteDatasetLike = async ({
                                          pageSize,
                                          pageIndex,
+                                             keyword,
                                              trait,
                                              pmid,
                                              dataset
                                        }: {
   pageSize: number | undefined;
   pageIndex: number | undefined;
+  keyword: string | undefined;
   trait: string | undefined;
   pmid: string | undefined;
   dataset: string | undefined;
@@ -80,6 +82,7 @@ export const getRemoteDatasetLike = async ({
     params: {
       pageSize: pageSize,
       pageIndex: pageIndex,
+      keyword:keyword,
       trait: trait,
       pmid:pmid,
       dataset:dataset

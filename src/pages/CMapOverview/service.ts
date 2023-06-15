@@ -26,6 +26,7 @@ export const extendRequest = extend({ errorHandler });
 export const getRemoteCMap = async ({
                                          pageSize,
                                          pageIndex,
+                                      keyword,
                                       pert_id,
                                       sig_id,
                                       sig_index,
@@ -38,6 +39,7 @@ export const getRemoteCMap = async ({
                                        }: {
   pageSize: number | undefined;
   pageIndex: number | undefined;
+  keyword: string | undefined;
   pert_id: string | undefined;
   sig_id: string | undefined;
   sig_index: string | undefined;
@@ -53,6 +55,7 @@ export const getRemoteCMap = async ({
     params: {
       pageSize: pageSize,
       pageIndex: pageIndex,
+      keyword:keyword,
       pert_id: pert_id,
       sig_id: sig_id,
       sig_index:sig_index,
@@ -74,6 +77,7 @@ export const getRemoteCMap = async ({
 export const getRemoteCMapLike = async ({
                                              pageSize,
                                              pageIndex,
+                                          keyword,
                                           pert_id,
                                           sig_id,
                                           cmap_name,
@@ -83,6 +87,7 @@ export const getRemoteCMapLike = async ({
                                            }: {
   pageSize: number | undefined;
   pageIndex: number | undefined;
+  keyword: string | undefined;
   pert_id: string | undefined;
   sig_id: string | undefined;
   cmap_name: string | undefined;
@@ -95,6 +100,7 @@ export const getRemoteCMapLike = async ({
     params: {
       pageSize: pageSize,
       pageIndex: pageIndex,
+      keyword:keyword,
       pert_id: pert_id,
       sig_id: sig_id,
       cmap_name: cmap_name,

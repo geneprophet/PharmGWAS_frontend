@@ -20,7 +20,7 @@ import {
   AnalysisIcon
 } from "../../components/Icons/index";
 export default function Page(props: any) {
-  const [keyword, setKeyword] = useState(undefined);
+  const [name, setName] = useState(undefined);
   const [datasets, setDatasets] = useState(undefined);
   const [loading, setLoading] = useState<boolean>(true);
   const [total, setTotal] = useState(0);
@@ -36,46 +36,48 @@ export default function Page(props: any) {
   }
 
   const [keywords, setKeywords] = useState<SearchKeywords>({});
-  // useEffect(() => {
-  //   console.log(props.match.params.name);
-  //   setKeyword(props.match.params.name);
-  // }, [props]);
+  useEffect(() => {
+    console.log(props.match.params.name);
+    setName(props.match.params.name);
+  }, [props]);
 
-  // useEffect(() => {
-  //   if (keyword) {
-  //     getRemoteDataset({
-  //       pageSize: pagesize,
-  //       pageIndex: pageindex,
-  //       keyword: keyword,
-  //       trait:undefined,
-  //       pmid:undefined,
-  //       dataset:undefined,
-  //       sort_field:undefined,
-  //       sort_direction:undefined
-  //     }).then((res) => {
-  //       // console.log(res.data);
-  //       setLoading(false);
-  //       setDatasets(res.data);
-  //       setTotal(res.meta.total);
-  //     });
-  //   }
-  // }, [keyword]);
-  useEffect(()=>{
-    getRemoteDataset({
-      pageSize: pagesize,
-      pageIndex: pageindex,
-      keyword: undefined,
-      trait:undefined,
-      pmid:undefined,
-      dataset:undefined,
-      sort_field:undefined,
-      sort_direction:undefined
-    }).then((res) => {
-      setLoading(false);
-      setDatasets(res.data);
-      setTotal(res.meta.total);
-    });
-  },[]);
+  useEffect(() => {
+    if (name){
+      if(name == "all"){
+        setName(undefined);
+        getRemoteDataset({
+          pageSize: pagesize,
+          pageIndex: pageindex,
+          keyword: undefined,
+          trait:undefined,
+          pmid:undefined,
+          dataset:undefined,
+          sort_field:undefined,
+          sort_direction:undefined
+        }).then((res) => {
+          setLoading(false);
+          setDatasets(res.data);
+          setTotal(res.meta.total);
+        });
+      }else{
+        getRemoteDatasetLike({
+          pageSize: pagesize,
+          pageIndex: pageindex,
+          keyword: name,
+          trait:undefined,
+          pmid:undefined,
+          dataset:undefined,
+        }).then((res) => {
+          // console.log(res.data);
+          setLoading(false);
+          setDatasets(res.data);
+          setTotal(res.meta.total);
+        });
+      }
+    }
+
+  }, [name]);
+
   const [datasetnamelist, setDatasetnamelist] = useState([]);
   const [traitlist, setTraitlist] = useState([]);
   const [pmidlist, setPmidlist] = useState([]);
@@ -125,6 +127,7 @@ export default function Page(props: any) {
               const remoteKeywords = await getRemoteDatasetLike({
                 pageSize: 100,
                 pageIndex: 1,
+                keyword: name,
                 trait: keywords.trait,
                 pmid: keywords.pmid,
                 dataset: undefined,
@@ -143,6 +146,7 @@ export default function Page(props: any) {
               const remoteKeywords = await getRemoteDatasetLike({
                 pageSize: 100,
                 pageIndex: 1,
+                keyword: name,
                 trait: keywords.trait,
                 pmid: keywords.pmid,
                 dataset: value,
@@ -205,6 +209,7 @@ export default function Page(props: any) {
               const remoteKeywords = await getRemoteDatasetLike({
                 pageSize: 100,
                 pageIndex: 1,
+                keyword: name,
                 trait: undefined,
                 pmid: keywords.pmid,
                 dataset: keywords.dataset,
@@ -223,6 +228,7 @@ export default function Page(props: any) {
               const remoteKeywords = await getRemoteDatasetLike({
                 pageSize: 100,
                 pageIndex: 1,
+                keyword: name,
                 trait: value,
                 pmid: keywords.pmid,
                 dataset: keywords.dataset,
@@ -309,6 +315,7 @@ export default function Page(props: any) {
               const remoteKeywords = await getRemoteDatasetLike({
                 pageSize: 100,
                 pageIndex: 1,
+                keyword: name,
                 trait: keywords.trait,
                 pmid: undefined,
                 dataset: keywords.dataset,
@@ -327,6 +334,7 @@ export default function Page(props: any) {
               const remoteKeywords = await getRemoteDatasetLike({
                 pageSize: 100,
                 pageIndex: 1,
+                keyword: name,
                 trait: keywords.trait,
                 pmid: value,
                 dataset: keywords.dataset,
@@ -435,7 +443,7 @@ export default function Page(props: any) {
               getRemoteDataset({
                 pageSize: pagesize,
                 pageIndex: 1,
-                keyword:undefined,
+                keyword:name,
                 trait:keywords.trait,
                 pmid:keywords.pmid,
                 dataset:keywords.dataset,
@@ -452,7 +460,7 @@ export default function Page(props: any) {
               getRemoteDataset({
                 pageSize: 10,
                 pageIndex: 1,
-                keyword:undefined,
+                keyword:name,
                 trait:undefined,
                 pmid:undefined,
                 dataset:undefined,
@@ -477,7 +485,7 @@ export default function Page(props: any) {
               getRemoteDataset({
                 pageSize: pagination.pageSize,
                 pageIndex: pagination.current,
-                keyword:undefined,
+                keyword:name,
                 trait:keywords.trait,
                 pmid:keywords.pmid,
                 dataset:keywords.dataset,

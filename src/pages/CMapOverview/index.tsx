@@ -9,6 +9,11 @@ import { URL_PREFIX ,uniqueArray} from '@/common/constants';
 import { ProTable } from "@ant-design/pro-table";
 import { Parser } from 'json2csv';
 export default function Page(props: any) {
+  const [name, setName] = useState(undefined);
+  useEffect(() => {
+    console.log(props.match.params.name);
+    setName(props.match.params.name);
+  }, [props]);
 
   const [cmapsignatures, setCmapsignatures] = useState(undefined);
   const [loading, setLoading] = useState<boolean>(true);
@@ -28,24 +33,51 @@ export default function Page(props: any) {
   };
   const [keywords, setKeywords] = useState<SearchKeywords>({});
   useEffect(()=>{
-    getRemoteCMap({
-      pageSize: pagesize,
-      pageIndex: pageindex,
-      pert_id:  undefined,
-      sig_id:  undefined,
-      sig_index:  undefined,
-      cmap_name:  undefined,
-      cell_iname: undefined,
-      pert_idose:  undefined,
-      pert_itime:  undefined,
-      sort_field: undefined,
-      sort_direction: undefined
-    }).then((res) => {
-      setLoading(false);
-      setCmapsignatures(res.data);
-      setTotal(res.meta.total);
-    });
-  },[]);
+    if(name){
+      if (name == "all"){
+        setName(undefined);
+        getRemoteCMap({
+          pageSize: pagesize,
+          pageIndex: pageindex,
+          keyword: undefined,
+          pert_id:  undefined,
+          sig_id:  undefined,
+          sig_index:  undefined,
+          cmap_name:  undefined,
+          cell_iname: undefined,
+          pert_idose:  undefined,
+          pert_itime:  undefined,
+          sort_field: undefined,
+          sort_direction: undefined
+        }).then((res) => {
+          setLoading(false);
+          setCmapsignatures(res.data);
+          setTotal(res.meta.total);
+        });
+      }else {
+        getRemoteCMap({
+          pageSize: pagesize,
+          pageIndex: pageindex,
+          keyword: name,
+          pert_id:  undefined,
+          sig_id:  undefined,
+          sig_index:  undefined,
+          cmap_name:  undefined,
+          cell_iname: undefined,
+          pert_idose:  undefined,
+          pert_itime:  undefined,
+          sort_field: undefined,
+          sort_direction: undefined
+        }).then((res) => {
+          setLoading(false);
+          setCmapsignatures(res.data);
+          setTotal(res.meta.total);
+        });
+      }
+
+    }
+
+  },[name]);
 
   const [pertidlist, setPertidlist] = useState([]);
   const [sigidlist, setSigidlist] = useState([]);
@@ -112,6 +144,7 @@ export default function Page(props: any) {
               const remoteKeywords = await getRemoteCMapLike({
                 pageSize: 100,
                 pageIndex: 1,
+                keyword: name,
                 pert_id: keywords.pert_id,
                 sig_id:keywords.sig_id,
                 cmap_name: undefined,
@@ -133,6 +166,7 @@ export default function Page(props: any) {
               const remoteKeywords = await getRemoteCMapLike({
                 pageSize: 100,
                 pageIndex: 1,
+                keyword: name,
                 pert_id: keywords.pert_id,
                 sig_id:keywords.sig_id,
                 cmap_name: value,
@@ -184,6 +218,7 @@ export default function Page(props: any) {
               const remoteKeywords = await getRemoteCMapLike({
                 pageSize: 100,
                 pageIndex: 1,
+                keyword: name,
                 pert_id: keywords.pert_id,
                 sig_id:keywords.sig_id,
                 cmap_name: keywords.cmap_name,
@@ -205,6 +240,7 @@ export default function Page(props: any) {
               const remoteKeywords = await getRemoteCMapLike({
                 pageSize: 100,
                 pageIndex: 1,
+                keyword: name,
                 pert_id: keywords.pert_id,
                 sig_id:keywords.sig_id,
                 cmap_name: keywords.cmap_name,
@@ -256,6 +292,7 @@ export default function Page(props: any) {
               const remoteKeywords = await getRemoteCMapLike({
                 pageSize: 100,
                 pageIndex: 1,
+                keyword: name,
                 pert_id: keywords.pert_id,
                 sig_id:keywords.sig_id,
                 cmap_name: keywords.cmap_name,
@@ -277,6 +314,7 @@ export default function Page(props: any) {
               const remoteKeywords = await getRemoteCMapLike({
                 pageSize: 100,
                 pageIndex: 1,
+                keyword: name,
                 pert_id: keywords.pert_id,
                 sig_id:keywords.sig_id,
                 cmap_name: keywords.cmap_name,
@@ -327,6 +365,7 @@ export default function Page(props: any) {
               const remoteKeywords = await getRemoteCMapLike({
                 pageSize: 100,
                 pageIndex: 1,
+                keyword:name,
                 pert_id: keywords.pert_id,
                 sig_id:keywords.sig_id,
                 cmap_name: keywords.cmap_name,
@@ -348,6 +387,7 @@ export default function Page(props: any) {
               const remoteKeywords = await getRemoteCMapLike({
                 pageSize: 100,
                 pageIndex: 1,
+                keyword:name,
                 pert_id: keywords.pert_id,
                 sig_id:keywords.sig_id,
                 cmap_name: keywords.cmap_name,
@@ -471,6 +511,7 @@ export default function Page(props: any) {
               getRemoteCMap({
                 pageSize: pagesize,
                 pageIndex: 1,
+                keyword: name,
                 pert_id:  keywords.pert_id,
                 sig_id:  keywords.sig_id,
                 sig_index:  undefined,
@@ -491,6 +532,7 @@ export default function Page(props: any) {
               getRemoteCMap({
                 pageSize: 10,
                 pageIndex: 1,
+                keyword:name,
                 pert_id:  undefined,
                 sig_id: undefined,
                 sig_index: undefined,
@@ -518,6 +560,7 @@ export default function Page(props: any) {
               getRemoteCMap({
                 pageSize: pagination.pageSize,
                 pageIndex: pagination.current,
+                keyword:name,
                 pert_id:  keywords.pert_id,
                 sig_id:  keywords.sig_id,
                 sig_index:  undefined,

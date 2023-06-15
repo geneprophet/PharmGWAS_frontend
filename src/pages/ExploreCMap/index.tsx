@@ -70,6 +70,7 @@ export default function Page(props:any) {
       getRemoteCMap({
         pageSize: pagesize,
         pageIndex: pageindex,
+        keyword:undefined,
         pert_id:  undefined,
         sig_id:  undefined,
         sig_index:  props.match.params.sig_index,
@@ -159,7 +160,7 @@ export default function Page(props:any) {
               </a>
             </Breadcrumb.Item>
             <Breadcrumb.Item>
-              <a href="/datasetoverview">
+              <a href="/datasetoverview/all">
                 <strong style={{ fontFamily: 'sans-serif' }}>
                   GWAS Datasets
                 </strong>

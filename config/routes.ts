@@ -12,11 +12,11 @@ export default [
         component: '@/pages/index',
       },
       {
-        path: '/datasetoverview',
+        path: '/datasetoverview/:name',
         component: '@/pages/DatasetOverview',
       },
       {
-        path: '/cmapoverview',
+        path: '/cmapoverview/:name',
         component: '@/pages/CMapOverview',
       },
       {
