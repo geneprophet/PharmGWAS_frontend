@@ -112,7 +112,7 @@ export default function (props) {
           label: (
             <a
               onClick={() => {
-                history.push('/geooverview');
+                history.push('/geooverview/all');
               }}
             >
               <strong style={{ color: '#252746' }}>GEO Signatures</strong>

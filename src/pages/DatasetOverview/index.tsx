@@ -124,13 +124,15 @@ export default function Page(props: any) {
             placeholder={'input and select a dataset'}
             filterOption={false}
             onFocus={async () => {
-              const remoteKeywords = await getRemoteDatasetLike({
+              const remoteKeywords = await getRemoteDataset({
                 pageSize: 100,
                 pageIndex: 1,
                 keyword: name,
                 trait: keywords.trait,
                 pmid: keywords.pmid,
                 dataset: undefined,
+                sort_field:undefined,
+                sort_direction:undefined,
               });
               if (remoteKeywords) {
                 const nameList = new Set();
@@ -206,13 +208,15 @@ export default function Page(props: any) {
             placeholder={'input and select a trait'}
             filterOption={false}
             onFocus={async () => {
-              const remoteKeywords = await getRemoteDatasetLike({
+              const remoteKeywords = await getRemoteDataset({
                 pageSize: 100,
                 pageIndex: 1,
                 keyword: name,
                 trait: undefined,
                 pmid: keywords.pmid,
                 dataset: keywords.dataset,
+                sort_field:undefined,
+                sort_direction:undefined,
               });
               if (remoteKeywords) {
                 const nameList = new Set();
@@ -312,13 +316,15 @@ export default function Page(props: any) {
             placeholder={'input and select a PMID'}
             filterOption={false}
             onFocus={async () => {
-              const remoteKeywords = await getRemoteDatasetLike({
+              const remoteKeywords = await getRemoteDataset({
                 pageSize: 100,
                 pageIndex: 1,
                 keyword: name,
                 trait: keywords.trait,
                 pmid: undefined,
                 dataset: keywords.dataset,
+                sort_field:undefined,
+                sort_direction:undefined,
               });
               if (remoteKeywords) {
                 const nameList = new Set();

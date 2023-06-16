@@ -224,7 +224,7 @@ export default function Page(props: any) {
             placeholder={'input and select a CMap Name'}
             filterOption={false}
             onFocus={async () => {
-              const remoteKeywords = await getRemoteCMapResultLike({
+              const remoteKeywords = await getRemoteCMapResult({
                 pageSize: 100,
                 pageIndex: 1,
                 dataset:keywords.dataset,
@@ -232,6 +232,8 @@ export default function Page(props: any) {
                 tissue:keywords.tissue,
                 cmap_name: undefined,
                 sig_index: keywords.sig_index,
+                sort_field:undefined,
+                sort_direction:undefined,
               });
               if (remoteKeywords) {
                 const nameList = new Set();

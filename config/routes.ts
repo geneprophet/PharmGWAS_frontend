@@ -28,7 +28,7 @@ export default [
         component: '@/pages/CMapResult',
       },
       {
-        path: '/geooverview',
+        path: '/geooverview/:name',
         component: '@/pages/GEOOverview',
       },
       {
@@ -42,10 +42,6 @@ export default [
       {
         path: '/download',
         component: '@/pages/Download',
-      },
-      {
-        path: '/test',
-        component: '@/pages/Test',
       },
       {
         path: '/documentation',

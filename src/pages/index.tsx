@@ -3,27 +3,33 @@ import { LinkOutlined } from '@ant-design/icons';
 import {
   PeopleIcon,
   MarkerIcon,
+  DatasetIcon,
+  VSIcon,
+  DrugIcon,
   OnlineIcon,
   LociIcon,
   TreatmentIcon,
   TissueIcon,
   TCGAIcon,
 } from '@/components/Icons';
+import type { MenuProps } from 'antd';
 import * as echarts from 'echarts';
 import {
   Typography,
   Row,
   Col,
   Card,
+  Button,
   Statistic,
   Divider,
   Timeline,
   Input,
+  Dropdown,
   Space,
   message,
 } from 'antd';
 const { Search } = Input;
-import { SearchOutlined } from '@ant-design/icons';
+import { SearchOutlined,DownOutlined,UserOutlined  } from '@ant-design/icons';
 const { Text, Title, Link } = Typography;
 import { URL_PREFIX,IMG_PREFIX } from '@/common/constants';
 import Organizationkk from '@/components/Organization';
@@ -148,8 +154,8 @@ export default function IndexPage() {
     let option = {
       tooltip: {},
       geo: {
-        left: '10%',
-        right: '10%',
+        left: '5%',
+        right: '5%',
         map: 'organ_diagram',
         selectedMode: 'single',
         itemStyle: {
@@ -231,6 +237,50 @@ export default function IndexPage() {
     // });
   },[svg]);
 
+  const [buttontext, setButtontext] = useState("GWAS Dataset");
+  const [placeholder, setPlaceholder] = useState("Please enter a trait keyword");
+  const [url, setUrl] = useState("/datasetoverview/");
+
+  const handleMenuClick: MenuProps['onClick'] = (e) => {
+    // message.info('Click on menu item.' + e.key);
+    if (e.key=="1"){
+      setButtontext("GWAS Dataset");
+      setPlaceholder("Please enter a trait keyword, e.g. Coronary Artery Disease");
+      setUrl("/datasetoverview/");
+    }else if(e.key=="2"){
+      setButtontext("CMap Signature");
+      setPlaceholder("Please enter a CMap keyword, e.g. lisofylline");
+      setUrl("/cmapoverview/");
+    }else {
+      setButtontext("GEO Signature");
+      setPlaceholder("Please enter a GEO keyword, e.g. BRAFV600E");
+      setUrl("/geooverview/");
+    }
+  };
+
+  const items: MenuProps['items'] = [
+    {
+      label: 'GWAS Dataset',
+      key: '1',
+      icon: <DatasetIcon />,
+    },
+    {
+      label: 'CMap Signature',
+      key: '2',
+      icon: <DrugIcon />,
+    },
+    {
+      label: 'GEO Signature',
+      key: '3',
+      icon: <VSIcon />,
+    },
+  ];
+
+  const menuProps = {
+    items,
+    onClick: handleMenuClick,
+  };
+
   return (
     <div>
       <Row justify="center" style={{ background: '#ECF2FF' }}>
@@ -240,9 +290,19 @@ export default function IndexPage() {
       </Row>
       <Divider />
       <Row justify={'center'}>
+        <Col>
+          <Dropdown menu={menuProps}>
+            <Button type={"primary"} size={'large'}>
+              <Space>
+                {buttontext}
+                <DownOutlined />
+              </Space>
+            </Button>
+          </Dropdown>
+        </Col>
         <Col xs={18} sm={16} md={16} lg={12} xl={12} xxl={12}>
           <Search
-            placeholder="input search keyword"
+            placeholder={placeholder}
             allowClear
             enterButton={
               <strong>
@@ -253,7 +313,7 @@ export default function IndexPage() {
             onSearch={(value) => {
               console.log(value);
               if (value) {
-                window.open(URL_PREFIX + '/summary/' + value.trim(), '_blank'); //在新页面打开
+                window.open(URL_PREFIX + url + value.trim(), '_blank'); //在新页面打开
               } else {
                 message.warn('please input the keyword!!');
               }
@@ -262,26 +322,20 @@ export default function IndexPage() {
           <strong style={{ fontSize: '1.2em' }}>
             e.g.{' '}
             <Space>
+              <a href={URL_PREFIX + '/datasetoverview/Coronary Artery Disease'} target={'_blank'}>
+                Coronary Artery Disease,
+              </a>
               <a
-                href={URL_PREFIX + '/summary/Alzheimer disease'}
+                href={URL_PREFIX + '/datasetoverview/Alzheimer disease'}
                 target={'_blank'}
               >
                 Alzheimer disease,
               </a>
-              <a href={URL_PREFIX + '/summary/ALS'} target={'_blank'}>
-                ALS,
+              <a href={URL_PREFIX + '/cmapoverview/lisofylline'} target={'_blank'}>
+                lisofylline,
               </a>
-              <a href={URL_PREFIX + '/summary/rs9899649'} target={'_blank'}>
-                rs9899649,
-              </a>
-              <a href={URL_PREFIX + '/summary/rs4593926'} target={'_blank'}>
-                rs4593926,
-              </a>
-              <a href={URL_PREFIX + '/summary/APOE'} target={'_blank'}>
-                APOE,
-              </a>
-              <a href={URL_PREFIX + '/summary/RPLP2'} target={'_blank'}>
-                RPLP2
+              <a href={URL_PREFIX + '/geooverview/BRAFV600E'} target={'_blank'}>
+                BRAFV600E
               </a>
             </Space>
           </strong>
@@ -295,7 +349,7 @@ export default function IndexPage() {
             <div
               ref={chartRef}
               className={styles.charts}
-              style={{ height: '700px', width: '100%' }}
+              style={{ height: '800px', width: '100%' }}
             ></div>
           </Row>
           <Divider />

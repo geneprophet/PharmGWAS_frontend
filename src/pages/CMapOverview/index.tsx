@@ -141,16 +141,19 @@ export default function Page(props: any) {
             placeholder={'input and select a CMap Name'}
             filterOption={false}
             onFocus={async () => {
-              const remoteKeywords = await getRemoteCMapLike({
+              const remoteKeywords = await getRemoteCMap({
                 pageSize: 100,
                 pageIndex: 1,
                 keyword: name,
                 pert_id: keywords.pert_id,
                 sig_id:keywords.sig_id,
+                sig_index:undefined,
                 cmap_name: undefined,
                 cell_iname: keywords.cell_iname,
                 pert_idose:keywords.pert_idose,
                 pert_itime:keywords.pert_itime,
+                sort_field:undefined,
+                sort_direction:undefined,
               });
               if (remoteKeywords) {
                 const nameList = new Set();
@@ -215,16 +218,19 @@ export default function Page(props: any) {
             placeholder={'input and select a Cell Line'}
             filterOption={false}
             onFocus={async () => {
-              const remoteKeywords = await getRemoteCMapLike({
+              const remoteKeywords = await getRemoteCMap({
                 pageSize: 100,
                 pageIndex: 1,
                 keyword: name,
                 pert_id: keywords.pert_id,
                 sig_id:keywords.sig_id,
+                sig_index:undefined,
                 cmap_name: keywords.cmap_name,
                 cell_iname: undefined,
                 pert_idose:keywords.pert_idose,
                 pert_itime:keywords.pert_itime,
+                sort_field:undefined,
+                sort_direction:undefined,
               });
               if (remoteKeywords) {
                 const nameList = new Set();
@@ -289,16 +295,19 @@ export default function Page(props: any) {
             placeholder={'input and select a Dose'}
             filterOption={false}
             onFocus={async () => {
-              const remoteKeywords = await getRemoteCMapLike({
+              const remoteKeywords = await getRemoteCMap({
                 pageSize: 100,
                 pageIndex: 1,
                 keyword: name,
                 pert_id: keywords.pert_id,
                 sig_id:keywords.sig_id,
+                sig_index:undefined,
                 cmap_name: keywords.cmap_name,
                 cell_iname: keywords.cell_iname,
                 pert_idose:undefined,
                 pert_itime:keywords.pert_itime,
+                sort_field:undefined,
+                sort_direction:undefined,
               });
               if (remoteKeywords) {
                 const nameList = new Set();
@@ -362,16 +371,19 @@ export default function Page(props: any) {
             placeholder={'input and select a Time'}
             filterOption={false}
             onFocus={async () => {
-              const remoteKeywords = await getRemoteCMapLike({
+              const remoteKeywords = await getRemoteCMap({
                 pageSize: 100,
                 pageIndex: 1,
                 keyword:name,
                 pert_id: keywords.pert_id,
                 sig_id:keywords.sig_id,
+                sig_index:undefined,
                 cmap_name: keywords.cmap_name,
                 cell_iname: keywords.cell_iname,
                 pert_idose:keywords.pert_idose,
                 pert_itime:undefined,
+                sort_field:undefined,
+                sort_direction:undefined,
               });
               if (remoteKeywords) {
                 const nameList = new Set();

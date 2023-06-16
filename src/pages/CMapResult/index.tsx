@@ -119,7 +119,7 @@ export default function Page(props: any) {
             placeholder={'input and select a Trait'}
             filterOption={false}
             onFocus={async () => {
-              const remoteKeywords = await getRemoteResultCMapLike({
+              const remoteKeywords = await getRemoteResultCMap({
                 pageSize: 100,
                 pageIndex: 1,
                 dataset: undefined,
@@ -127,6 +127,8 @@ export default function Page(props: any) {
                 tissue:keywords.tissue,
                 cmap_name: undefined,
                 sig_index: name,
+                sort_field:undefined,
+                sort_direction:undefined,
               });
               if (remoteKeywords) {
                 const nameList = new Set();
@@ -198,7 +200,7 @@ export default function Page(props: any) {
             placeholder={'input and select a Tissue'}
             filterOption={false}
             onFocus={async () => {
-              const remoteKeywords = await getRemoteResultCMapLike({
+              const remoteKeywords = await getRemoteResultCMap({
                 pageSize: 100,
                 pageIndex: 1,
                 dataset:undefined,
@@ -206,6 +208,8 @@ export default function Page(props: any) {
                 tissue: undefined,
                 cmap_name: undefined,
                 sig_index: name,
+                sort_field:undefined,
+                sort_direction:undefined,
               });
               if (remoteKeywords) {
                 const nameList = new Set();

@@ -22,21 +22,44 @@ export default function Page(props: any) {
     sort_direction: string | undefined;
   };
   const [keywords, setKeywords] = useState<SearchKeywords>({});
+  const [name, setName] = useState(undefined);
+  useEffect(() => {
+    console.log(props.match.params.name);
+    setName(props.match.params.name);
+  }, [props]);
   useEffect(()=>{
-    getRemoteGEO({
-      pageSize: pagesize,
-      pageIndex: pageindex,
-      accession:  undefined,
-      series_id:  undefined,
-      description:  undefined,
-      sort_field: undefined,
-      sort_direction: undefined
-    }).then((res) => {
-      setLoading(false);
-      setGeosignatures(res.data);
-      setTotal(res.meta.total);
-    });
-  },[]);
+    if (name){
+      if (name=="all"){
+        setName(undefined);
+        getRemoteGEO({
+          pageSize: pagesize,
+          pageIndex: pageindex,
+          accession:  undefined,
+          series_id:  undefined,
+          description:  undefined,
+          sort_field: undefined,
+          sort_direction: undefined
+        }).then((res) => {
+          setLoading(false);
+          setGeosignatures(res.data);
+          setTotal(res.meta.total);
+        });
+      }else{
+        setKeywords({ ...keywords, description: name });
+        getRemoteGEOLike({
+          pageSize: pagesize,
+          pageIndex: pageindex,
+          accession:  undefined,
+          series_id:  undefined,
+          description:  name,
+        }).then((res) => {
+          setLoading(false);
+          setGeosignatures(res.data);
+          setTotal(res.meta.total);
+        });
+      }
+    }
+  },[name]);
 
   const [seriesidlist, setSeriesidlist] = useState([]);
   const [descriptionlist, setDescriptionlist] = useState([]);
@@ -165,7 +188,7 @@ export default function Page(props: any) {
                 pageIndex: 1,
                 accession: keywords.accession,
                 series_id:keywords.series_id,
-                description: undefined,
+                description: name,
               });
               if (remoteKeywords) {
                 const nameList = new Set();
