@@ -12,6 +12,7 @@ import {
   TissueIcon,
   TCGAIcon,
 } from '@/components/Icons';
+import workflow from '@/assets/workflow.png';
 import type { MenuProps } from 'antd';
 import * as echarts from 'echarts';
 import {
@@ -26,8 +27,8 @@ import {
   Input,
   Dropdown,
   Space,
-  message,
-} from 'antd';
+  message, Image
+} from "antd";
 const { Search } = Input;
 import { SearchOutlined,DownOutlined,UserOutlined  } from '@ant-design/icons';
 const { Text, Title, Link } = Typography;
@@ -148,94 +149,94 @@ export default function IndexPage() {
     });
   },[]);
 
-  useEffect(()=>{
-    const myChart = echarts.init(chartRef.current,'auto',{renderer:'svg'}); //echart初始化容器
-    echarts.registerMap('organ_diagram', { svg: svg });
-    let option = {
-      tooltip: {},
-      geo: {
-        left: '5%',
-        right: '5%',
-        map: 'organ_diagram',
-        selectedMode: 'single',
-        itemStyle: {
-          color: null,
-        },
-        emphasis: {
-          focus: 'self',
-          itemStyle: {
-            color: "#9AC5F4",
-          },
-          label: {
-            position: 'bottom',
-            distance: 0,
-            textBorderColor: '#fff',
-            textBorderWidth: 2
-          }
-        },
-        blur: {},
-        select: {
-          itemStyle: {
-            color: null,
-            // shadowColor: 'rgba(0, 0, 0, 0.5)',
-            // shadowBlur: 10
-          },
-          label: {
-            show: false,
-            textBorderColor: '#fff',
-            textBorderWidth: 2
-          }
-        }
-      },
-      // grid: {
-      //   left: '60%',
-      //   right: '20%',
-      //   top: '10%',
-      //   bottom: '20%'
-      // },
-      // xAxis: {},
-      // yAxis: {
-      //   data: [
-      //     'heart',
-      //     'large-intestine',
-      //     'small-intestine',
-      //     'spleen',
-      //     'kidney',
-      //     'lung',
-      //     'liver'
-      //   ]
-      // },
-      // series: [
-      //   {
-      //     type: 'bar',
-      //     emphasis: {
-      //       focus: 'self'
-      //     },
-      //     data: [121, 321, 141, 52, 198, 289, 139]
-      //   }
-      // ]
-    };
-    myChart.setOption(option);
-    myChart.on('click', { geoIndex: 0,name: 'heart' }, function (param) {
-      console.log("click")
-      console.log(param.name)
-      window.open("https://cn.bing.com/search?q="+param.name,'_blank')
-    });
-    // myChart.on('mouseover', { seriesIndex: 0 }, function (event) {
-    //   myChart.dispatchAction({
-    //     type: 'highlight',
-    //     geoIndex: 0,
-    //     name: event.name
-    //   });
-    // });
-    // myChart.on('mouseout', { seriesIndex: 0 }, function (event) {
-    //   myChart.dispatchAction({
-    //     type: 'downplay',
-    //     geoIndex: 0,
-    //     name: event.name
-    //   });
-    // });
-  },[svg]);
+  // useEffect(()=>{
+  //   const myChart = echarts.init(chartRef.current,'auto',{renderer:'svg'}); //echart初始化容器
+  //   echarts.registerMap('organ_diagram', { svg: svg });
+  //   let option = {
+  //     tooltip: {},
+  //     geo: {
+  //       left: '5%',
+  //       right: '5%',
+  //       map: 'organ_diagram',
+  //       selectedMode: 'single',
+  //       itemStyle: {
+  //         color: null,
+  //       },
+  //       emphasis: {
+  //         focus: 'self',
+  //         itemStyle: {
+  //           color: "#9AC5F4",
+  //         },
+  //         label: {
+  //           position: 'bottom',
+  //           distance: 0,
+  //           textBorderColor: '#fff',
+  //           textBorderWidth: 2
+  //         }
+  //       },
+  //       blur: {},
+  //       select: {
+  //         itemStyle: {
+  //           color: null,
+  //           // shadowColor: 'rgba(0, 0, 0, 0.5)',
+  //           // shadowBlur: 10
+  //         },
+  //         label: {
+  //           show: false,
+  //           textBorderColor: '#fff',
+  //           textBorderWidth: 2
+  //         }
+  //       }
+  //     },
+  //     // grid: {
+  //     //   left: '60%',
+  //     //   right: '20%',
+  //     //   top: '10%',
+  //     //   bottom: '20%'
+  //     // },
+  //     // xAxis: {},
+  //     // yAxis: {
+  //     //   data: [
+  //     //     'heart',
+  //     //     'large-intestine',
+  //     //     'small-intestine',
+  //     //     'spleen',
+  //     //     'kidney',
+  //     //     'lung',
+  //     //     'liver'
+  //     //   ]
+  //     // },
+  //     // series: [
+  //     //   {
+  //     //     type: 'bar',
+  //     //     emphasis: {
+  //     //       focus: 'self'
+  //     //     },
+  //     //     data: [121, 321, 141, 52, 198, 289, 139]
+  //     //   }
+  //     // ]
+  //   };
+  //   myChart.setOption(option);
+  //   myChart.on('click', { geoIndex: 0,name: 'heart' }, function (param) {
+  //     console.log("click")
+  //     console.log(param.name)
+  //     window.open("https://cn.bing.com/search?q="+param.name,'_blank')
+  //   });
+  //   // myChart.on('mouseover', { seriesIndex: 0 }, function (event) {
+  //   //   myChart.dispatchAction({
+  //   //     type: 'highlight',
+  //   //     geoIndex: 0,
+  //   //     name: event.name
+  //   //   });
+  //   // });
+  //   // myChart.on('mouseout', { seriesIndex: 0 }, function (event) {
+  //   //   myChart.dispatchAction({
+  //   //     type: 'downplay',
+  //   //     geoIndex: 0,
+  //   //     name: event.name
+  //   //   });
+  //   // });
+  // },[svg]);
 
   const [buttontext, setButtontext] = useState("GWAS Dataset");
   const [placeholder, setPlaceholder] = useState("Please enter a trait keyword");
@@ -346,11 +347,12 @@ export default function IndexPage() {
         <Col xs={24} sm={24} md={22} lg={21} xl={17} xxl={17}>
           <Row justify={'center'}>
             {/*<Organizationkk data={data} nodes={nodes}/>*/}
-            <div
-              ref={chartRef}
-              className={styles.charts}
-              style={{ height: '800px', width: '100%' }}
-            ></div>
+            {/*<div*/}
+            {/*  ref={chartRef}*/}
+            {/*  className={styles.charts}*/}
+            {/*  style={{ height: '800px', width: '100%' }}*/}
+            {/*></div>*/}
+            <Image src={workflow} preview={false} width={"80%"}/>
           </Row>
           <Divider />
           <Row>
