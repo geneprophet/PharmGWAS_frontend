@@ -15,6 +15,14 @@ export default function Index(props: any) {
         // legend: {
         //   data: ['Allocated Budget', 'Actual Spending']
         // },
+        toolbox: {
+          feature: {
+            saveAsImage: {
+              show: true,
+              name:"Overview of the Six Evaluation Methods",
+              title: 'Download plot as png' },
+          },
+        },
         radar: {
           // shape: 'circle',
           axisName: {

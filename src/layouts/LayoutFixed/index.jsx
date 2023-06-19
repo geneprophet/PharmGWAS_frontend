@@ -127,7 +127,7 @@ export default function (props) {
       label: (
         <a
           onClick={() => {
-            history.push('/explorecmap');
+            history.push('/explorecmap/CARDIoGRAMplusC4D__28209224__Coronary_Artery_Disease/Artery_Coronary/519170');
           }}
         >
           <strong style={{ color: '#252746' }}>Explore CMap</strong>

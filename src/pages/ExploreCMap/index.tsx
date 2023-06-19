@@ -8,7 +8,13 @@ import { getRemoteCMap } from "@/pages/CMapOverview/service";
 import notapplied from '@/assets/notapplied.png';
 import Radar from "@/components/Radar";
 import Bar from '@/components/Bar';
-import { getRemoteSpredixcanDown, getRemoteSpredixcanUP } from "@/pages/ExploreCMap/service";
+import Venn from '@/components/Venn';
+import {
+  getRemoteCmapZscoreDown,
+  getRemoteCmapZscoreUp,
+  getRemoteSpredixcanDown,
+  getRemoteSpredixcanUP
+} from "@/pages/ExploreCMap/service";
 const { Title, Text, Paragraph } = Typography;
 //http://127.0.0.1:8000/pharmgwas/explore/CARDIoGRAMplusC4D__28209224__Coronary_Artery_Disease/Artery_Coronary/abiraterone
 export default function Page(props:any) {
@@ -118,11 +124,8 @@ export default function Page(props:any) {
   },[dataset]);
 
   const [bardata1, setBardata1] = useState({});
-  const [bardata2, setBardata2] = useState({});
   useEffect(()=>{
     if (spredixcanup.length > 0 && spredixcandown.length > 0){
-      // console.log(spredixcanup);
-      // console.log(spredixcandown);
       const gene_name_list_up = [];
       const zscore_list_up = [];
       const gene_name_list_down = [];
@@ -137,9 +140,9 @@ export default function Page(props:any) {
       });
       const min = Math.min(...zscore_list_down);
       const max = Math.max(...zscore_list_up);
-      console.log(min);
       setBardata1({
         title:"S-PrediXcan Up/Down regulated genes",
+        yAxis:"S-PrediXcan Z-score",
         min:min,
         max:max,
         gene_name_list_up:gene_name_list_up,
@@ -149,6 +152,150 @@ export default function Page(props:any) {
       });
     }
   },[spredixcanup,spredixcandown]);
+
+  const [cmapzscoreup, setCmapzscoreup] = useState([]);
+  const [cmapzscoredown, setCmapzscoredown] = useState([]);
+
+  useEffect(()=>{
+    if (cmapsignatures){
+      getRemoteCmapZscoreUp({
+        pageSize: 100,
+        pageIndex: 1,
+        sig_id: undefined,
+        sig_index: cmapsignatures.sig_index,
+        sort_field:undefined,
+        sort_direction:undefined
+      }).then((res)=>{
+        setCmapzscoreup(res.data);
+      })
+    }
+  },[cmapsignatures]);
+  useEffect(()=>{
+    if (cmapsignatures){
+      getRemoteCmapZscoreDown({
+        pageSize: 100,
+        pageIndex: 1,
+        sig_id: undefined,
+        sig_index: cmapsignatures.sig_index,
+        sort_field:undefined,
+        sort_direction:undefined
+      }).then((res)=>{
+        setCmapzscoredown(res.data);
+      })
+    }
+  },[cmapsignatures]);
+
+  const [bardata2, setBardata2] = useState({});
+  useEffect(()=>{
+    if (cmapzscoreup.length > 0 && cmapzscoredown.length > 0){
+      const gene_name_list_up = [];
+      const zscore_list_up = [];
+      const gene_name_list_down = [];
+      const zscore_list_down = [];
+      cmapzscoreup.map((item) =>{
+        gene_name_list_up.push(item.gene_name);
+        zscore_list_up.push(item.modz);
+      });
+      cmapzscoredown.map((item) =>{
+        gene_name_list_down.push(item.gene_name);
+        zscore_list_down.push(item.modz);
+      });
+      const min = Math.min(...zscore_list_down);
+      const max = Math.max(...zscore_list_up);
+      setBardata2({
+        title:"Drug-inducted Up/Down regulated genes",
+        yAxis:"CMap Moderated Z-score",
+        min:min,
+        max:max,
+        gene_name_list_up:gene_name_list_up,
+        zscore_list_up:zscore_list_up,
+        gene_name_list_down:gene_name_list_down,
+        zscore_list_down:zscore_list_down,
+      });
+    }
+  },[cmapzscoreup,cmapzscoredown]);
+
+  const [venndata1,setVenndata1] = useState({});
+  useEffect(()=>{
+      if(spredixcanup.length > 0 && cmapzscoredown.length > 0){
+        const gene_name_list1 = new Set();
+        spredixcanup.map((item) =>{
+          gene_name_list1.add(item.gene_name);
+        });
+        const gene_name_list2 = new Set();
+        cmapzscoredown.map((item) =>{
+          gene_name_list2.add(item.gene_name);
+        });
+        let intersect = new Set([...gene_name_list1].filter(x => gene_name_list2.has(x)));
+        let str = "Intersecting Genes: "
+        intersect.forEach((x)=>{
+          str=str+x+", ";
+        });
+        setVenndata1({
+          title:"S-PrediXcan Up Genes Intersect with CMap Down Genes",
+          subtitle:str,
+          series: [{
+            type: 'venn',
+            name: '',
+            data: [{
+              sets: ['S-PrediXcan Up Genes'],
+              value: 50,
+              color: '#BE5A83',
+            }, {
+              sets: ['CMap Down Genes'],
+              value: 50,
+              color: '#6C9BCF',
+            },{
+              sets: ['S-PrediXcan Up Genes', 'CMap Down Genes'],
+              value: intersect.size,
+              name: 'Intersection',
+              color: "#A0C49D"
+            }]
+          }],
+        });
+      }
+  },[spredixcanup,cmapzscoredown]);
+  const [venndata2,setVenndata2] = useState({});
+  useEffect(()=>{
+    if(cmapzscoreup.length > 0 && spredixcandown.length > 0){
+      const gene_name_list1 = new Set();
+      cmapzscoreup.map((item) =>{
+        gene_name_list1.add(item.gene_name);
+      });
+      const gene_name_list2 = new Set();
+      spredixcandown.map((item) =>{
+        gene_name_list2.add(item.gene_name);
+      });
+      let intersect = new Set([...gene_name_list1].filter(x => gene_name_list2.has(x)));
+      let str = "Intersecting Genes: "
+      intersect.forEach((x)=>{
+        str=str+x+", ";
+      });
+      setVenndata2({
+        title:"S-PrediXcan Down Genes Intersect with CMap Up Genes",
+        subtitle:str,
+        series: [{
+          type: 'venn',
+          name: '',
+          data: [{
+            sets: ['S-PrediXcan Down Genes'],
+            value: 50,
+            color: '#6C9BCF',
+          }, {
+            sets: ['CMap Up Genes'],
+            value: 50,
+            color: '#BE5A83',
+          },{
+            sets: ['S-PrediXcan Down Genes', 'CMap Up Genes'],
+            value: intersect.size,
+            name: 'Intersection',
+            color: "#A0C49D"
+          }]
+        }],
+      });
+    }
+  },[spredixcandown,cmapzscoreup]);
+
   return (
     <div>
       <Row>
@@ -227,7 +374,6 @@ export default function Page(props:any) {
       <Row justify={'center'}>
         <Col md={12} style={{textAlign:'center'}}>
           <Image
-            // width={200}
             preview={false}
             fallback={notapplied}
             src={IMG_PREFIX + keywords?.dataset + '/' +  keywords?.tissue + '/gsea/' + 'signature_' + keywords?.sig_index + '__spredixcan_up_gene.jpg'}
@@ -244,11 +390,30 @@ export default function Page(props:any) {
       </Row>
       <Divider/>
       <Row justify={'center'}>
+        <Title level={2}>
+          Reverse Intersection Analysis
+        </Title>
+      </Row>
+      <Row justify={'center'}>
+        <Col md={12}>
+          <Venn data={venndata1}/>
+        </Col>
+        <Col md={12}>
+          <Venn data={venndata2}/>
+        </Col>
+      </Row>
+      <Divider/>
+      <Row justify={'center'}>
+        <Title level={2}>
+          Details of Extreme Regulated Genes
+        </Title>
+      </Row>
+      <Row justify={'center'}>
         <Col md={12}>
           <Bar data={bardata1}/>
         </Col>
         <Col md={12}>
-          <Bar />
+          <Bar data={bardata2}/>
         </Col>
       </Row>
     </div>

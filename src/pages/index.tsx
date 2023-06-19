@@ -188,6 +188,14 @@ export default function IndexPage() {
   //         }
   //       }
   //     },
+  //     visualMap:{
+  //       show:false,
+  //       min:0,
+  //       max:600,
+  //       inRange:{
+  //         colorLightness:[0,1]
+  //       }
+  //     },
   //     // grid: {
   //     //   left: '60%',
   //     //   right: '20%',

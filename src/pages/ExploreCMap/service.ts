@@ -90,3 +90,71 @@ export const getRemoteSpredixcanDown = async ({
       return false;
     });
 };
+
+export const getRemoteCmapZscoreUp = async ({
+                                              pageSize,
+                                              pageIndex,
+                                              sig_id,
+                                              sig_index,
+                                              sort_field,
+                                              sort_direction
+                                            }: {
+  pageSize: number | undefined;
+  pageIndex: number | undefined;
+  sig_id: string | undefined;
+  sig_index: string | undefined;
+  sort_field: string | undefined;
+  sort_direction: string | undefined;
+}) => {
+  return extendRequest(API_PREFIX + '/cmapzscoreup', {
+    method: 'get',
+    params: {
+      pageSize: pageSize,
+      pageIndex: pageIndex,
+      sig_id: sig_id,
+      sig_index: sig_index,
+      sort_field:sort_field,
+      sort_direction:sort_direction
+    },
+  })
+    .then(function (response) {
+      return response;
+    })
+    .catch(function (error) {
+      return false;
+    });
+};
+
+export const getRemoteCmapZscoreDown = async ({
+                                              pageSize,
+                                              pageIndex,
+                                              sig_id,
+                                              sig_index,
+                                              sort_field,
+                                              sort_direction
+                                            }: {
+  pageSize: number | undefined;
+  pageIndex: number | undefined;
+  sig_id: string | undefined;
+  sig_index: string | undefined;
+  sort_field: string | undefined;
+  sort_direction: string | undefined;
+}) => {
+  return extendRequest(API_PREFIX + '/cmapzscoredown', {
+    method: 'get',
+    params: {
+      pageSize: pageSize,
+      pageIndex: pageIndex,
+      sig_id: sig_id,
+      sig_index: sig_index,
+      sort_field:sort_field,
+      sort_direction:sort_direction
+    },
+  })
+    .then(function (response) {
+      return response;
+    })
+    .catch(function (error) {
+      return false;
+    });
+};

@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import styles from './index.less';
 import HighchartsReact from 'highcharts-react-official';
 import Highcharts from 'highcharts';
-
+import HC_exporting from 'highcharts/modules/exporting';
+HC_exporting(Highcharts);
 export default function Page(props: any) {
   const [state, setState] = useState({
     chartOptions: {
@@ -16,10 +17,22 @@ export default function Page(props: any) {
       title: {
         text: '2015'
       },
-      // subtitle: {
-      //   useHTML: true,
-      //   text: 'Source: <a href="http://populationpyramid.net/germany/2015/">1950 ~ 2100</a>'
-      // },
+      exporting: {
+        buttons: {
+          contextButton: {
+            menuItems: [
+              'viewFullscreen',
+              'separator',
+              'label',
+              'downloadPNG',
+              'downloadSVG',
+            ],
+          },
+        },
+        filename: 'test', //导出的文件名
+        type: 'image/png', //导出的文件类型
+        width: 500, //导出的文件宽度
+      },
       legend: {
         verticalAlign: 'top',
       },
@@ -125,6 +138,22 @@ export default function Page(props: any) {
           title: {
             text: props.data.title,
           },
+          exporting: {
+            buttons: {
+              contextButton: {
+                menuItems: [
+                  'viewFullscreen',
+                  'separator',
+                  'label',
+                  'downloadPNG',
+                  'downloadSVG',
+                ],
+              },
+            },
+            filename: props.data.title, //导出的文件名
+            type: 'image/png', //导出的文件类型
+            width: 600, //导出的文件宽度
+          },
           legend: {
             verticalAlign: 'top',
           },
@@ -167,7 +196,7 @@ export default function Page(props: any) {
           }],
           yAxis: {
             title: {
-              text: 'S-PrediXcan Z-Score'
+              text: props.data.yAxis
             },
             labels: {
               formatter: function () {
