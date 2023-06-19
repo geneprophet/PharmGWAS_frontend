@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from "react";
 import styles from './index.less';
-import { getRemoteCMapResult, getRemoteCMapResultLike, getRemoteDeTSResult } from "@/pages/DatasetResult/service";
+import {
+  getRemoteCMapResult,
+  getRemoteCMapResultLike,
+  getRemoteDeTSResult,
+  getRemoteGEOResult, getRemoteGEOResultLike
+} from "@/pages/DatasetResult/service";
 import { Breadcrumb, Col, Divider, Row, Select, Space, Table,Descriptions,Typography} from "antd";
 const { Title, Text, Paragraph } = Typography;
 import { URL_PREFIX ,uniqueArray} from '@/common/constants';
@@ -10,6 +15,7 @@ import {
 import { ProTable } from "@ant-design/pro-table";
 import { Parser } from 'json2csv';
 import { getRemoteDataset } from "@/pages/DatasetOverview/service";
+import { getRemoteGEO } from "@/pages/GEOOverview/service";
 export default function Page(props: any) {
   const [cmapresult, setCmapresult] = useState(undefined);
   const [loading, setLoading] = useState<boolean>(true);
@@ -22,7 +28,7 @@ export default function Page(props: any) {
     datasetid: number | undefined;
     tissue: string | undefined;
     cmap_name:string | undefined;
-    sig_index: string | undefined;
+    accession:string | undefined;
     sort_field: string | undefined;
     sort_direction: string | undefined;
   };
@@ -41,6 +47,9 @@ export default function Page(props: any) {
 
   const [selectitems, setSelectitems] = useState([]);
   const [selectitemsrowkey, setSelectitemsrowkey] = useState([]);
+
+  const [selectitems2, setSelectitems2] = useState([]);
+  const [selectitemsrowkey2, setSelectitemsrowkey2] = useState([]);
 
   const [dataset, setDataset] = useState(undefined);
   useEffect(()=>{
@@ -81,6 +90,30 @@ export default function Page(props: any) {
     }
   },[dataset]);
 
+  const [georesults, setGeoresults] = useState(undefined);
+  const [loading2, setLoading2] = useState<boolean>(true);
+  const [total2, setTotal2] = useState(0);
+  const [pagesize2, setPagesize2] = useState(10);
+  const [pageindex2, setPageindex2] = useState(1);
+  useEffect(()=>{
+    if(dataset){
+      getRemoteGEOResult({
+        pageSize: pagesize2,
+        pageIndex: pageindex2,
+        dataset:  dataset.dataset,
+        tissue:  undefined,
+        accession:undefined,
+        sig_index:  undefined,
+        sort_field: undefined,
+        sort_direction: undefined
+      }).then((res) => {
+        setLoading2(false);
+        setGeoresults(res.data);
+        setTotal2(res.meta.total);
+      });
+    }
+  },[dataset]);
+
   interface deTS {
     dataset: string | undefined;
     top_1: string | undefined;
@@ -110,7 +143,7 @@ export default function Page(props: any) {
   },[name]);
 
 
-  const columns =[
+  const columns1 =[
     Table.SELECTION_COLUMN,
     {
       title: <strong style={{ fontFamily: 'sans-serif' }}>Association ID</strong>,
@@ -231,7 +264,7 @@ export default function Page(props: any) {
                 datasetid:keywords.datasetid,
                 tissue:keywords.tissue,
                 cmap_name: undefined,
-                sig_index: keywords.sig_index,
+                sig_index: undefined,
                 sort_field:undefined,
                 sort_direction:undefined,
               });
@@ -253,7 +286,7 @@ export default function Page(props: any) {
                 datasetid:keywords.datasetid,
                 tissue:keywords.tissue,
                 cmap_name: value,
-                sig_index: keywords.sig_index,
+                sig_index: undefined,
               });
               if (remoteKeywords) {
                 const nameList = new Set();
@@ -299,6 +332,360 @@ export default function Page(props: any) {
     //   search: false,
     //   sorter:true,
     // },
+    {
+      title: <strong style={{ fontFamily: 'sans-serif' }}>WTCS</strong>,
+      key: 'wtcs',
+      dataIndex: 'wtcs',
+      ellipsis: true,
+      search: false,
+      sorter:true,
+      render:(text,record,index) => {
+        if (record.wtcs == 0){
+          return record.wtcs
+        }else if (Math.abs(record.wtcs) < 0.01){
+          return record.wtcs.toExponential(4)
+        }else {
+          return record.wtcs.toFixed(4)
+        }
+      }
+    },
+    {
+      title: <strong style={{ fontFamily: 'sans-serif' }}>ES Up</strong>,
+      key: 'es_up',
+      dataIndex: 'es_up',
+      ellipsis: true,
+      search: false,
+      sorter:true,
+      render:(text,record,index) => {
+        if (Math.abs(record.es_up) < 0.01){
+          return record.es_up.toExponential(4)
+        }else {
+          return record.es_up.toFixed(4)
+        }
+      }
+    },
+    {
+      title: <strong style={{ fontFamily: 'sans-serif' }}>ES Down</strong>,
+      key: 'es_down',
+      dataIndex: 'es_down',
+      ellipsis: true,
+      search: false,
+      sorter:true,
+      render:(text,record,index) => {
+        if (Math.abs(record.es_down) < 0.01){
+          return record.es_down.toExponential(4)
+        }else {
+          return record.es_down.toFixed(4)
+        }
+      }
+    },
+    {
+      title: <strong style={{ fontFamily: 'sans-serif' }}>ES Up P-adj</strong>,
+      key: 'es_up_padj',
+      dataIndex: 'es_up_padj',
+      ellipsis: true,
+      search: false,
+      sorter:true,
+      render:(text,record,index) => {
+        if (Math.abs(record.es_up_padj) < 0.01){
+          return record.es_up_padj.toExponential(4)
+        }else {
+          return record.es_up_padj.toFixed(4)
+        }
+      }
+    },
+    {
+      title: <strong style={{ fontFamily: 'sans-serif' }}>ES Down P-adj</strong>,
+      key: 'es_down_padj',
+      dataIndex: 'es_down_padj',
+      ellipsis: true,
+      search: false,
+      sorter:true,
+      width: 140,
+      render:(text,record,index) => {
+        if (Math.abs(record.es_down_padj) < 0.01){
+          return record.es_down_padj.toExponential(4)
+        }else {
+          return record.es_down_padj.toFixed(4)
+        }
+      }
+    },
+    {
+      title: <strong style={{ fontFamily: 'sans-serif' }}>XSum</strong>,
+      key: 'xsum',
+      dataIndex: 'xsum',
+      ellipsis: true,
+      search: false,
+      sorter:true,
+      render:(text,record,index) => {
+        if (Math.abs(record.xsum) < 0.01){
+          return record.xsum.toExponential(4)
+        }else {
+          return record.xsum.toFixed(4)
+        }
+      }
+    },
+    {
+      title: <strong style={{ fontFamily: 'sans-serif' }}>CSS</strong>,
+      key: 'css',
+      dataIndex: 'css',
+      ellipsis: true,
+      search: false,
+      sorter:true,
+      render:(text,record,index) => {
+        if (Math.abs(record.css) < 0.01){
+          return record.css.toExponential(4)
+        }else {
+          return record.css.toFixed(4)
+        }
+      }
+    },
+    {
+      title: <strong style={{ fontFamily: 'sans-serif' }}>CSS P</strong>,
+      key: 'css_pvalue',
+      dataIndex: 'css_pvalue',
+      ellipsis: true,
+      search: false,
+      sorter:true,
+      render:(text,record,index) => {
+        if (Math.abs(record.css_pvalue) < 0.01){
+          return record.css_pvalue.toExponential(4)
+        }else {
+          return record.css_pvalue.toFixed(4)
+        }
+      }
+    },
+    {
+      title: <strong style={{ fontFamily: 'sans-serif' }}>Spearman</strong>,
+      key: 'spearman',
+      dataIndex: 'spearman',
+      ellipsis: true,
+      search: false,
+      sorter:true,
+      render:(text,record,index) => {
+        if (Math.abs(record.spearman) < 0.01){
+          return record.spearman.toExponential(4)
+        }else {
+          return record.spearman.toFixed(4)
+        }
+      }
+    },
+    {
+      title: <strong style={{ fontFamily: 'sans-serif' }}>XSpearman</strong>,
+      key: 'xspearman',
+      dataIndex: 'xspearman',
+      ellipsis: true,
+      search: false,
+      sorter:true,
+      render:(text,record,index) => {
+        if (Math.abs(record.xspearman) < 0.01){
+          return record.xspearman.toExponential(4)
+        }else {
+          return record.xspearman.toFixed(4)
+        }
+      }
+    },
+    {
+      title: <strong style={{ fontFamily: 'sans-serif' }}>Pearson</strong>,
+      key: 'pearson',
+      dataIndex: 'pearson',
+      ellipsis: true,
+      search: false,
+      sorter:true,
+      render:(text,record,index) => {
+        if (Math.abs(record.pearson) < 0.01){
+          return record.pearson.toExponential(4)
+        }else {
+          return record.pearson.toFixed(4)
+        }
+      }
+    },
+    {
+      title: <strong style={{ fontFamily: 'sans-serif' }}>XPearson</strong>,
+      key: 'xpearson',
+      dataIndex: 'xpearson',
+      ellipsis: true,
+      search: false,
+      sorter:true,
+      render:(text,record,index) => {
+        if (Math.abs(record.xpearson) < 0.01){
+          return record.xpearson.toExponential(4)
+        }else {
+          return record.xpearson.toFixed(4)
+        }
+      }
+    },
+    {
+      title: <strong style={{ fontFamily: 'sans-serif' }}>Cosine</strong>,
+      key: 'cosine',
+      dataIndex: 'cosine',
+      ellipsis: true,
+      search: false,
+      sorter:true,
+      render:(text,record,index) => {
+        if (Math.abs(record.cosine) < 0.01){
+          return record.cosine.toExponential(4)
+        }else {
+          return record.cosine.toFixed(4)
+        }
+      }
+    },
+    {
+      title: <strong style={{ fontFamily: 'sans-serif' }}>XCosine</strong>,
+      key: 'xcos',
+      dataIndex: 'xcos',
+      ellipsis: true,
+      search: false,
+      sorter:true,
+      render:(text,record,index) => {
+        if (Math.abs(record.xcos) < 0.01){
+          return record.xcos.toExponential(4)
+        }else {
+          return record.xcos.toFixed(4)
+        }
+      }
+    },
+  ]
+
+  const [accessionlist, setAccessionlist] = useState([]);
+  const columns2 =[
+    Table.SELECTION_COLUMN,
+    {
+      title: <strong style={{ fontFamily: 'sans-serif' }}>Association ID</strong>,
+      key: 'id',
+      dataIndex: 'id',
+      ellipsis: true,
+      width: 200,
+      search: false,
+      sorter: true,
+      render: (text: string, record: any) => (
+        <span>
+          <a href={URL_PREFIX + '/exploregeo/' + record.dataset + "/" + record.tissue + "/" + record.sig_index} target={'_blank'}>
+            <Space style={{ fontWeight: 'bold' }}>
+              {'PGEO'+record.id.toString().padStart(10,'0')}
+              <AnalysisIcon />
+            </Space>
+          </a>
+        </span>
+      ),
+    },
+    {
+      title: <strong style={{ fontFamily: 'sans-serif' }}>Tissue</strong>,
+      key: 'tissue',
+      dataIndex: 'tissue',
+      ellipsis: true,
+      search: true,
+      width: 150,
+      sorter:true,
+      renderFormItem: () => {
+        const options = tissuelist.map((item) => (
+          <Select.Option key={item} value={item} type={item}>
+            {item}
+          </Select.Option>
+        ));
+        return (
+          <Select
+            key={'tissue2Select'}
+            showSearch={false}
+            placeholder={'select a Tissue'}
+            filterOption={false}
+            onFocus={async () => {
+              const remoteKeywords = await getRemoteDeTSResult({
+                pageSize: 100,
+                pageIndex: 1,
+                dataset:keywords.dataset,
+                sort_field: undefined,
+                sort_direction: undefined
+              });
+              if (remoteKeywords) {
+                const nameList = new Set();
+                nameList.add(remoteKeywords.data[0].top_1);
+                nameList.add(remoteKeywords.data[0].top_2);
+                nameList.add(remoteKeywords.data[0].top_3);
+                nameList.add("Whole_Blood");
+                setTissuelist(nameList);
+              }
+            }}
+            onChange={(value) => {
+              setKeywords({ ...keywords, tissue: value });
+              // console.log(value)
+            }}
+          >
+            {options}
+          </Select>
+        );
+      },
+    },
+    {
+      title: <strong style={{ fontFamily: 'sans-serif' }}>GEO Accession</strong>,
+      key: 'accession',
+      dataIndex: 'accession',
+      ellipsis: true,
+      search: true,
+      width: 150,
+      sorter:true,
+      renderFormItem: () => {
+        const options = accessionlist.map((item) => (
+          <Select.Option key={item} value={item} type={item}>
+            {item}
+          </Select.Option>
+        ));
+        return (
+          <Select
+            key={'accessionSelect'}
+            showSearch={true}
+            placeholder={'input and select a GEO Accession'}
+            filterOption={false}
+            onFocus={async () => {
+              const remoteKeywords = await getRemoteGEOResult({
+                pageSize: 100,
+                pageIndex: 1,
+                dataset:keywords.dataset,
+                tissue:keywords.tissue,
+                accession: undefined,
+                sig_index: undefined,
+                sort_field:undefined,
+                sort_direction:undefined,
+              });
+              if (remoteKeywords) {
+                const nameList = new Set();
+                remoteKeywords.data.forEach(function (v) {
+                  if (v) {
+                    nameList.add(v.accession);
+                  }
+                });
+                setAccessionlist(nameList);
+              }
+            }}
+            onSearch={async (value: string) => {
+              const remoteKeywords = await getRemoteGEOResultLike({
+                pageSize: 100,
+                pageIndex: 1,
+                dataset:keywords.dataset,
+                tissue:keywords.tissue,
+                accession: value,
+                sig_index: undefined,
+              });
+              if (remoteKeywords) {
+                const nameList = new Set();
+                remoteKeywords.data.forEach(function (v) {
+                  if (v) {
+                    nameList.add(v.accession);
+                  }
+                });
+                setAccessionlist(nameList);
+              }
+            }}
+            onChange={(value) => {
+              setKeywords({ ...keywords, accession: value });
+              // console.log(value)
+            }}
+          >
+            {options}
+          </Select>
+        );
+      },
+    },
     {
       title: <strong style={{ fontFamily: 'sans-serif' }}>WTCS</strong>,
       key: 'wtcs',
@@ -577,7 +964,7 @@ export default function Page(props: any) {
           </Title>
           <Col md={24}>
             <ProTable
-              columns={columns}
+              columns={columns1}
               bordered={true}
               options={false}
               dataSource={cmapresult}
@@ -610,7 +997,7 @@ export default function Page(props: any) {
                   datasetid:keywords.datasetid,
                   tissue:  keywords.tissue,
                   cmap_name:keywords.cmap_name,
-                  sig_index:  keywords.sig_index,
+                  sig_index:  undefined,
                   sort_field: undefined,
                   sort_direction: undefined,
                 }).then((res) => {
@@ -655,7 +1042,7 @@ export default function Page(props: any) {
                   datasetid:keywords.datasetid,
                   tissue:keywords.tissue,
                   cmap_name:keywords.cmap_name,
-                  sig_index:keywords.sig_index,
+                  sig_index:undefined,
                   sort_field: sorter.field,
                   sort_direction: sorter.order,
                 }).then((res) => {
@@ -736,12 +1123,8 @@ export default function Page(props: any) {
                           'dataset',
                           'trait',
                           'tissue',
-                          'spredixcan_up_gene',
-                          'spredixcan_down_gene',
                           'sig_index',
                           'cmap_name',
-                          'cmap_up_gene',
-                          'cmap_down_gene',
                           'es_up',
                           'es_down',
                           'es_up_padj',
@@ -788,7 +1171,205 @@ export default function Page(props: any) {
           <Title level={2}>
             GEO Results Overview
           </Title>
-
+          <Col md={24}>
+            <ProTable
+              columns={columns2}
+              bordered={true}
+              options={false}
+              dataSource={georesults}
+              loading={loading2}
+              scroll={{ x: 2400 }}
+              rowKey={(record: any) => {
+                return record.id.toString() + 'table2';
+              }}
+              search={{
+                defaultCollapsed: false,
+                labelWidth: 130,
+                searchText: 'Search',
+                resetText: 'Reset',
+                collapseRender: false,
+                collapsed: false,
+              }}
+              pagination={{
+                pageSize: pagesize2,
+                total: total2,
+                pageSizeOptions: [10, 20, 50, 100],
+                showQuickJumper: true,
+                showSizeChanger: true,
+              }}
+              onSubmit={() => {
+                setLoading2(true);
+                getRemoteGEOResult({
+                  pageSize: pagesize,
+                  pageIndex: 1,
+                  dataset:  keywords.dataset,
+                  tissue:  keywords.tissue,
+                  accession:keywords.accession,
+                  sig_index:  undefined,
+                  sort_field: undefined,
+                  sort_direction: undefined,
+                }).then((res) => {
+                  setGeoresults(res.data);
+                  setLoading2(false);
+                  setTotal2(res.meta.total);
+                });
+              }}
+              onReset={()=>{
+                setLoading2(true);
+                getRemoteGEOResult({
+                  pageSize: 10,
+                  pageIndex: 1,
+                  dataset:  keywords.dataset,
+                  tissue:  undefined,
+                  accession:undefined,
+                  sig_index: undefined,
+                  sort_field: undefined,
+                  sort_direction: undefined,
+                }).then((res) => {
+                  setGeoresults(res.data);
+                  setLoading2(false);
+                  setTotal2(res.meta.total);
+                  setKeywords({ ...keywords, tissue: undefined });
+                  setKeywords({ ...keywords, accession: undefined });
+                });
+              }}
+              onChange={(pagination, filters, sorter, extra) => {
+                // console.log(pagination);
+                // console.log(sorter);
+                setPageindex2(pagination.current);
+                setPagesize2(pagination.pageSize);
+                setKeywords({ ...keywords, sort_field: sorter.field });
+                setKeywords({ ...keywords, sort_direction: sorter.order });
+                setLoading2(true);
+                getRemoteGEOResult({
+                  pageSize: pagination.pageSize,
+                  pageIndex: pagination.current,
+                  dataset:keywords.dataset,
+                  tissue:keywords.tissue,
+                  accession:keywords.accession,
+                  sig_index:undefined,
+                  sort_field: sorter.field,
+                  sort_direction: sorter.order,
+                }).then((res) => {
+                  setGeoresults(res.data);
+                  setLoading2(false);
+                  setTotal2(res.meta.total);
+                });
+              }}
+              rowSelection={{
+                fixed: true,
+                onSelect: (record, selected, selectedRows, nativeEvent) => {
+                  if (selected) {
+                    let a = Array.from(new Set(selectitems2.concat(selectedRows)));
+                    let b = a.filter((res) => res != undefined);
+                    setSelectitems2(b);
+                    let c = b.map((value) => value.id + 'table2');
+                    setSelectitemsrowkey2(c);
+                  } else {
+                    let b = selectitems2.filter((x) => x.id != record.id);
+                    setSelectitems2(b);
+                    let c = b.map((value) => value.id + 'table2');
+                    setSelectitemsrowkey2(c);
+                  }
+                },
+                onSelectAll: (selected, selectedRows, changeRows) => {
+                  if (selected) {
+                    let a = uniqueArray(selectitems2.concat(changeRows), 'id');
+                    let b = a.filter((res) => res != undefined);
+                    setSelectitems2(b);
+                    let c = b.map((value) => value.id + 'table2');
+                    setSelectitemsrowkey2(c);
+                  } else {
+                    let a = new Set();
+                    changeRows.forEach((value) => {
+                      a.add(value.id);
+                    });
+                    let b = selectitems2.filter((x) => !a.has(x.id));
+                    setSelectitems2(b);
+                    let c = b.map((value) => value.id + 'table2');
+                    setSelectitemsrowkey2(c);
+                  }
+                },
+                selectedRowKeys: selectitemsrowkey2,
+              }}
+              tableAlertRender={({
+                                   selectedRowKeys,
+                                   selectedRows,
+                                   onCleanSelected,
+                                 }) => {
+                const onCancelselected = () => {
+                  setSelectitems2([]);
+                  setSelectitemsrowkey2([]);
+                };
+                return (
+                  <Space size={24}>
+                  <span>
+                    {selectitems2.length} items selected
+                    <span onClick={onCancelselected}>
+                      <a style={{ marginLeft: 8 }} onClick={onCleanSelected}>
+                        Clear selected
+                      </a>
+                    </span>
+                  </span>
+                  </Space>
+                );
+              }}
+              tableAlertOptionRender={({
+                                         selectedRowKeys,
+                                         selectedRows,
+                                         onCleanSelected,
+                                       }) => {
+                return (
+                  <Space size={20}>
+                    <a
+                      onClick={() => {
+                        let element = document.createElement('a');
+                        const fields = [
+                          'dataset',
+                          'trait',
+                          'tissue',
+                          'sig_index',
+                          'accession',
+                          'es_up',
+                          'es_down',
+                          'es_up_padj',
+                          'es_down_padj',
+                          'wtcs',
+                          'xsum',
+                          'css',
+                          'css_pvalue',
+                          'spearman',
+                          'xspearman',
+                          'pearson',
+                          'xpearson',
+                          'cosine',
+                          'xcos',
+                        ];
+                        const json2csvParser = new Parser({ fields });
+                        const csv = json2csvParser.parse(selectitems2);
+                        element.setAttribute(
+                          'href',
+                          'data:text/csv;charset=utf-8,' +
+                          encodeURIComponent(csv),
+                        );
+                        element.setAttribute(
+                          'download',
+                          'Run_with_GEO_Results.csv',
+                        );
+                        element.style.display = 'none';
+                        document.body.appendChild(element);
+                        element.click();
+                        document.body.removeChild(element);
+                        onCleanSelected;
+                      }}
+                    >
+                      Download
+                    </a>
+                  </Space>
+                );
+              }}
+            />
+          </Col>
         </Row>
     </div>
   );

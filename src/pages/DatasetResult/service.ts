@@ -131,3 +131,76 @@ export const getRemoteDeTSResult = async ({
       return false;
     });
 };
+
+export const getRemoteGEOResult = async ({
+                                            pageSize,
+                                            pageIndex,
+                                            dataset,
+                                            tissue,
+                                           accession,
+                                            sig_index,
+                                            sort_field,
+                                            sort_direction
+                                          }: {
+  pageSize: number | undefined;
+  pageIndex: number | undefined;
+  dataset: string | undefined;
+  tissue: string | undefined;
+  accession:string | undefined;
+  sig_index: string | undefined;
+  sort_field: string | undefined;
+  sort_direction: string | undefined;
+}) => {
+  return extendRequest(API_PREFIX + '/georesult', {
+    method: 'get',
+    params: {
+      pageSize: pageSize,
+      pageIndex: pageIndex,
+      dataset: dataset,
+      tissue: tissue,
+      accession:accession,
+      sig_index: sig_index,
+      sort_field:sort_field,
+      sort_direction:sort_direction
+    },
+  })
+    .then(function (response) {
+      return response;
+    })
+    .catch(function (error) {
+      return false;
+    });
+};
+export const getRemoteGEOResultLike = async ({
+                                           pageSize,
+                                           pageIndex,
+                                           dataset,
+                                           tissue,
+                                           accession,
+                                           sig_index
+                                         }: {
+  pageSize: number | undefined;
+  pageIndex: number | undefined;
+  dataset: string | undefined;
+  tissue: string | undefined;
+  accession:string | undefined;
+  sig_index: string | undefined;
+}) => {
+  return extendRequest(API_PREFIX + '/georesultlike', {
+    method: 'get',
+    params: {
+      pageSize: pageSize,
+      pageIndex: pageIndex,
+      dataset: dataset,
+      tissue: tissue,
+      accession:accession,
+      sig_index: sig_index,
+    },
+  })
+    .then(function (response) {
+      return response;
+    })
+    .catch(function (error) {
+      return false;
+    });
+};
