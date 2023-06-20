@@ -78,7 +78,7 @@ export default function Page(props: any) {
       sorter:true,
       render: (text: string, record: any) => (
         <span>
-          <a href={URL_PREFIX + '/geo/' + record.accession} target={'_blank'}>
+          <a href={URL_PREFIX + '/georesult/' + record.accession} target={'_blank'}>
             <Space style={{ fontWeight: 'bold' }}>
               {record.accession}
               <AnalysisIcon />

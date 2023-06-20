@@ -136,6 +136,7 @@ export const getRemoteGEOResult = async ({
                                             pageSize,
                                             pageIndex,
                                             dataset,
+                                           trait,
                                             tissue,
                                            accession,
                                             sig_index,
@@ -145,6 +146,7 @@ export const getRemoteGEOResult = async ({
   pageSize: number | undefined;
   pageIndex: number | undefined;
   dataset: string | undefined;
+  trait: string | undefined;
   tissue: string | undefined;
   accession:string | undefined;
   sig_index: string | undefined;
@@ -157,6 +159,7 @@ export const getRemoteGEOResult = async ({
       pageSize: pageSize,
       pageIndex: pageIndex,
       dataset: dataset,
+      trait:trait,
       tissue: tissue,
       accession:accession,
       sig_index: sig_index,
@@ -175,6 +178,7 @@ export const getRemoteGEOResultLike = async ({
                                            pageSize,
                                            pageIndex,
                                            dataset,
+                                               trait,
                                            tissue,
                                            accession,
                                            sig_index
@@ -182,6 +186,7 @@ export const getRemoteGEOResultLike = async ({
   pageSize: number | undefined;
   pageIndex: number | undefined;
   dataset: string | undefined;
+  trait: string | undefined;
   tissue: string | undefined;
   accession:string | undefined;
   sig_index: string | undefined;
@@ -192,6 +197,7 @@ export const getRemoteGEOResultLike = async ({
       pageSize: pageSize,
       pageIndex: pageIndex,
       dataset: dataset,
+      trait:trait,
       tissue: tissue,
       accession:accession,
       sig_index: sig_index,

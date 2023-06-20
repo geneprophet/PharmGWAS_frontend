@@ -46,7 +46,7 @@ export default function (props) {
       setSelectkey('2-1');
     } else if (history.location.pathname.startsWith('/cmapoverview') | history.location.pathname.startsWith("/cmapresult")) {
       setSelectkey('2-2');
-    } else if (history.location.pathname.startsWith('/geooverview')) {
+    } else if (history.location.pathname.startsWith('/geooverview') | history.location.pathname.startsWith("/georesult")) {
       setSelectkey('2-3');
     } else if (history.location.pathname.startsWith('/explorecmap')) {
       setSelectkey('3');
@@ -149,19 +149,19 @@ export default function (props) {
       key: '4',
       icon: <LandscapeIcon />,
     },
-    {
-      label: (
-        <a
-          onClick={() => {
-            history.push('/download');
-          }}
-        >
-          <strong style={{ color: '#252746' }}>Download</strong>
-        </a>
-      ),
-      key: '5',
-      icon: <DownloadOutlined />,
-    },
+    // {
+    //   label: (
+    //     <a
+    //       onClick={() => {
+    //         history.push('/download');
+    //       }}
+    //     >
+    //       <strong style={{ color: '#252746' }}>Download</strong>
+    //     </a>
+    //   ),
+    //   key: '5',
+    //   icon: <DownloadOutlined />,
+    // },
     {
       label: (
         <a

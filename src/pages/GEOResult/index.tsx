@@ -2,68 +2,65 @@ import React, { useEffect, useState } from "react";
 import styles from './index.less';
 import { Breadcrumb, Col, Descriptions, Divider, Row, Select, Space, Table, Typography } from "antd";
 import { URL_PREFIX ,uniqueArray} from '@/common/constants';
-import { getRemoteCMap } from "@/pages/CMapOverview/service";
-import { getRemoteResultCMap, getRemoteResultCMapLike } from "@/pages/CMapResult/service";
 import { ProTable } from "@ant-design/pro-table";
 import { Parser } from 'json2csv';
 const { Title, Text, Paragraph } = Typography;
 import {
   AnalysisIcon
 } from "@/components/Icons/index";
-export default function Page(props: any) {
+import { getRemoteGEO } from "@/pages/GEOOverview/service";
+import { getRemoteGEOResult, getRemoteGEOResultLike } from "@/pages/DatasetResult/service";
+import { getRemoteResultCMap } from "@/pages/CMapResult/service";
+export default function Page(props:any) {
   const [name,setName] = useState(undefined);
   useEffect(() => {
     console.log(props.match.params.name);
     setName(props.match.params.name);
   }, [props]);
-  const [cmapsignature, setCmapsignature] = useState(undefined);
-  useEffect(()=>{
-    if(props){
-      getRemoteCMap({
-        pageSize: pagesize,
-        pageIndex: pageindex,
-        keyword:undefined,
-        pert_id:  undefined,
-        sig_id:  undefined,
-        sig_index:  props.match.params.name,
-        cmap_name:  undefined,
-        cell_iname: undefined,
-        pert_idose:  undefined,
-        pert_itime:  undefined,
-        sort_field: undefined,
-        sort_direction: undefined
-      }).then((res) => {
-        setCmapsignature(res.data[0]);
+
+  const [geosignature, setGeosignature] = useState(undefined);
+  useEffect(() => {
+    if (name){
+      getRemoteGEO({
+        pageSize:10,
+        pageIndex:1,
+        accession:name,
+        series_id:undefined,
+        description:undefined,
+        sort_field:undefined,
+        sort_direction:undefined,
+      }).then((res)=>{
+        // console.log(res);
+        setGeosignature(res.data[0]);
       });
     }
-  },[props]);
+  }, [name]);
 
-  const [cmapresult, setCmapresult] = useState(undefined);
+  const [georesult, setGeoresult] = useState(undefined);
   const [loading, setLoading] = useState<boolean>(true);
   const [total, setTotal] = useState(0);
   const [pagesize, setPagesize] = useState(10);
   const [pageindex, setPageindex] = useState(1);
 
-  useEffect(()=>{
-    if(name){
-      getRemoteResultCMap({
-        pageSize: pagesize,
-        pageIndex: pageindex,
-        dataset:  undefined,
-        trait: undefined,
-        tissue:  undefined,
-        cmap_name:undefined,
-        sig_index:  name,
-        sort_field: undefined,
-        sort_direction: undefined
+  useEffect(() => {
+    if (name){
+      getRemoteGEOResult({
+        pageSize:pagesize,
+        pageIndex:pageindex,
+        dataset:undefined,
+        trait:undefined,
+        tissue:undefined,
+        accession:name,
+        sig_index:undefined,
+        sort_field:undefined,
+        sort_direction:undefined,
       }).then((res)=>{
         setLoading(false);
-        setCmapresult(res.data);
+        setGeoresult(res.data);
         setTotal(res.meta.total);
-      })
+      });
     }
-  },[name]);
-
+  }, [name]);
   interface SearchKeywords {
     dataset: string | undefined;
     tissue: string | undefined;
@@ -77,6 +74,7 @@ export default function Page(props: any) {
 
   const [selectitems, setSelectitems] = useState([]);
   const [selectitemsrowkey, setSelectitemsrowkey] = useState([]);
+
   const columns =[
     Table.SELECTION_COLUMN,
     {
@@ -89,9 +87,9 @@ export default function Page(props: any) {
       sorter: true,
       render: (text: string, record: any) => (
         <span>
-          <a href={URL_PREFIX + '/explorecmap/' + record.dataset + "/" + record.tissue + "/" + record.sig_index} target={'_blank'}>
+          <a href={URL_PREFIX + '/exploregeo/' + record.dataset + "/" + record.tissue + "/" + record.accession} target={'_blank'}>
             <Space style={{ fontWeight: 'bold' }}>
-              {'PCMAP'+record.id.toString().padStart(10,'0')}
+              {'PGEO'+record.id.toString().padStart(10,'0')}
               <AnalysisIcon />
             </Space>
           </a>
@@ -119,14 +117,14 @@ export default function Page(props: any) {
             placeholder={'input and select a Trait'}
             filterOption={false}
             onFocus={async () => {
-              const remoteKeywords = await getRemoteResultCMap({
+              const remoteKeywords = await getRemoteGEOResult({
                 pageSize: 100,
                 pageIndex: 1,
                 dataset: undefined,
-                trait: undefined,
+                trait:undefined,
                 tissue:keywords.tissue,
-                cmap_name: undefined,
-                sig_index: name,
+                accession: name,
+                sig_index: undefined,
                 sort_field:undefined,
                 sort_direction:undefined,
               });
@@ -141,14 +139,14 @@ export default function Page(props: any) {
               }
             }}
             onSearch={async (value: string) => {
-              const remoteKeywords = await getRemoteResultCMapLike({
+              const remoteKeywords = await getRemoteGEOResultLike({
                 pageSize: 100,
                 pageIndex: 1,
                 dataset:undefined,
                 trait:value,
                 tissue:keywords.tissue,
-                cmap_name: undefined,
-                sig_index: name,
+                accession: name,
+                sig_index: undefined,
               });
               if (remoteKeywords) {
                 const nameList = new Set();
@@ -200,14 +198,14 @@ export default function Page(props: any) {
             placeholder={'input and select a Tissue'}
             filterOption={false}
             onFocus={async () => {
-              const remoteKeywords = await getRemoteResultCMap({
+              const remoteKeywords = await getRemoteGEOResult({
                 pageSize: 100,
                 pageIndex: 1,
                 dataset:undefined,
-                trait: keywords.trait,
+                trait:undefined,
                 tissue: undefined,
-                cmap_name: undefined,
-                sig_index: name,
+                accession: name,
+                sig_index: undefined,
                 sort_field:undefined,
                 sort_direction:undefined,
               });
@@ -222,14 +220,14 @@ export default function Page(props: any) {
               }
             }}
             onSearch={async (value: string) => {
-              const remoteKeywords = await getRemoteResultCMapLike({
+              const remoteKeywords = await getRemoteGEOResultLike({
                 pageSize: 100,
                 pageIndex: 1,
                 dataset:undefined,
                 trait:keywords.trait,
                 tissue:value,
-                cmap_name: undefined,
-                sig_index: name,
+                accession: name,
+                sig_index: undefined,
               });
               if (remoteKeywords) {
                 const nameList = new Set();
@@ -250,15 +248,6 @@ export default function Page(props: any) {
           </Select>
         );
       },
-    },
-    {
-      title: <strong style={{ fontFamily: 'sans-serif' }}>CMap Name</strong>,
-      key: 'cmap_name',
-      dataIndex: 'cmap_name',
-      ellipsis: true,
-      search: false,
-      width: 150,
-      sorter:true,
     },
     {
       title: <strong style={{ fontFamily: 'sans-serif' }}>WTCS</strong>,
@@ -486,16 +475,16 @@ export default function Page(props: any) {
               </a>
             </Breadcrumb.Item>
             <Breadcrumb.Item>
-              <a href="/cmapoverview/all">
+              <a href="/geooverview/all">
                 <strong style={{ fontFamily: 'sans-serif' }}>
-                  CMap Signatures
+                  GEO Signatures
                 </strong>
               </a>
             </Breadcrumb.Item>
             <Breadcrumb.Item>
               <a href="">
                 <strong style={{ fontFamily: 'sans-serif' }}>
-                  {cmapsignature?.sig_id}
+                  {name}
                 </strong>
               </a>
             </Breadcrumb.Item>
@@ -505,33 +494,30 @@ export default function Page(props: any) {
       <Divider />
       <Row justify={'center'}>
         <Title level={2}>
-          Signature ID: <span style={{ color: '#F15412' }}>{cmapsignature?.sig_id}</span>
+          Signature ID: <span style={{ color: '#F15412' }}>{name}</span>
         </Title>
         <Col md={22}>
           <Descriptions title={"Signature Meta Information"} bordered={true} >
-            <Descriptions.Item label="CMap Name">{cmapsignature?.cmap_name}</Descriptions.Item>
-            <Descriptions.Item label="Cell Line">{cmapsignature?.cell_iname}</Descriptions.Item>
-            <Descriptions.Item label="Dose">{cmapsignature?.pert_idose}</Descriptions.Item>
-            <Descriptions.Item label="Time">{cmapsignature?.pert_itime}</Descriptions.Item>
-            <Descriptions.Item label="Target">{cmapsignature?.target}</Descriptions.Item>
-            <Descriptions.Item label="MOA">{cmapsignature?.moa}</Descriptions.Item>
-            <Descriptions.Item label="Canonical SMILES">{cmapsignature?.canonical_smiles}</Descriptions.Item>
-            <Descriptions.Item label="InChiKey">{cmapsignature?.inchi_key}</Descriptions.Item>
-            <Descriptions.Item label="Compound Aliase">{cmapsignature?.compound_aliases}</Descriptions.Item>
+            <Descriptions.Item label="GEO Series">{geosignature?.series_id}</Descriptions.Item>
+            <Descriptions.Item label="Signature Description" span={2}>{geosignature?.description}</Descriptions.Item>
+            <Descriptions.Item label="Number of Cases">{geosignature?.pert_num}</Descriptions.Item>
+            <Descriptions.Item label="Case Samples" span={2}>{geosignature?.pert_gsm}</Descriptions.Item>
+            <Descriptions.Item label="Number of Controls">{geosignature?.ctrl_num}</Descriptions.Item>
+            <Descriptions.Item label="Control Samples" span={2}>{geosignature?.ctrl_gsm}</Descriptions.Item>
           </Descriptions>
         </Col>
       </Row>
       <Divider/>
       <Row justify={'center'}>
         <Title level={2}>
-          CMap Results Overview
+          GEO Results Overview
         </Title>
         <Col md={24}>
           <ProTable
             columns={columns}
             bordered={true}
             options={false}
-            dataSource={cmapresult}
+            dataSource={georesult}
             loading={loading}
             scroll={{ x: 2400 }}
             rowKey={(record: any) => {
@@ -554,36 +540,36 @@ export default function Page(props: any) {
             }}
             onSubmit={() => {
               setLoading(true);
-              getRemoteResultCMap({
+              getRemoteGEOResult({
                 pageSize: pagesize,
                 pageIndex: 1,
                 dataset:  keywords.dataset,
                 trait:keywords.trait,
                 tissue:  keywords.tissue,
-                cmap_name:undefined,
-                sig_index:  name,
+                accession:name,
+                sig_index:  undefined,
                 sort_field: undefined,
                 sort_direction: undefined,
               }).then((res) => {
-                setCmapresult(res.data);
+                setGeoresult(res.data);
                 setLoading(false);
                 setTotal(res.meta.total);
               });
             }}
             onReset={()=>{
               setLoading(true);
-              getRemoteResultCMap({
+              getRemoteGEOResult({
                 pageSize: pagesize,
                 pageIndex: 1,
                 dataset:  undefined,
                 trait:undefined,
                 tissue:  undefined,
-                cmap_name:undefined,
-                sig_index:  name,
+                accession:name,
+                sig_index:  undefined,
                 sort_field: undefined,
                 sort_direction: undefined,
               }).then((res) => {
-                setCmapresult(res.data);
+                setGeoresult(res.data);
                 setLoading(false);
                 setTotal(res.meta.total);
                 setKeywords({});
@@ -597,18 +583,18 @@ export default function Page(props: any) {
               setKeywords({ ...keywords, sort_field: sorter.field });
               setKeywords({ ...keywords, sort_direction: sorter.order });
               setLoading(true);
-              getRemoteResultCMap({
+              getRemoteGEOResult({
                 pageSize: pagination.pageSize,
                 pageIndex: pagination.current,
                 dataset:keywords.dataset,
                 trait:keywords.trait,
                 tissue:keywords.tissue,
-                cmap_name:undefined,
-                sig_index:name,
+                accession:name,
+                sig_index:undefined,
                 sort_field: sorter.field,
                 sort_direction: sorter.order,
               }).then((res) => {
-                setCmapresult(res.data);
+                setGeoresult(res.data);
                 setLoading(false);
                 setTotal(res.meta.total);
               });
@@ -685,8 +671,8 @@ export default function Page(props: any) {
                         'dataset',
                         'trait',
                         'tissue',
+                        'accession',
                         'sig_index',
-                        'cmap_name',
                         'es_up',
                         'es_down',
                         'es_up_padj',
@@ -711,7 +697,7 @@ export default function Page(props: any) {
                       );
                       element.setAttribute(
                         'download',
-                        'Run_with_CMap_Results.csv',
+                        'Run_with_GEO_Results.csv',
                       );
                       element.style.display = 'none';
                       document.body.appendChild(element);

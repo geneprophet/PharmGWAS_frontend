@@ -16,24 +16,32 @@ export default [
         component: '@/pages/DatasetOverview',
       },
       {
-        path: '/cmapoverview/:name',
-        component: '@/pages/CMapOverview',
-      },
-      {
         path: '/datasetresult/:name',
         component: '@/pages/DatasetResult',
+      },
+      {
+        path: '/cmapoverview/:name',
+        component: '@/pages/CMapOverview',
       },
       {
         path: '/cmapresult/:name',
         component: '@/pages/CMapResult',
       },
       {
+        path: '/explorecmap/:dataset/:tissue/:sig_index',
+        component: '@/pages/ExploreCMap',
+      },
+      {
         path: '/geooverview/:name',
         component: '@/pages/GEOOverview',
       },
       {
-        path: '/explorecmap/:dataset/:tissue/:sig_index',
-        component: '@/pages/ExploreCMap',
+        path: '/georesult/:name',
+        component: '@/pages/GEOResult',
+      },
+      {
+        path: '/exploregeo/:dataset/:tissue/:accession',
+        component: '@/pages/ExploreGEO',
       },
       {
         path: '/contact',
