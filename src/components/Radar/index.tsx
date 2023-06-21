@@ -5,7 +5,7 @@ export default function Index(props: any) {
   const chartRef: any = useRef(); //拿到DOM容器
   // 每当props改变的时候就会实时重新渲染
   useEffect(() => {
-    console.log(props.data);
+    // console.log(props.data);
     if (props.data) {
       const chart = echarts.init(chartRef.current); //echart初始化容器
       let option = {

@@ -140,7 +140,7 @@ export default function (props) {
       label: (
         <a
           onClick={() => {
-            history.push('/exploregeo');
+            history.push('/exploregeo/CARDIoGRAMplusC4D__28714975__Coronary_Artery_Disease/Whole_Blood/GSE102498_1');
           }}
         >
           <strong style={{ color: '#252746' }}>Explore GEO</strong>

@@ -30,23 +30,6 @@ export default function Page(props:any) {
   const [total, setTotal] = useState(0);
   const [pagesize, setPagesize] = useState(10);
   const [pageindex, setPageindex] = useState(1);
-  const [dataset, setDataset] = useState(undefined);
-  useEffect(() => {
-    if (props){
-      getRemoteDataset({
-        pageSize: pagesize,
-        pageIndex: pageindex,
-        keyword: undefined,
-        trait:undefined,
-        pmid:undefined,
-        dataset: props.match.params.dataset,
-        sort_field:undefined,
-        sort_direction:undefined
-      }).then((res) => {
-        setDataset(res.data[0]);
-      });
-    }
-  }, [props]);
 
   const [geosignatures, setGeosignatures] = useState(undefined);
   useEffect(()=>{
@@ -65,6 +48,24 @@ export default function Page(props:any) {
       });
     }
   },[props]);
+
+  const [dataset, setDataset] = useState(undefined);
+  useEffect(() => {
+    if (props){
+      getRemoteDataset({
+        pageSize: pagesize,
+        pageIndex: pageindex,
+        keyword: undefined,
+        trait:undefined,
+        pmid:undefined,
+        dataset: props.match.params.dataset,
+        sort_field:undefined,
+        sort_direction:undefined
+      }).then((res) => {
+        setDataset(res.data[0]);
+      });
+    }
+  }, [props]);
 
   const [georesult, setGeoresult] = useState(undefined);
   useEffect(()=>{
@@ -85,6 +86,7 @@ export default function Page(props:any) {
       });
     }
   },[geosignatures]);
+
   const [spredixcanup, setSpredixcanup] = useState([]);
   const [spredixcandown, setSpredixcandown] = useState([]);
   useEffect(()=>{
@@ -240,11 +242,12 @@ export default function Page(props:any) {
             value: intersect.size,
             name: 'Intersection',
             color: "#A0C49D"
-          }]
+          }],
         }],
       });
     }
   },[spredixcanup,geozscoredown]);
+
   const [venndata2,setVenndata2] = useState({});
   useEffect(()=>{
     if(geozscoreup.length > 0 && spredixcandown.length > 0){
@@ -280,11 +283,12 @@ export default function Page(props:any) {
             value: intersect.size,
             name: 'Intersection',
             color: "#A0C49D"
-          }]
+          }],
         }],
       });
     }
   },[spredixcandown,geozscoreup]);
+
   return (
     <div>
       <Row>

@@ -2,15 +2,14 @@ import styles from './index.less';
 import { LinkOutlined } from '@ant-design/icons';
 import {
   PeopleIcon,
-  MarkerIcon,
   DatasetIcon,
   VSIcon,
   DrugIcon,
-  OnlineIcon,
-  LociIcon,
+  ToolIcon,
+  CmapIcon,
   TreatmentIcon,
-  TissueIcon,
-  TCGAIcon,
+  CompoundIcon,
+  GEOIcon,
 } from '@/components/Icons';
 import workflow from '@/assets/workflow.png';
 import type { MenuProps } from 'antd';
@@ -144,7 +143,7 @@ export default function IndexPage() {
     ];
     setNodes(b);
     getRemoteSVG().then((res) => {
-      console.log(res);
+      // console.log(res);
       setSvg(res);
     });
   },[]);
@@ -262,7 +261,7 @@ export default function IndexPage() {
       setUrl("/cmapoverview/");
     }else {
       setButtontext("GEO Signature");
-      setPlaceholder("Please enter a GEO keyword, e.g. BRAFV600E");
+      setPlaceholder("Please enter a GEO keyword, e.g. JCAD");
       setUrl("/geooverview/");
     }
   };
@@ -294,7 +293,7 @@ export default function IndexPage() {
     <div>
       <Row justify="center" style={{ background: '#ECF2FF' }}>
         <Title level={2} className={styles.introduction}>
-          PharmGWAS Catalog: a GWAS-based knowledgebase for drug repurposing
+          PharmGWAS: a GWAS-based knowledgebase for drug repurposing
         </Title>
       </Row>
       <Divider />
@@ -335,16 +334,16 @@ export default function IndexPage() {
                 Coronary Artery Disease,
               </a>
               <a
-                href={URL_PREFIX + '/datasetoverview/Alzheimer disease'}
+                href={URL_PREFIX + '/datasetoverview/Attention Deficit'}
                 target={'_blank'}
               >
-                Alzheimer disease,
+                Attention Deficit,
               </a>
               <a href={URL_PREFIX + '/cmapoverview/lisofylline'} target={'_blank'}>
                 lisofylline,
               </a>
-              <a href={URL_PREFIX + '/geooverview/BRAFV600E'} target={'_blank'}>
-                BRAFV600E
+              <a href={URL_PREFIX + '/geooverview/JCAD'} target={'_blank'}>
+                JCAD
               </a>
             </Space>
           </strong>
@@ -545,37 +544,37 @@ export default function IndexPage() {
             </Col>
           </Row>
           <Divider />
-          {/*<Row>*/}
-          {/*  <Col xs={23} sm={23} md={23} lg={23} xl={23} xxl={23}>*/}
-          {/*    <Title*/}
-          {/*      level={2}*/}
-          {/*      className={styles.introduction}*/}
-          {/*      style={{ textAlign: 'left' }}*/}
-          {/*    >*/}
-          {/*      Citation:*/}
-          {/*    </Title>*/}
-          {/*    <Text*/}
-          {/*      style={{*/}
-          {/*        fontFamily: 'Trebuchet MS',*/}
-          {/*        fontSize: '20px',*/}
-          {/*        textAlign: 'left',*/}
-          {/*        display: 'inline-block',*/}
-          {/*        width: '100%',*/}
-          {/*      }}*/}
-          {/*    >*/}
-          {/*      {*/}
-          {/*        'Pan,S., Kang,H., Liu,X., Lin,S., Yuan,N., Zhang,Z., Bao,Y. and Jia,P. (2023) Brain Catalog: a comprehensive resource for the genetic landscape of brain-related traits. Nucleic Acids Res, doi: '*/}
-          {/*      }*/}
-          {/*      <a*/}
-          {/*        href={' https://doi.org/10.1093/nar/gkac895'}*/}
-          {/*        target={'_blank'}*/}
-          {/*      >*/}
-          {/*        https://doi.org/10.1093/nar/gkac895*/}
-          {/*      </a>*/}
-          {/*    </Text>*/}
-          {/*  </Col>*/}
-          {/*</Row>*/}
-          {/*<Divider />*/}
+          <Row>
+            <Col xs={23} sm={23} md={23} lg={23} xl={23} xxl={23}>
+              <Title
+                level={2}
+                className={styles.introduction}
+                style={{ textAlign: 'left' }}
+              >
+                Citation:
+              </Title>
+              <Text
+                style={{
+                  fontFamily: 'Trebuchet MS',
+                  fontSize: '20px',
+                  textAlign: 'left',
+                  display: 'inline-block',
+                  width: '100%',
+                }}
+              >
+                {
+                  'Database Resources of the National Genomics Data Center, China National Center for Bioinformation in 2023. Nucleic Acids Res. 2023 Jan 6; 51(D1):D18-D28. PMID: '
+                }
+                <a
+                  href={'https://pubmed.ncbi.nlm.nih.gov/36420893/'}
+                  target={'_blank'}
+                >
+                  36420893
+                </a>
+              </Text>
+            </Col>
+          </Row>
+          <Divider />
         </Col>
         <Col xs={16} sm={16} md={16} lg={14} xl={7} xxl={7}>
           <Card
@@ -585,110 +584,110 @@ export default function IndexPage() {
           >
             <Card.Grid
               style={{ width: '50%', textAlign: 'center', height: '130px' }}
-              hoverable={false}
-              // onClick={() => {
-              //   window.open(URL_PREFIX + '/traitoverview');
-              // }}
+              hoverable={true}
+              onClick={() => {
+                window.open(URL_PREFIX + '/datasetoverview/all');
+              }}
             >
               <Statistic
                 title={
                   <strong style={{ color: '#363636', fontSize: '1.3em' }}>
-                    Studies
+                    GWAS Datasets
                   </strong>
                 }
-                value={517}
+                value={1948}
                 valueStyle={{ color: '#3f8600' }}
                 prefix={<PeopleIcon />}
               />
             </Card.Grid>
             <Card.Grid
               style={{ width: '50%', textAlign: 'center', height: '130px' }}
-              hoverable={false}
-              // onClick={() => {
-              //   window.open(URL_PREFIX + '/traitoverview');
-              // }}
+              hoverable={true}
+              onClick={() => {
+                window.open(URL_PREFIX + '/cmapoverview/all');
+              }}
             >
               <Statistic
                 title={
                   <strong style={{ color: '#363636', fontSize: '1.3em' }}>
-                    Loci
+                    CMap Signatures
                   </strong>
                 }
-                value={5054}
+                value={720216}
                 valueStyle={{ color: '#3f8600' }}
-                prefix={<LociIcon />}
+                prefix={<CmapIcon />}
               />
             </Card.Grid>
             <Card.Grid
               style={{ width: '50%', textAlign: 'center', height: '130px' }}
-              hoverable={false}
-              // onClick={() => {
-              //   window.open(URL_PREFIX + '/traitoverview');
-              // }}
+              hoverable={true}
+              onClick={() => {
+                window.open(URL_PREFIX + '/geooverview/all');
+              }}
             >
               <Statistic
                 title={
                   <strong style={{ color: '#363636', fontSize: '1.3em' }}>
-                    xQTL Datasets
+                    GEO Signatures
                   </strong>
                 }
-                value={58}
+                value={4269}
                 valueStyle={{ color: '#3f8600' }}
-                prefix={<TCGAIcon />}
+                prefix={<GEOIcon />}
               />
             </Card.Grid>
             <Card.Grid
               style={{ width: '50%', textAlign: 'center', height: '130px' }}
-              hoverable={false}
-              // onClick={() => {
-              //   window.open(URL_PREFIX + '/traitoverview');
-              // }}
+              hoverable={true}
+              onClick={() => {
+                window.open(URL_PREFIX + '/documentation#methods');
+              }}
             >
               <Statistic
                 title={
                   <strong style={{ color: '#363636', fontSize: '1.3em' }}>
-                    xQTL Types
+                    Connectivity Methods
                   </strong>
                 }
                 value={6}
                 valueStyle={{ color: '#3f8600' }}
-                prefix={<OnlineIcon />}
+                prefix={<ToolIcon />}
               />
             </Card.Grid>
             <Card.Grid
               style={{ width: '50%', textAlign: 'center', height: '130px' }}
-              hoverable={false}
-              // onClick={() => {
-              //   window.open(URL_PREFIX + '/documentation#methods');
-              // }}
+              hoverable={true}
+              onClick={() => {
+                window.open(URL_PREFIX + '/explorecmap/CARDIoGRAMplusC4D__28209224__Coronary_Artery_Disease/Artery_Coronary/519170');
+              }}
             >
               <Statistic
                 title={
                   <strong style={{ color: '#363636', fontSize: '1.3em' }}>
-                    Analysis Methods
+                    CMap Results
                   </strong>
                 }
-                value={22}
+                value={99999}
+                valueStyle={{ color: '#3f8600' }}
+                prefix={<CompoundIcon />}
+              />
+            </Card.Grid>
+            <Card.Grid
+              style={{ width: '50%', textAlign: 'center', height: '130px' }}
+              hoverable={true}
+              onClick={() => {
+                window.open(URL_PREFIX + '/exploregeo/CARDIoGRAMplusC4D__28714975__Coronary_Artery_Disease/Whole_Blood/GSE102498_1');
+              }}
+            >
+              <Statistic
+                title={
+                  <strong style={{ color: '#363636', fontSize: '1.3em' }}>
+                    GEO Results
+                  </strong>
+                }
+                value={99999}
                 valueStyle={{ color: '#3f8600' }}
                 prefix={<TreatmentIcon />}
-              />
-            </Card.Grid>
-            <Card.Grid
-              style={{ width: '50%', textAlign: 'center', height: '130px' }}
-              hoverable={false}
-              // onClick={() => {
-              //   window.open(URL_PREFIX + '/traitoverview');
-              // }}
-            >
-              <Statistic
-                title={
-                  <strong style={{ color: '#363636', fontSize: '1.3em' }}>
-                    Cell Types
-                  </strong>
-                }
-                value={436}
-                valueStyle={{ color: '#3f8600' }}
-                prefix={<TissueIcon />}
               />
             </Card.Grid>
           </Card>
@@ -698,11 +697,8 @@ export default function IndexPage() {
             bordered={true}
           >
             <Timeline style={{ width: '100%' }}>
-              <Timeline.Item style={{ fontSize: '1.2em' }} color="green">
-                Add download function on 2022-08-10
-              </Timeline.Item>
-              <Timeline.Item style={{ fontSize: '1.2em' }}>
-                Version 1.0 is released on 2022-06-30
+              <Timeline.Item style={{ fontSize: '1.2em' }} color={"green"}>
+                PharmGWAS Version 1.0 is released on 2022-06-30
               </Timeline.Item>
               <Timeline.Item style={{ fontSize: '1.2em' }}>
                 Bugs fixed on 2022-06-28
@@ -711,13 +707,13 @@ export default function IndexPage() {
                 Network problems being solved 2022-06-22
               </Timeline.Item>
               <Timeline.Item style={{ fontSize: '1.2em' }}>
-                All Colocalization analyses were finished on 2022-06-16
+                All analysis were finished on 2022-6-21
               </Timeline.Item>
               <Timeline.Item style={{ fontSize: '1.2em' }}>
-                All SMR analyses were finished on 2022-06-07
+                All GWAS datasets were collected on 2022-03-15
               </Timeline.Item>
               <Timeline.Item style={{ fontSize: '1.2em' }}>
-                The site Brain Catalog was created on 2022-05-06
+                The project PharmGWAS was created on 2022-03-07
               </Timeline.Item>
             </Timeline>
           </Card>
@@ -727,15 +723,8 @@ export default function IndexPage() {
               <strong style={{ fontSize: '1.5em' }}>External Links</strong>
             }
             bordered={true}
-            hoverable={true}
+            hoverable={false}
           >
-            <p>
-              <a href={'https://gtexportal.org/home/'} target={'_blank'}>
-                {' '}
-                <LinkOutlined />
-                &nbsp;GTEx{' '}
-              </a>
-            </p>
             <p>
               <a href={'https://www.ebi.ac.uk/gwas/'} target={'_blank'}>
                 {' '}
@@ -744,29 +733,36 @@ export default function IndexPage() {
               </a>
             </p>
             <p>
-              <a href={'https://braininitiative.nih.gov/'} target={'_blank'}>
-                {' '}
-                <LinkOutlined />
-                &nbsp;The Brain Initiative{' '}
-              </a>
-            </p>
-            <p>
               <a
-                href={'https://ngdc.cncb.ac.cn/brainbase/index'}
+                href={'https://clue.io/'}
                 target={'_blank'}
               >
                 {' '}
                 <LinkOutlined />
-                &nbsp;BrainBase{' '}
+                &nbsp;ConnectivityMap{' '}
               </a>
             </p>
             <p>
               <a
-                href={'https://yanglab.westlake.edu.cn/software/smr/#Overview'}
+                href={'https://www.ncbi.nlm.nih.gov/geo/'}
                 target={'_blank'}
               >
                 <LinkOutlined />
-                &nbsp;Summary-data-based Mendelian Randomization (SMR)
+                &nbsp;GEO
+              </a>
+            </p>
+            <p>
+              <a href={'https://maayanlab.cloud/sigcom-lincs/'} target={'_blank'}>
+                {' '}
+                <LinkOutlined />
+                &nbsp;Signature Commons{' '}
+              </a>
+            </p>
+            <p>
+              <a href={'http://www.nealelab.is/uk-biobank'} target={'_blank'}>
+                {' '}
+                <LinkOutlined />
+                &nbsp;UK BioBank{' '}
               </a>
             </p>
             <p>
