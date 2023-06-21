@@ -416,6 +416,7 @@ export default function Page(props:any) {
           <Bar data={bardata2}/>
         </Col>
       </Row>
+      <Divider/>
     </div>
   );
 }
