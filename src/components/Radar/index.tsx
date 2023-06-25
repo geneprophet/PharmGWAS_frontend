@@ -34,9 +34,9 @@ export default function Index(props: any) {
           },
           indicator: [
             { name: 'WTCS', max: 1 },
-            { name: 'XSum', max: 20 },
+            { name: 'XSum', max: 25 },
             { name: 'CSS', max: 0.2 },
-            { name: '-log10(CSS P-value)', max: 2 },
+            { name: '-log10(CSS P-value)', max: 2.7 },
             { name: 'Spearman', max: 0.3 },
             { name: 'Pearson', max: 0.3 },
             { name: 'Cosine', max: 0.3 }
