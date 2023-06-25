@@ -1,10 +1,404 @@
-import React from 'react';
+import React, { useEffect, useState } from "react";
 import styles from './index.less';
-
+import { Breadcrumb, Col, Table,Divider,Image, Row,Typography ,Anchor} from "antd";
+// @ts-ignore
+import { URL_PREFIX } from '@/common/constants';
+import classnames from 'classnames';
+const { Title, Text, Paragraph } = Typography;
+const { Link } = Anchor;
+import overview from '@/assets/overview.png';
+import wtcs from '@/assets/wtcs.png';
+import css from '@/assets/css.png';
+import xsum from '@/assets/xsum.png';
 export default function Page() {
+  const [targetOffset, setTargetOffset] = useState<number | undefined>(
+    undefined,
+  );
+  useEffect(() => {
+    setTargetOffset(window.innerHeight / 10);
+  }, []);
+  const [current, setCurrent] = useState('');
+  const onChange = (link: string) => {
+    console.log('Anchor:OnChange', link);
+    setCurrent(link);
+    // console.log(current);
+  };
+  const dataSource = [
+    {
+      key: '1',
+      source: 'GWAS Catalog',
+      fullsource: 'GWAS Catalog',
+      url: 'https://www.ebi.ac.uk/gwas/home',
+    },
+    {
+      key: '2',
+      source: 'UKBB',
+      fullsource: 'UK BioBank',
+      url: 'http://www.nealelab.is/uk-biobank',
+    },
+    {
+      key: '3',
+      source: 'CARDIoGRAMplusC4D',
+      fullsource: 'Coronary ARtery DIsease Genome wide Replication and Meta-analysis (CARDIoGRAM) plus The Coronary Artery Disease (C4D) Genetics',
+      url: 'http://www.cardiogramplusc4d.org/data-downloads/',
+    },
+    {
+      key: '4',
+      source: 'CDKP/ISGC',
+      fullsource: 'Cerebrovascular Disease Knowledge portal/International Stroke Genetics Consortium',
+      url: 'https://cd.hugeamp.org/downloads.html',
+    },
+    {
+      key: '5',
+      source: 'CMDKP',
+      fullsource: 'Common Metabolic Diseases Knowledge portal',
+      url: 'https://hugeamp.org/downloads.html',
+    },
+    {
+      key: '6',
+      source: 'CVDKP',
+      fullsource: 'Cardiovascular Disease Knowledge portal',
+      url: 'https://cvd.hugeamp.org/downloads.html',
+    },
+    {
+      key: '7',
+      source: 'RGC',
+      fullsource: 'Reproductive Genetics Consortium',
+      url: 'http://www.reprogen.org/data_download.html',
+    },
+    {
+      key: '8',
+      source: 'PGC',
+      fullsource: 'Psychiatric Genomic Consortium',
+      url: 'https://www.med.unc.edu/pgc/results-and-downloads',
+    },
+    {
+      key: '9',
+      source: 'Sleep Disorder KP',
+      fullsource: 'Sleep Disorder Knowledge portal',
+      url: 'https://sleep.hugeamp.org/downloads.html',
+    },
+  ];
+
+  const columns = [
+    {
+      title: 'Source',
+      dataIndex: 'source',
+      key: 'source',
+    },
+    {
+      title: 'Full Source Name',
+      dataIndex: 'fullsource',
+      key: 'fullsource',
+      width:600,
+    },
+    {
+      title: 'URL',
+      dataIndex: 'url',
+      key: 'url',
+      render: (text: string, record: any) => (
+        <a href={record.url} target={'_blank'}>
+          {record.url}
+        </a>
+      )
+    },
+  ];
+
+  // @ts-ignore
   return (
     <div>
-      <h1 className={styles.title}>Page Documentation/index</h1>
+      <Row>
+        <Col>
+          <Breadcrumb>
+            <Breadcrumb.Item>
+              <a href={URL_PREFIX + '/home'}>
+                <strong style={{ fontFamily: 'sans-serif' }}>Home</strong>
+              </a>
+            </Breadcrumb.Item>
+            <Breadcrumb.Item>
+              <a href="">
+                <strong style={{ fontFamily: 'sans-serif' }}>Documentation</strong>
+              </a>
+            </Breadcrumb.Item>
+          </Breadcrumb>
+        </Col>
+      </Row>
+      <Divider />
+      <Row>
+        <Col xs={4} sm={4} md={4}>
+          <Anchor targetOffset={targetOffset} onChange={onChange}>
+            <Link href="#introduction" title="1. Introduction"></Link>
+            <Link href="#overview" title="2. Overview"></Link>
+            <Link href="#collection" title="3. Data Collection"></Link>
+            <Link href="#analysis" title="4. Data Analysis"></Link>
+            <Link href="#methods" title="5. Methods Used by PharmGWAS">
+              <Link
+                href="#methods_magma"
+                title={
+                  <div>
+                    <p>5.1 MAGMA</p>
+                  </div>
+                }
+                className={classnames({
+                  [styles.hide]: !current.startsWith('#methods'),
+                })}
+              />
+              <Link
+                href="#methods_dets"
+                title={
+                  <div>
+                    <p>5.2 deTS</p>
+                  </div>
+                }
+                className={classnames({
+                  [styles.hide]: !current.startsWith('#methods'),
+                })}
+              />
+              <Link
+                href="#methods_twas"
+                title={
+                  <div>
+                    <p>5.3 TWAS</p>
+                  </div>
+                }
+                className={classnames({
+                  [styles.hide]: !current.startsWith('#methods'),
+                })}
+              />
+              <Link
+                href="#methods_connectivity"
+                title={
+                  <div>
+                    <p>5.4 Connectivity Methods</p>
+                  </div>
+                }
+                className={classnames({
+                  [styles.hide]: !current.startsWith('#methods'),
+                })}
+              />
+            </Link>
+            <Link href="#usage" title={'6. Database Usage'}>
+              <Link
+                href="#usage_dataset"
+                title={
+                  <div>
+                    <p>6.1 Browse - GWAS Datasets</p>
+                  </div>
+                }
+                className={classnames({
+                  [styles.hide]: !current.startsWith('#usage'),
+                })}
+              />
+              <Link
+                href="#usage_cmap"
+                title={
+                  <div>
+                    <p>6.2 Browse - CMap Signatures</p>
+                  </div>
+                }
+                className={classnames({
+                  [styles.hide]: !current.startsWith('#usage'),
+                })}
+              />
+              <Link
+                href="#usage_geo"
+                title={
+                  <div>
+                    <p>6.3 Browse - GEO Signatures</p>
+                  </div>
+                }
+                className={classnames({
+                  [styles.hide]: !current.startsWith('#usage'),
+                })}
+              />
+              <Link
+                href="#usage_explore_cmap"
+                title={
+                  <div>
+                    <p>6.4 Explore - CMap Results</p>
+                  </div>
+                }
+                className={classnames({
+                  [styles.hide]: !current.startsWith('#usage'),
+                })}
+              />
+              <Link
+                href="#usage_explore_geo"
+                title={
+                  <div>
+                    <p>6.5 Explore - GEO Results</p>
+                  </div>
+                }
+                className={classnames({
+                  [styles.hide]: !current.startsWith('#usage'),
+                })}
+              />
+            </Link>
+          </Anchor>
+        </Col>
+        <Col
+          xs={19}
+          sm={19}
+          md={19}
+          push={1}
+          style={{
+            fontFamily: 'Trebuchet MS',
+            fontSize: '1.1em',
+            textAlign: 'justify',
+            display: 'inline-block',
+          }}
+        >
+          <div id={'introduction'}>
+            <Title level={1}>1. Introduction</Title>
+            <Paragraph>
+              Developing novel pharmaceuticals to address unmet medical needs is a resource-intensive challenge characterized by high attrition rates. Achieving the development and regulatory approval of novel drugs has become significantly more difficult because of the time and cost involved, resulting in a decrease in the overall success rate of translating discoveries into clinical practice. Drug repurposing aims to address these issues by finding new clinical indications for existing compounds, such that these drugs can be deployed clinically with greater speed and less expense compared with the de novo drug discovery pipeline.
+            </Paragraph>
+            <Paragraph>
+              Serval retrospective analyses of drug development successes and failures demonstrate that drug–target pairs with human genetic evidence are at least twice as likely to reach approval as those without. Advances in genome-wide association studies (GWAS) have proven useful for drug repurposing as GWAS reveal important biological insights into complex traits that can assist to identify compounds suitable for repurposing. Although the majority of common variants of GWAS signals have small individual effects on traits, the combined polygenic effect of many such variants is considerably larger and constitutes a significant portion of overall trait heritability. Transcriptome-wide association study (TWAS) provides a valuable opportunity to utilize common variant genetics for drug repurposing by imputing the genetically regulated expression profiles from genome-wide trait-associated variants and comparing the imputed gene expression profiles with drug-induced gene expression profiles (The Connectivity Map Concept). However, there is still a lack of systematic and comprehensive knowledgebase for genetics-informed drug repurposing by utilizing TWAS.
+            </Paragraph>
+          </div>
+          <div id={'overview'}>
+            <Title level={1}>2. Overview</Title>
+            <Paragraph>
+              Here we present PharmGWAS, a GWAS-based knowledgebase for drug repurposing. In the current release, we have collected 1,948 GWAS datasets, the 720,216 small compound signatures of Expanded CMap LINCS Resource 2020, and 4,269 perturbation signatures from GEO. After applying six connectivity methods, we finally got xxx disease-drug pairs from Connectivity Map (CMap) signatures and xxx from GEO signatures. In summary, PharmGWAS utilizes a proof-of-concept approach to identify drug repurposing candidates by integrating GWAS-imputed transcriptome profiles and drug perturbation data. This reference resource of genetically supported drug candidates will be valuable for discovery of new drug, design of combinatory treatments and identification of drug resistance and drug side effects.
+            </Paragraph>
+            <Row justify={'center'}>
+                <Image src={overview} preview={false} width={'75%'} />
+            </Row>
+            <Row justify={'center'}><Text strong={true}>PharmGWAS Overview</Text></Row>
+          </div>
+          <div id={'collection'}>
+            <Title level={1}>3. Data Collection</Title>
+            <Paragraph>
+              The GWAS datasets were collected from three major source, including GWAS Catalog, UK BioBank and some disease consortiums.
+            </Paragraph>
+            <Table dataSource={dataSource} columns={columns} bordered={true} pagination={false} />
+            <Paragraph>
+              The drug-induced gene expression profiles were retrieved from two sources: the Expanded CMap LINCS Resource 2020 (https://clue.io/data/CMap2020#LINCS2020) and GEO RNA-Seq Signatures downloaded from SigCom LINCS (https://maayanlab.cloud/sigcom-lincs/#/Download).
+            </Paragraph>
+          </div>
+          <div id={'analysis'}>
+            <Title level={1}>4. Data Analysis</Title>
+            <Paragraph>The analysis pipeline of GWAS-based drug repurposing contains four major steps: </Paragraph>
+            <Paragraph>(1)	First, the prioritization of disease genes was performed by MAGMA, a gene analysis tool with GWAS summary statistics as input. </Paragraph>
+            <Paragraph>(2)	Second, Tissue-Specific Enrichment Analysis (TSEA) was performed by deTS using the output candidate genes from MAGMA as input.  </Paragraph>
+            <Paragraph>(3)	Third, integrating GWAS summary statistics and disease-related tissues output from deTS to impute disease gene expression signatures in corresponding tissues by S-PrediXcan. </Paragraph>
+            <Paragraph>(4)	Last, searching for drugs that reverse the disease gene expression signatures in drug perturbation databases using multiple connectivity methods.  </Paragraph>
+          </div>
+          <div id={'methods'}>
+            <Title level={1}>5. Methods Used by PharmGWAS</Title>
+            <div id={'methods_magma'}>
+              <Title level={2}>
+                5.1 MAGMA
+              </Title>
+              <Paragraph>
+                Multi-marker Analysis of GenoMic Annotation (MAGMA v1.10) extracted each SNP p-value from GWAS summary statistics to detect significant association genes combing with linkage disequilibrium (LD) structure.
+              </Paragraph>
+              <Paragraph>
+                URL: <a href={"https://ctg.cncr.nl/software/magma"} target={'_blank'}>https://ctg.cncr.nl/software/magma</a>
+              </Paragraph>
+            </div>
+            <div id={'methods_dets'}>
+              <Title level={2}>
+                5.2 deTS
+              </Title>
+              <Paragraph>
+                Tissue-Specific Enrichment Analysis (TSEA) was performed by deTS using the output candidate genes from MAGMA as input and top 3 disease-specific tissues were identified by deTS.
+              </Paragraph>
+              <Paragraph>
+                URL: <a href={"https://github.com/bsml320/deTS"} target={'_blank'}>https://github.com/bsml320/deTS</a>
+              </Paragraph>
+            </div>
+            <div id={'methods_twas'}>
+              <Title level={2}>
+                5.3 TWAS
+              </Title>
+              <Paragraph>
+                Disease-related gene expression signatures were imputed by TWAS method: S-MultiXcan.
+              </Paragraph>
+              <Paragraph>
+                URL: <a href={"https://github.com/hakyimlab/MetaXcan"} target={'_blank'}>https://github.com/hakyimlab/MetaXcan</a>
+              </Paragraph>
+            </div>
+            <div id={'methods_connectivity'}>
+              <Title level={2}>
+                5.4	Connectivity Methods
+              </Title>
+              <Paragraph>
+                We selected nine connectivity methods according to the following benchmark and review studies:
+              </Paragraph>
+              <Paragraph>
+                <a href={"https://www.ncbi.nlm.nih.gov/pubmed/25606058"} target={"_blank"}>Systematic evaluation of connectivity map for disease indications</a>
+              </Paragraph>
+              <Paragraph>
+                <a href={"https://www.ncbi.nlm.nih.gov/pubmed/31774912"} target={"_blank"}>A comprehensive evaluation of connectivity methods for L1000 data</a>
+              </Paragraph>
+              <Paragraph>
+                <a href={"https://www.ncbi.nlm.nih.gov/pubmed/34013329"} target={"_blank"}>Reconciling multiple connectivity scores for drug repurposing</a>
+              </Paragraph>
+              <Paragraph>
+                <a href={"https://www.ncbi.nlm.nih.gov/pubmed/32484516"} target={"_blank"}>Scoring functions for drug-effect similarity</a>
+              </Paragraph>
+              <Text style={{ fontSize: 'x-large' }}>5.4.1 WTCS</Text>
+              <Paragraph>
+                  WTCS: Weighted Connectivity Score
+              </Paragraph>
+              <Image src={wtcs} preview={false} width={"50%"}/>
+              <Paragraph>Where ES is the enrichment score of Gene Set Enrichment Analysis (GSEA).</Paragraph>
+              <Text style={{ fontSize: 'x-large' }}>5.4.2 CSS</Text>
+              <Paragraph>
+                CSS: Connection Strength Score
+              </Paragraph>
+              <Image src={css} preview={false} width={"50%"}/>
+              <Paragraph></Paragraph>
+              <Text style={{ fontSize: 'x-large' }}>5.4.3 XSum</Text>
+              <Paragraph>
+                XSum: The eXtreme Sum score
+              </Paragraph>
+              <Image src={xsum} preview={false} width={"50%"}/>
+              <Paragraph></Paragraph>
+              <Text style={{ fontSize: 'x-large' }}>5.4.4 Spearman, Pearson and Cosine</Text>
+              <Paragraph>
+                Spearman/Pearson correlation coefficients and Cosine correlation using all common genes of the drug and the disease induced expression profiles.
+              </Paragraph>
+              <Text style={{ fontSize: 'x-large' }}>5.4.5 XSpearman, XPearson and XCosine</Text>
+              <Paragraph>
+                The three metrics (Spearman, Pearson and Cosine correlation) can also be adapted to just use a fixed number of ‘extreme’ genes that are most upregulated or downregulated by the disease. XPearson is the extreme Pearson correlation; XSpearman is the extreme Spearman rank correlation; XCosine is the extreme Cosine correlation.
+              </Paragraph>
+            </div>
+            <div id={'usage'}>
+              <Title level={1}>
+                6	Database Usage
+              </Title>
+              <div id={'usage_dataset'}>
+                <Title level={2}>
+                  6.1 Browse - GWAS Datasets
+                </Title>
+              </div>
+              <div id={'usage_cmap'}>
+                <Title level={2}>
+                  6.2 Browse - CMap Signatures
+                </Title>
+              </div>
+              <div id={'usage_geo'}>
+                <Title level={2}>
+                  6.3 Browse - GEO Signatures
+                </Title>
+              </div>
+              <div id={'usage_explore_cmap'}>
+                <Title level={2}>
+                  6.4 Explore - CMap Results
+                </Title>
+              </div>
+              <div id={'usage_explore_geo'}>
+                <Title level={2}>
+                  6.5 Explore - GEO Results
+                </Title>
+              </div>
+            </div>
+          </div>
+        </Col>
+      </Row>
     </div>
   );
 }

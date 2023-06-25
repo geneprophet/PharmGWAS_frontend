@@ -370,7 +370,7 @@ export default function IndexPage() {
                   className={styles.introduction}
                   style={{ textAlign: 'left' }}
                 >
-                  Introduction of Brain Catalog:
+                  Introduction of PharmGWAS:
                 </Title>
                 <Text
                   style={{
@@ -381,164 +381,53 @@ export default function IndexPage() {
                     width: '100%',
                   }}
                 >
-                  {
-                    'Brain Catalog is a comprehensive resource for genetic landscape of brain disorders and related phenotypes. Currently, Brain Catalog includes the following components: '
-                  }
+                  PharmGWAS provides a comprehensive catalog for drug repurposing by leveraging a validated framework that links GWAS and drug perturbation data. The current release contains <span style={{color:"red"}}>1,948</span> GWAS datasets, the <span style={{color:"red"}}>720,216</span> small compound signatures of Expanded CMap LINCS Resource 2020, and <span style={{color:"red"}}>4,269</span> perturbation signatures from GEO. The analysis framework roughly includes three steps:
                   <li>
-                    {'Variant annotation by three software '}
+                    {'First, Based on GWAS summaries, tissue-specific enrichment analysis was performed using '}
                     <a
                       href={
-                        'https://grch37.ensembl.org/info/docs/tools/vep/index.html'
+                        'https://ctg.cncr.nl/software/magma'
                       }
-                      target={'_blank'}
-                    >
-                      VEP
-                    </a>
-                    {', '}
-                    <a
-                      href={'http://pcingola.github.io/SnpEff/'}
-                      target={'_blank'}
-                    >
-                      snpEff
-                    </a>
-                    {' and '}
-                    <a
-                      href={'https://annovar.openbioinformatics.org/en/latest/'}
-                      target={'_blank'}
-                    >
-                      ANNOVAR
-                    </a>
-                    {'.'}
-                  </li>
-                  <li>
-                    {'Gene-based and gene set analysis by '}
-                    <a
-                      href={'https://ctg.cncr.nl/software/magma'}
                       target={'_blank'}
                     >
                       MAGMA
                     </a>
-                    {'.'}
-                  </li>
-                  <li>
-                    {
-                      'Heritability, heritability enrichment and heritability correlation analysis by two software '
-                    }
-                    <a href={'https://github.com/bulik/ldsc'} target={'_blank'}>
-                      LDSC
-                    </a>
-                    {' and '}
-                    <a href={'https://dougspeed.com/ldak/'} target={'_blank'}>
-                      LDAK
-                    </a>
-                    {'.'}
-                  </li>
-                  <li>
-                    {
-                      ' Enrichment analysis of associated-trait loci in regulatory and functional annotations by  '
-                    }
-                    <a
-                      href={'https://www.ebi.ac.uk/birney-srv/GARFIELD/'}
-                      target={'_blank'}
-                    >
-                      GARFIELD
-                    </a>
                     {' and '}
                     <a
-                      href={'https://github.com/ay-lab/S_LDSC'}
+                      href={'https://github.com/bsml320/deTS'}
                       target={'_blank'}
                     >
-                      S-LDSC
+                      deTS
                     </a>
-                    {'.'}
+                    {' to prioritize disease-related tissues.'}
                   </li>
                   <li>
-                    {'Finemapping analysis by four fine-mapping methods '}
-                    <a
-                      href={
-                        'https://chr1swallace.github.io/coloc/reference/finemap.abf.html'
-                      }
-                      target={'_blank'}
-                    >
-                      ABF
-                    </a>
-                    {', '}
-                    <a
-                      href={'http://www.christianbenner.com/'}
-                      target={'_blank'}
-                    >
-                      FINEMAP
-                    </a>
-                    {', '}
-                    <a
-                      href={'https://stephenslab.github.io/susieR/'}
-                      target={'_blank'}
-                    >
-                      SuSiE
-                    </a>
-                    {' and '}
-                    <a
-                      href={'https://github.com/omerwe/polyfun'}
-                      target={'_blank'}
-                    >
-                      PolyFun + SuSiE
-                    </a>
-                    {'.'}
-                  </li>
-                  <li>
-                    {'Gene-based TWAS association by three software '}
+                    {'Then, utilizing the concept of TWAS to impute genetically regulated expression signatures in disease-related tissues from genome-wide trait-associated variants by '}
                     <a
                       href={'https://github.com/hakyimlab/MetaXcan'}
                       target={'_blank'}
                     >
                       S-PrediXcan
                     </a>
-                    {', '}
-                    <a
-                      href={'https://github.com/Joker-Jerome/UTMOST'}
-                      target={'_blank'}
-                    >
-                      UTMOST
-                    </a>
-                    {' and '}
-                    <a
-                      href={'https://github.com/gamazonlab/MR-JTI'}
-                      target={'_blank'}
-                    >
-                      JTI
-                    </a>
                     {'.'}
                   </li>
                   <li>
-                    <a
-                      href={
-                        'https://yanglab.westlake.edu.cn/software/smr/#Overview'
-                      }
-                      target={'_blank'}
-                    >
-                      Causal inference
-                    </a>
-                    {' and '}
-                    <a
-                      href={'http://chr1swallace.github.io/coloc/index.html'}
-                      target={'_blank'}
-                    >
-                      colocalization
-                    </a>
                     {
-                      '  between six kinds of molecule-QTLs and brain traits, and also the '
+                      'Finally, after applying multiple connectivity methods to compare the imputed gene expression signatures with drug-induced gene expression signatures, xxx disease-drug pairs were derived from '
                     }
-                    <a
-                      href={'https://mrcieu.github.io/TwoSampleMR/'}
-                      target={'_blank'}
-                    >
-                      causal effect
+                    <a href={'https://clue.io'} target={'_blank'}>
+                      Connectivity Map (CMap)
                     </a>
-                    {' of exposure traits on outcome traits.'}
+                    {' signatures and xxx from '}
+                    <a href={'https://www.ncbi.nlm.nih.gov/geo'} target={'_blank'}>
+                      GEO
+                    </a>
+                    {' signatures.'}
                   </li>
-                  More details can be found in the{' '}
-                  <a href={'/braincatalog/documentation'}>Documentation</a>{' '}
-                  page.
+                  {'We believe PharmGWAS will shed light on drug discovery, drug combination and drug resistance and drug side effects through the discovery power of GWAS. '}
+                  {'More details can be found in the '}
+                  <a href={URL_PREFIX + '/documentation'}>Documentation</a>
+                  {' page.'}
                 </Text>
               </div>
             </Col>
