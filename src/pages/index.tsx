@@ -413,12 +413,12 @@ export default function IndexPage() {
                   </li>
                   <li>
                     {
-                      'Finally, after applying multiple connectivity methods to compare the imputed gene expression signatures with drug-induced gene expression signatures, xxx disease-drug pairs were derived from '
+                      'Finally, after applying multiple connectivity methods to compare the imputed gene expression signatures with drug-induced gene expression signatures, 977,466 disease-drug pairs were derived from '
                     }
                     <a href={'https://clue.io'} target={'_blank'}>
                       Connectivity Map (CMap)
                     </a>
-                    {' signatures and xxx from '}
+                    {' signatures and 9,089 from '}
                     <a href={'https://www.ncbi.nlm.nih.gov/geo'} target={'_blank'}>
                       GEO
                     </a>
@@ -556,7 +556,7 @@ export default function IndexPage() {
                     CMap Results
                   </strong>
                 }
-                value={99999}
+                value={977466}
                 valueStyle={{ color: '#3f8600' }}
                 prefix={<CompoundIcon />}
               />
@@ -574,7 +574,7 @@ export default function IndexPage() {
                     GEO Results
                   </strong>
                 }
-                value={99999}
+                value={9089}
                 valueStyle={{ color: '#3f8600' }}
                 prefix={<TreatmentIcon />}
               />

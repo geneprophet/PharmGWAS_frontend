@@ -536,7 +536,7 @@ export default function Page(props: any) {
       sorter: true,
       render: (text: string, record: any) => (
         <span>
-          <a href={URL_PREFIX + '/exploregeo/' + record.dataset + "/" + record.tissue + "/" + record.sig_index} target={'_blank'}>
+          <a href={URL_PREFIX + '/exploregeo/' + record.dataset + "/" + record.tissue + "/" + record.accession} target={'_blank'}>
             <Space style={{ fontWeight: 'bold' }}>
               {'PGEO'+record.id.toString().padStart(10,'0')}
               <AnalysisIcon />
