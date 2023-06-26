@@ -251,16 +251,16 @@ export default function Page() {
           <div id={'introduction'}>
             <Title level={1}>1. Introduction</Title>
             <Paragraph>
-              Developing novel pharmaceuticals to address unmet medical needs is a resource-intensive challenge characterized by high attrition rates. Achieving the development and regulatory approval of novel drugs has become significantly more difficult because of the time and cost involved, resulting in a decrease in the overall success rate of translating discoveries into clinical practice. Drug repurposing aims to address these issues by finding new clinical indications for existing compounds, such that these drugs can be deployed clinically with greater speed and less expense compared with the de novo drug discovery pipeline.
+              Development of novel drugs is a daunting and time- and cost-consuming process, which has been obscure in translating scientific discoveries into clinical practices from time to time. To tackle this challenge, drug repurposing has been proposed an attractive alternative approach to identify new clinical indications for existing compounds, such that these drugs can be deployed clinically with greater speed and less expense compared with the de novo drug discovery pipeline. Recently, advances in genome-wide association studies (GWAS) have proven useful for drug repurposing as GWAS reveals important biological insights into complex traits that can assist to identify compounds suitable for repurposing. Although the majority of common variants of GWAS signals have small individual effects on traits, the combined polygenic effect of many such variants is considerably larger and constitutes a significant portion of overall trait heritability.
             </Paragraph>
             <Paragraph>
-              Serval retrospective analyses of drug development successes and failures demonstrate that drug–target pairs with human genetic evidence are at least twice as likely to reach approval as those without. Advances in genome-wide association studies (GWAS) have proven useful for drug repurposing as GWAS reveal important biological insights into complex traits that can assist to identify compounds suitable for repurposing. Although the majority of common variants of GWAS signals have small individual effects on traits, the combined polygenic effect of many such variants is considerably larger and constitutes a significant portion of overall trait heritability. Transcriptome-wide association study (TWAS) provides a valuable opportunity to utilize common variant genetics for drug repurposing by imputing the genetically regulated expression profiles from genome-wide trait-associated variants and comparing the imputed gene expression profiles with drug-induced gene expression profiles (The Connectivity Map Concept). However, there is still a lack of systematic and comprehensive knowledgebase for genetics-informed drug repurposing by utilizing TWAS.
+              Following the concept proposed by the Connectivity Map project, GWAS data can be used to impute the genetically regulated expression (GReX) profile and to compare with the drug-induced gene expression profiles. In this way, the negative correlations between the two profiles indicate that the corresponding drug can reverse the gene expression pattern and can thus serve as a candidate to the corresponding samples. Such analysis strategies have been successfully applied in psychiatric disorders, blood traits, among others, but there is still a lack of systematic and comprehensive knowledgebase for genetically-informed drug repurposing for a wide range of complex diseases.
             </Paragraph>
           </div>
           <div id={'overview'}>
             <Title level={1}>2. Overview</Title>
             <Paragraph>
-              Here we present PharmGWAS, a GWAS-based knowledgebase for drug repurposing. In the current release, we have collected 1,948 GWAS datasets, the 720,216 small compound signatures of Expanded CMap LINCS Resource 2020, and 4,269 perturbation signatures from GEO. After applying six connectivity methods, we finally got 977,466 disease-drug pairs from Connectivity Map (CMap) signatures and 9,089 from GEO signatures. In summary, PharmGWAS utilizes a proof-of-concept approach to identify drug repurposing candidates by integrating GWAS-imputed transcriptome profiles and drug perturbation data. This reference resource of genetically supported drug candidates will be valuable for discovery of new drug, design of combinatory treatments and identification of drug resistance and drug side effects.
+              PharmGWAS is a knowledgebase for genetically-informed drug repurposing for thousands of complex diseases. It utilizes proof-of-concept approaches to identify drug repurposing candidates by integrating GWAS-imputed transcriptome profiles and drug perturbation data. In the current release, we have collected 1,948 GWAS datasets, 720,216 small compound signatures from the Expanded CMap LINCS Resource 2020 (hereafter referred to as CMap), and 4,269 perturbation signatures from GEO. We implemented six connectivity methods to infer candidate drugs for each complex disease based on their GReX imputed from GWAS results. These methods resulted in 977,466 disease-drug pairs from the CMap and 9,089 from the GEO resources. PharmGWAS thus provides a valuable reference resource for the discovery of new drugs, design of combinatory treatments, and identification of drug resistance and drug side effects.
             </Paragraph>
             <Row justify={'center'}>
                 <Image src={overview} preview={false} width={'75%'} />
@@ -270,7 +270,7 @@ export default function Page() {
           <div id={'collection'}>
             <Title level={1}>3. Data Collection</Title>
             <Paragraph>
-              The GWAS datasets were collected from three major source, including GWAS Catalog, UK BioBank and some disease consortiums.
+              All GWAS datasets used in PharmGWAS were collected from three major sources, which are the GWAS Catalog, UK BioBank (UKBB) and other major consortiums (see below).
             </Paragraph>
             <Table dataSource={dataSource} columns={columns} bordered={true} pagination={false} />
             <Paragraph>
@@ -279,11 +279,12 @@ export default function Page() {
           </div>
           <div id={'analysis'}>
             <Title level={1}>4. Data Analysis</Title>
-            <Paragraph>The analysis pipeline of GWAS-based drug repurposing contains four major steps: </Paragraph>
-            <Paragraph>(1)	First, the prioritization of disease genes was performed by MAGMA, a gene analysis tool with GWAS summary statistics as input. </Paragraph>
-            <Paragraph>(2)	Second, Tissue-Specific Enrichment Analysis (TSEA) was performed by deTS using the output candidate genes from MAGMA as input.  </Paragraph>
-            <Paragraph>(3)	Third, integrating GWAS summary statistics and disease-related tissues output from deTS to impute disease gene expression signatures in corresponding tissues by S-PrediXcan. </Paragraph>
-            <Paragraph>(4)	Last, searching for drugs that reverse the disease gene expression signatures in drug perturbation databases using multiple connectivity methods.  </Paragraph>
+            <Paragraph>The analysis pipeline of GWAS-based drug repurposing contains four major steps. </Paragraph>
+            <Paragraph>(1)	To prioritize disease-associated genes by using MAGMA, a gene analysis tool with GWAS summary statistics as input.  </Paragraph>
+            <Paragraph>(2)	To infer disease-relevant tissues by the Tissue-Specific Enrichment Analysis (TSEA) using deTS and the disease-associated genes from step (1).  </Paragraph>
+            <Paragraph>(3)	To impute GReX in disease-relevant tissues from step (2) using the TWAS method. In this work, we used S-PrediXcan to calculate the gene expression signatures. </Paragraph>
+            <Paragraph>(4)	To infer candidate drugs/compounds by implementing the six connectivity methods. These methods identify drugs that show reverse correlation patterns between the disease GReX signatures and the drug-induced signatures, and thus, the drugs are considered effective in targeting on the expression profile. </Paragraph>
+            <Paragraph>(5)	Lastly, to define candidate drugs with filter criteria and statistical significance ({'WTCS < 0 and CSS < 0 and CSS P < 0.05 and XSum < 0 and Spearman < 0 and Pearson < 0 and Cosine < 0 '}). </Paragraph>
           </div>
           <div id={'methods'}>
             <Title level={1}>5. Methods Used by PharmGWAS</Title>

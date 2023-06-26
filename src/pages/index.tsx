@@ -381,52 +381,51 @@ export default function IndexPage() {
                     width: '100%',
                   }}
                 >
-                  PharmGWAS provides a comprehensive catalog for drug repurposing by leveraging a validated framework that links GWAS and drug perturbation data. The current release contains <span style={{color:"red"}}>1,948</span> GWAS datasets, the <span style={{color:"red"}}>720,216</span> small compound signatures of Expanded CMap LINCS Resource 2020, and <span style={{color:"red"}}>4,269</span> perturbation signatures from GEO. The analysis framework roughly includes three steps:
-                  <li>
-                    {'First, Based on GWAS summaries, tissue-specific enrichment analysis was performed using '}
+                  <p>
+                    PharmGWAS is a comprehensive catalog for drug repurposing by leveraging a validated framework that links GWAS and drug perturbation data. The current release contains  <span style={{color:"red"}}>1,948</span> GWAS datasets, the <span style={{color:"red"}}>720,216</span> small compound signatures of Expanded CMap LINCS Resource 2020, and <span style={{color:"red"}}>4,269</span> perturbation signatures from GEO. The analysis framework roughly includes three steps:
+                  </p>
+                  <p>
+                    1)	To infer disease-relevant tissues based on GWAS summary statistics using
                     <a
                       href={
                         'https://ctg.cncr.nl/software/magma'
                       }
                       target={'_blank'}
                     >
-                      MAGMA
-                    </a>
-                    {' and '}
+                      {' '}MAGMA
+                    </a> and
                     <a
                       href={'https://github.com/bsml320/deTS'}
                       target={'_blank'}
                     >
-                      deTS
+                      {' '}deTS
                     </a>
-                    {' to prioritize disease-related tissues.'}
-                  </li>
-                  <li>
-                    {'Then, utilizing the concept of TWAS to impute genetically regulated expression signatures in disease-related tissues from genome-wide trait-associated variants by '}
+                    .
+                  </p>
+                  <p>
+                    2)	To impute genetically regulated expression signatures (i.e., TWAS) in disease-relevant tissues. We used
                     <a
                       href={'https://github.com/hakyimlab/MetaXcan'}
                       target={'_blank'}
                     >
-                      S-PrediXcan
+                      {' '}S-PrediXcan{' '}
                     </a>
-                    {'.'}
-                  </li>
-                  <li>
-                    {
-                      'Finally, after applying multiple connectivity methods to compare the imputed gene expression signatures with drug-induced gene expression signatures, 977,466 disease-drug pairs were derived from '
-                    }
-                    <a href={'https://clue.io'} target={'_blank'}>
-                      Connectivity Map (CMap)
-                    </a>
-                    {' signatures and 9,089 from '}
-                    <a href={'https://www.ncbi.nlm.nih.gov/geo'} target={'_blank'}>
-                      GEO
-                    </a>
-                    {' signatures.'}
-                  </li>
-                  {'We believe PharmGWAS will shed light on drug discovery, drug combination and drug resistance and drug side effects through the discovery power of GWAS. '}
-                  {'More details can be found in the '}
-                  <a href={URL_PREFIX + '/documentation'}>Documentation</a>
+                    for this purpose.
+                  </p>
+                  <p>
+                    3)	To infer disease-drug pairs by integrative analysis of the imputed gene expression signatures with drug-induced gene expression signatures.
+                  </p>
+                  In total, PharmGWAS deposites <span style={{color:"red"}}>977,466</span> disease-drug pairs derived from
+                  <a href={'https://clue.io'} target={'_blank'}>
+                    {' '}Connectivity Map (CMap){' '}
+                  </a>
+                  signatures and <span style={{color:"red"}}>9,089</span> disease-drug pairs from
+                  <a href={'https://www.ncbi.nlm.nih.gov/geo'} target={'_blank'}>
+                    {' '}GEO{' '}
+                  </a>
+                  signatures. We believe PharmGWAS will shed light on drug discovery, drug combination and drug resistance, and drug side effects through the discovery power of GWAS.
+                  More details can be found in the
+                  <a href={URL_PREFIX + '/documentation'}>{' '}Documentation</a>
                   {' page.'}
                 </Text>
               </div>
