@@ -279,7 +279,7 @@ export default function Page() {
           </div>
           <div id={'analysis'}>
             <Title level={1}>4. Data Analysis</Title>
-            <Paragraph>The analysis pipeline of GWAS-based drug repurposing contains four major steps. </Paragraph>
+            <Paragraph>The analysis pipeline of GWAS-based drug repurposing contains five major steps. </Paragraph>
             <Paragraph>(1)	To prioritize disease-associated genes by using MAGMA, a gene analysis tool with GWAS summary statistics as input.  </Paragraph>
             <Paragraph>(2)	To infer disease-relevant tissues by the Tissue-Specific Enrichment Analysis (TSEA) using deTS and the disease-associated genes from step (1).  </Paragraph>
             <Paragraph>(3)	To impute GReX in disease-relevant tissues from step (2) using the TWAS method. In this work, we used S-PrediXcan to calculate the gene expression signatures. </Paragraph>

@@ -432,37 +432,7 @@ export default function IndexPage() {
             </Col>
           </Row>
           <Divider />
-          <Row>
-            <Col xs={23} sm={23} md={23} lg={23} xl={23} xxl={23}>
-              <Title
-                level={2}
-                className={styles.introduction}
-                style={{ textAlign: 'left' }}
-              >
-                Citation:
-              </Title>
-              <Text
-                style={{
-                  fontFamily: 'Trebuchet MS',
-                  fontSize: '20px',
-                  textAlign: 'left',
-                  display: 'inline-block',
-                  width: '100%',
-                }}
-              >
-                {
-                  'Database Resources of the National Genomics Data Center, China National Center for Bioinformation in 2023. Nucleic Acids Res. 2023 Jan 6; 51(D1):D18-D28. PMID: '
-                }
-                <a
-                  href={'https://pubmed.ncbi.nlm.nih.gov/36420893/'}
-                  target={'_blank'}
-                >
-                  36420893
-                </a>
-              </Text>
-            </Col>
-          </Row>
-          <Divider />
+
         </Col>
         <Col xs={16} sm={16} md={16} lg={14} xl={7} xxl={7}>
           <Card
@@ -621,6 +591,13 @@ export default function IndexPage() {
               </a>
             </p>
             <p>
+              <a href={'http://www.nealelab.is/uk-biobank'} target={'_blank'}>
+                {' '}
+                <LinkOutlined />
+                &nbsp;UK BioBank{' '}
+              </a>
+            </p>
+            <p>
               <a
                 href={'https://clue.io/'}
                 target={'_blank'}
@@ -628,6 +605,13 @@ export default function IndexPage() {
                 {' '}
                 <LinkOutlined />
                 &nbsp;ConnectivityMap{' '}
+              </a>
+            </p>
+            <p>
+              <a href={'https://maayanlab.cloud/sigcom-lincs/'} target={'_blank'}>
+                {' '}
+                <LinkOutlined />
+                &nbsp;Signature Commons{' '}
               </a>
             </p>
             <p>
@@ -639,34 +623,47 @@ export default function IndexPage() {
                 &nbsp;GEO
               </a>
             </p>
-            <p>
-              <a href={'https://maayanlab.cloud/sigcom-lincs/'} target={'_blank'}>
-                {' '}
-                <LinkOutlined />
-                &nbsp;Signature Commons{' '}
-              </a>
-            </p>
-            <p>
-              <a href={'http://www.nealelab.is/uk-biobank'} target={'_blank'}>
-                {' '}
-                <LinkOutlined />
-                &nbsp;UK BioBank{' '}
-              </a>
-            </p>
-            <p>
-              <a href={'https://lph-big.github.io/'} target={'_blank'}>
-                <LinkOutlined />
-                &nbsp;Laboratory for Precision Health{' '}
-              </a>
-            </p>
-            <p>
-              <a href={'https://ngdc.cncb.ac.cn/'} target={'_blank'}>
-                <LinkOutlined />
-                &nbsp;National Genomics Data Center
-              </a>
-            </p>
+            {/*<p>*/}
+            {/*  <a href={'https://lph-big.github.io/'} target={'_blank'}>*/}
+            {/*    <LinkOutlined />*/}
+            {/*    &nbsp;Laboratory for Precision Health{' '}*/}
+            {/*  </a>*/}
+            {/*</p>*/}
+            {/*<p>*/}
+            {/*  <a href={'https://ngdc.cncb.ac.cn/'} target={'_blank'}>*/}
+            {/*    <LinkOutlined />*/}
+            {/*    &nbsp;National Genomics Data Center*/}
+            {/*  </a>*/}
+            {/*</p>*/}
           </Card>
           <Divider />
+          <Card
+            title={
+              <strong style={{ fontSize: '1.5em' }}>Citation</strong>
+            }
+            bordered={true}
+            hoverable={false}
+          >
+            <Text
+              style={{
+                fontFamily: 'Trebuchet MS',
+                fontSize: '20px',
+                textAlign: 'left',
+                display: 'inline-block',
+                width: '100%',
+              }}
+            >
+              {
+                'Database Resources of the National Genomics Data Center, China National Center for Bioinformation in 2023. Nucleic Acids Res. 2023 Jan 6; 51(D1):D18-D28. PMID: '
+              }
+              <a
+                href={'https://pubmed.ncbi.nlm.nih.gov/36420893/'}
+                target={'_blank'}
+              >
+                36420893
+              </a>
+            </Text>
+          </Card>
         </Col>
       </Row>
     </div>
