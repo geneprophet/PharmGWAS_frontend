@@ -10,6 +10,16 @@ import overview from '@/assets/overview.png';
 import wtcs from '@/assets/wtcs.png';
 import css from '@/assets/css.png';
 import xsum from '@/assets/xsum.png';
+import usage_1 from '@/assets/usage_1.png';
+import usage_2 from '@/assets/usage_2.png';
+import usage_3 from '@/assets/usage_3.png';
+import usage_4 from '@/assets/usage_4.png';
+import usage_5 from '@/assets/usage_5.png';
+import usage_6 from '@/assets/usage_6.png';
+import usage_7 from '@/assets/usage_7.png';
+import usage_8 from '@/assets/usage_8.png';
+import usage_9 from '@/assets/usage_9.png';
+import usage_10 from '@/assets/usage_10.png';
 export default function Page() {
   const [targetOffset, setTargetOffset] = useState<number | undefined>(
     undefined,
@@ -179,10 +189,21 @@ export default function Page() {
             </Link>
             <Link href="#usage" title={'6. Database Usage'}>
               <Link
+                href="#usage_home"
+                title={
+                  <div>
+                    <p>6.1 Home Page</p>
+                  </div>
+                }
+                className={classnames({
+                  [styles.hide]: !current.startsWith('#usage'),
+                })}
+              />
+              <Link
                 href="#usage_dataset"
                 title={
                   <div>
-                    <p>6.1 Browse - GWAS Datasets</p>
+                    <p>6.2 Browse - GWAS Datasets</p>
                   </div>
                 }
                 className={classnames({
@@ -193,7 +214,7 @@ export default function Page() {
                 href="#usage_cmap"
                 title={
                   <div>
-                    <p>6.2 Browse - CMap Signatures</p>
+                    <p>6.3 Browse - CMap Signatures</p>
                   </div>
                 }
                 className={classnames({
@@ -204,7 +225,7 @@ export default function Page() {
                 href="#usage_geo"
                 title={
                   <div>
-                    <p>6.3 Browse - GEO Signatures</p>
+                    <p>6.4 Browse - GEO Signatures</p>
                   </div>
                 }
                 className={classnames({
@@ -212,21 +233,10 @@ export default function Page() {
                 })}
               />
               <Link
-                href="#usage_explore_cmap"
+                href="#usage_explore"
                 title={
                   <div>
-                    <p>6.4 Explore - CMap Results</p>
-                  </div>
-                }
-                className={classnames({
-                  [styles.hide]: !current.startsWith('#usage'),
-                })}
-              />
-              <Link
-                href="#usage_explore_geo"
-                title={
-                  <div>
-                    <p>6.5 Explore - GEO Results</p>
+                    <p>6.5 Explore - CMap and GEO</p>
                   </div>
                 }
                 className={classnames({
@@ -371,30 +381,64 @@ export default function Page() {
               <Title level={1}>
                 6	Database Usage
               </Title>
+              <div id={'usage_home'}>
+                <Title level={2}>
+                  6.1 Home Page
+                </Title>
+                <Paragraph>
+                  The home page provides an overview search function for users to query the database using trait keywords for GAWS Datasets, CMap Name for CMap Signatures, GEO keyword for GEO signatures. Moreover, the home page provides summarizes the main resources in the database, including the number of datasets, signatures, connectivity methods and results disease-drug pairs.
+                </Paragraph>
+                <Image src={usage_1} preview={false}/>
+              </div>
               <div id={'usage_dataset'}>
                 <Title level={2}>
-                  6.1 Browse - GWAS Datasets
+                  6.2 Browse - GWAS Datasets
                 </Title>
+                <Paragraph>
+                  This page contains 1948 GWAS datasets that can be easily accessed using the advanced search and filter options. By clicking the Dataset ID, you can browse the detailed information about the datasets and its corresponding results for drug repurposing.
+                </Paragraph>
+                <Image src={usage_2} preview={false}/>
+                <Paragraph>
+                  The detailed page for single dataset including four major components: Dataset Meta Information, deTS Calculated Causal Tissues, drug candidates derived from CMap signatures (CMap Results Overview) and GEO signatures (GEO Results Overview). The advanced search and filter function were also provided in this page. By clicking the Association ID, you can link to the Explore Page of the corresponding result item.
+                </Paragraph>
+                <Image src={usage_3} preview={false}/>
               </div>
               <div id={'usage_cmap'}>
                 <Title level={2}>
-                  6.2 Browse - CMap Signatures
+                  6.3 Browse - CMap Signatures
                 </Title>
+                <Paragraph>
+                  The CMap Signarues page contains 720,216 small molecule compound CMap signatures that can be easily accessed using the advanced search and filter options. By clicking the Signature ID, you can browse the detailed information about the signature and its corresponding results with all GWAS datasets for drug repurposing.
+                </Paragraph>
+                <Image src={usage_4} preview={false}/>
+                <Paragraph>
+                  The detailed page for single signature including two major components: Signature Meta Information and the overview of the drug repurposing results based on this signature. By clicking on the Association ID, you can link to the Explore Page of the corresponding result item.
+                </Paragraph>
+                <Image src={usage_5} preview={false}/>
               </div>
               <div id={'usage_geo'}>
                 <Title level={2}>
-                  6.3 Browse - GEO Signatures
+                  6.4 Browse - GEO Signatures
                 </Title>
+                <Paragraph>
+                  This page contains the 4269 perturbation signatures from GEO, which were download from SigCom LINCS. These signatures can be easily accessed using the advanced search and filter options. By clicking the Signature ID, you can browse the detailed information about the signature and its corresponding results with all GWAS datasets for drug repurposing.
+                </Paragraph>
+                <Image src={usage_6} preview={false}/>
+                <Paragraph>
+                  The CMap Signarues page contains 720,216 small molecule compound CMap signatures that can be easily accessed using the advanced search and filter options. By clicking the Signature ID, you can browse the detailed information about the signature and its corresponding results with all GWAS datasets for drug repurposing.
+                </Paragraph>
+                <Image src={usage_7} preview={false}/>
               </div>
-              <div id={'usage_explore_cmap'}>
+              <div id={'usage_explore'}>
                 <Title level={2}>
-                  6.4 Explore - CMap Results
+                  6.5 Explore - CMap and GEO
                 </Title>
-              </div>
-              <div id={'usage_explore_geo'}>
-                <Title level={2}>
-                  6.5 Explore - GEO Results
-                </Title>
+                <Paragraph>
+                  The Explore page contains the comprehensive details about the corresponding drug-disease pair, including four major components: Meta Information of the disease and drug, the overview of the six connectivity methods of evaluation, the GSEA results for the S-PrediXcan signatures in the pre-ranked gene list of CMap/GEO signature, the reverse intersection analysis using the extreme genes of the two kinds of signatures (Disease: S-PrediXcan and Drug: CMap or GEO), and the bar plot about the detail gene list of the extreme genes with its corresponding Z-scores.
+                </Paragraph>
+                <Image src={usage_8} preview={false}/>
+                <Image src={usage_9} preview={false}/>
+                <Image src={usage_10} preview={false}/>
               </div>
             </div>
           </div>
