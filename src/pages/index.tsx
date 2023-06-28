@@ -516,7 +516,7 @@ export default function IndexPage() {
               style={{ width: '50%', textAlign: 'center', height: '130px' }}
               hoverable={true}
               onClick={() => {
-                window.open(URL_PREFIX + '/explorecmap/CARDIoGRAMplusC4D__28209224__Coronary_Artery_Disease/Artery_Coronary/519170');
+                window.open(URL_PREFIX + '/allcmapresult');
               }}
             >
               <Statistic
@@ -534,7 +534,7 @@ export default function IndexPage() {
               style={{ width: '50%', textAlign: 'center', height: '130px' }}
               hoverable={true}
               onClick={() => {
-                window.open(URL_PREFIX + '/exploregeo/CARDIoGRAMplusC4D__28714975__Coronary_Artery_Disease/Whole_Blood/GSE102498_1');
+                window.open(URL_PREFIX + '/allgeoresult');
               }}
             >
               <Statistic

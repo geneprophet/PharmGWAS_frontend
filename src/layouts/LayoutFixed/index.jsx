@@ -48,9 +48,9 @@ export default function (props) {
       setSelectkey('2-2');
     } else if (history.location.pathname.startsWith('/geooverview') | history.location.pathname.startsWith("/georesult")) {
       setSelectkey('2-3');
-    } else if (history.location.pathname.startsWith('/explorecmap')) {
+    } else if (history.location.pathname.startsWith('/explorecmap') | history.location.pathname.startsWith("/allcmapresult")) {
       setSelectkey('3');
-    } else if (history.location.pathname.startsWith('/exploregeo')) {
+    } else if (history.location.pathname.startsWith('/exploregeo') | history.location.pathname.startsWith("/allgeoresult")) {
       setSelectkey('4');
     } else if (history.location.pathname.startsWith('/download')) {
       setSelectkey('5');
@@ -127,7 +127,7 @@ export default function (props) {
       label: (
         <a
           onClick={() => {
-            history.push('/explorecmap/CARDIoGRAMplusC4D__28209224__Coronary_Artery_Disease/Artery_Coronary/519170');
+            history.push('/allcmapresult');
           }}
         >
           <strong style={{ color: '#252746' }}>CMap Results</strong>
@@ -140,7 +140,7 @@ export default function (props) {
       label: (
         <a
           onClick={() => {
-            history.push('/exploregeo/CARDIoGRAMplusC4D__28714975__Coronary_Artery_Disease/Whole_Blood/GSE102498_1');
+            history.push('/allgeoresult');
           }}
         >
           <strong style={{ color: '#252746' }}>GEO Results</strong>

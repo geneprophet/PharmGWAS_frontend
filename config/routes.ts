@@ -32,6 +32,14 @@ export default [
         component: '@/pages/ExploreCMap',
       },
       {
+        path: '/allcmapresult',
+        component: '@/pages/AllCMapResults',
+      },
+      {
+        path: '/allgeoresult',
+        component: '@/pages/AllGEOResults',
+      },
+      {
         path: '/geooverview/:name',
         component: '@/pages/GEOOverview',
       },
