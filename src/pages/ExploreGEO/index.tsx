@@ -300,7 +300,7 @@ export default function Page(props:any) {
               </a>
             </Breadcrumb.Item>
             <Breadcrumb.Item>
-              <a href="/datasetoverview/all">
+              <a href={URL_PREFIX +"/datasetoverview/all"}>
                 <strong style={{ fontFamily: 'sans-serif' }}>
                   GWAS Datasets
                 </strong>

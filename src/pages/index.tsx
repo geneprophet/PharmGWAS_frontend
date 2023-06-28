@@ -525,7 +525,7 @@ export default function IndexPage() {
                     CMap Results
                   </strong>
                 }
-                value={977466}
+                value={663029}
                 valueStyle={{ color: '#3f8600' }}
                 prefix={<CompoundIcon />}
               />
@@ -543,7 +543,7 @@ export default function IndexPage() {
                     GEO Results
                   </strong>
                 }
-                value={9089}
+                value={5712}
                 valueStyle={{ color: '#3f8600' }}
                 prefix={<TreatmentIcon />}
               />

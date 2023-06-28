@@ -501,7 +501,7 @@ export default function Page(props: any) {
               </a>
             </Breadcrumb.Item>
             <Breadcrumb.Item>
-              <a href="/cmapoverview/all">
+              <a href={URL_PREFIX +"/cmapoverview/all"}>
                 <strong style={{ fontFamily: 'sans-serif' }}>
                   CMap Signatures
                 </strong>

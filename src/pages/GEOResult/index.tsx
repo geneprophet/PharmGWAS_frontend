@@ -489,7 +489,7 @@ export default function Page(props:any) {
               </a>
             </Breadcrumb.Item>
             <Breadcrumb.Item>
-              <a href="/geooverview/all">
+              <a href={URL_PREFIX +"/geooverview/all"}>
                 <strong style={{ fontFamily: 'sans-serif' }}>
                   GEO Signatures
                 </strong>

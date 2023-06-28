@@ -191,23 +191,48 @@ export default function Page(props: any) {
         return (
           <Select
             key={'cmapnameSelect'}
-            showSearch={false}
-            placeholder={'select a Tissue'}
+            showSearch={true}
+            placeholder={'input and select a Tissue'}
             filterOption={false}
             onFocus={async () => {
-              const remoteKeywords = await getRemoteDeTSResult({
+              const remoteKeywords = await getRemoteCMapResult({
                 pageSize: 100,
                 pageIndex: 1,
                 dataset:keywords.dataset,
-                sort_field: undefined,
-                sort_direction: undefined
+                datasetid:keywords.datasetid,
+                tissue:undefined,
+                cmap_name: keywords.cmap_name,
+                sig_index: undefined,
+                sort_field:undefined,
+                sort_direction:undefined,
               });
               if (remoteKeywords) {
                 const nameList = new Set();
-                nameList.add(remoteKeywords.data[0].top_1);
-                nameList.add(remoteKeywords.data[0].top_2);
-                nameList.add(remoteKeywords.data[0].top_3);
-                nameList.add("Whole_Blood");
+                remoteKeywords.data.forEach(function (v) {
+                  if (v) {
+                    nameList.add(v.tissue);
+                  }
+                });
+                setTissuelist(nameList);
+              }
+            }}
+            onSearch={async (value: string) => {
+              const remoteKeywords = await getRemoteCMapResultLike({
+                pageSize: 100,
+                pageIndex: 1,
+                dataset:keywords.dataset,
+                datasetid:keywords.datasetid,
+                tissue:value,
+                cmap_name: keywords.cmap_name,
+                sig_index: undefined,
+              });
+              if (remoteKeywords) {
+                const nameList = new Set();
+                remoteKeywords.data.forEach(function (v) {
+                  if (v) {
+                    nameList.add(v.tissue);
+                  }
+                });
                 setTissuelist(nameList);
               }
             }}
@@ -566,19 +591,44 @@ export default function Page(props: any) {
             placeholder={'select a Tissue'}
             filterOption={false}
             onFocus={async () => {
-              const remoteKeywords = await getRemoteDeTSResult({
+              const remoteKeywords = await getRemoteCMapResult({
                 pageSize: 100,
                 pageIndex: 1,
                 dataset:keywords.dataset,
-                sort_field: undefined,
-                sort_direction: undefined
+                datasetid:keywords.datasetid,
+                tissue:undefined,
+                cmap_name: keywords.cmap_name,
+                sig_index: undefined,
+                sort_field:undefined,
+                sort_direction:undefined,
               });
               if (remoteKeywords) {
                 const nameList = new Set();
-                nameList.add(remoteKeywords.data[0].top_1);
-                nameList.add(remoteKeywords.data[0].top_2);
-                nameList.add(remoteKeywords.data[0].top_3);
-                nameList.add("Whole_Blood");
+                remoteKeywords.data.forEach(function (v) {
+                  if (v) {
+                    nameList.add(v.tissue);
+                  }
+                });
+                setTissuelist(nameList);
+              }
+            }}
+            onSearch={async (value: string) => {
+              const remoteKeywords = await getRemoteCMapResultLike({
+                pageSize: 100,
+                pageIndex: 1,
+                dataset:keywords.dataset,
+                datasetid:keywords.datasetid,
+                tissue:value,
+                cmap_name: keywords.cmap_name,
+                sig_index: undefined,
+              });
+              if (remoteKeywords) {
+                const nameList = new Set();
+                remoteKeywords.data.forEach(function (v) {
+                  if (v) {
+                    nameList.add(v.tissue);
+                  }
+                });
                 setTissuelist(nameList);
               }
             }}
@@ -904,7 +954,7 @@ export default function Page(props: any) {
                 </a>
               </Breadcrumb.Item>
               <Breadcrumb.Item>
-                <a href="/datasetoverview/all">
+                <a href={URL_PREFIX + "/datasetoverview/all"}>
                   <strong style={{ fontFamily: 'sans-serif' }}>
                     GWAS Datasets
                   </strong>

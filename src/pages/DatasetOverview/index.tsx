@@ -86,25 +86,25 @@ export default function Page(props: any) {
   const [selectitemsrowkey, setSelectitemsrowkey] = useState([]);
   const columns = [
     Table.SELECTION_COLUMN,
-    {
-      title: <strong style={{ fontFamily: 'sans-serif' }}>Dataset ID</strong>,
-      key: 'datasetid',
-      dataIndex: 'datasetid',
-      ellipsis: true,
-      width: 150,
-      search: false,
-      sorter: true,
-      render: (text: string, record: any) => (
-        <span>
-          <a href={URL_PREFIX + '/datasetresult/' + record.dataset} target={'_blank'}>
-            <Space style={{ fontWeight: 'bold' }}>
-              {record.datasetid}
-              <AnalysisIcon />
-            </Space>
-          </a>
-        </span>
-      ),
-    },
+    // {
+    //   title: <strong style={{ fontFamily: 'sans-serif' }}>Dataset ID</strong>,
+    //   key: 'datasetid',
+    //   dataIndex: 'datasetid',
+    //   ellipsis: true,
+    //   width: 150,
+    //   search: false,
+    //   sorter: true,
+    //   render: (text: string, record: any) => (
+    //     <span>
+    //       <a href={URL_PREFIX + '/datasetresult/' + record.dataset} target={'_blank'}>
+    //         <Space style={{ fontWeight: 'bold' }}>
+    //           {record.datasetid}
+    //           <AnalysisIcon />
+    //         </Space>
+    //       </a>
+    //     </span>
+    //   ),
+    // },
     {
       title: <strong style={{ fontFamily: 'sans-serif' }}>Dataset Name</strong>,
       key: 'dataset',
@@ -173,6 +173,16 @@ export default function Page(props: any) {
           </Select>
         );
       },
+      render: (text: string, record: any) => (
+        <span>
+          <a href={URL_PREFIX + '/datasetresult/' + record.dataset} target={'_blank'}>
+            <Space style={{ fontWeight: 'bold' }}>
+              {record.dataset}
+              <AnalysisIcon />
+            </Space>
+          </a>
+        </span>
+      ),
     },
     {
       title: <strong style={{ fontFamily: 'sans-serif' }}>Dataset Source</strong>,
