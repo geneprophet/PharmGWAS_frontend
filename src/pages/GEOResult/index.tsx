@@ -284,22 +284,6 @@ export default function Page(props:any) {
       }
     },
     {
-      title: <strong style={{ fontFamily: 'sans-serif' }}>ES Down</strong>,
-      key: 'es_down',
-      dataIndex: 'es_down',
-      tooltip: 'Enrichment Score of disease down regulated genes in the drug-induced pre-rank gene list',
-      ellipsis: true,
-      search: false,
-      sorter:true,
-      render:(text,record,index) => {
-        if (Math.abs(record.es_down) < 0.01){
-          return record.es_down.toExponential(4)
-        }else {
-          return record.es_down.toFixed(4)
-        }
-      }
-    },
-    {
       title: <strong style={{ fontFamily: 'sans-serif' }}>ES Up P-adj</strong>,
       key: 'es_up_padj',
       dataIndex: 'es_up_padj',
@@ -312,6 +296,22 @@ export default function Page(props:any) {
           return record.es_up_padj.toExponential(4)
         }else {
           return record.es_up_padj.toFixed(4)
+        }
+      }
+    },
+    {
+      title: <strong style={{ fontFamily: 'sans-serif' }}>ES Down</strong>,
+      key: 'es_down',
+      dataIndex: 'es_down',
+      tooltip: 'Enrichment Score of disease down regulated genes in the drug-induced pre-rank gene list',
+      ellipsis: true,
+      search: false,
+      sorter:true,
+      render:(text,record,index) => {
+        if (Math.abs(record.es_down) < 0.01){
+          return record.es_down.toExponential(4)
+        }else {
+          return record.es_down.toFixed(4)
         }
       }
     },
@@ -524,7 +524,7 @@ export default function Page(props:any) {
       <Divider/>
       <Row justify={'center'}>
         <Title level={2}>
-          GEO Results Overview
+          GEO Result Overview
         </Title>
         <Col md={24}>
           <ProTable

@@ -130,7 +130,7 @@ export default function (props) {
             history.push('/explorecmap/CARDIoGRAMplusC4D__28209224__Coronary_Artery_Disease/Artery_Coronary/519170');
           }}
         >
-          <strong style={{ color: '#252746' }}>Explore CMap</strong>
+          <strong style={{ color: '#252746' }}>CMap Results</strong>
         </a>
       ),
       key: '3',
@@ -143,7 +143,7 @@ export default function (props) {
             history.push('/exploregeo/CARDIoGRAMplusC4D__28714975__Coronary_Artery_Disease/Whole_Blood/GSE102498_1');
           }}
         >
-          <strong style={{ color: '#252746' }}>Explore GEO</strong>
+          <strong style={{ color: '#252746' }}>GEO Results</strong>
         </a>
       ),
       key: '4',

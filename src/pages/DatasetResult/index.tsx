@@ -329,22 +329,6 @@ export default function Page(props: any) {
       }
     },
     {
-      title: <strong style={{ fontFamily: 'sans-serif' }}>ES Down</strong>,
-      key: 'es_down',
-      dataIndex: 'es_down',
-      tooltip: 'Enrichment Score of disease down regulated genes in the drug-induced pre-rank gene list',
-      ellipsis: true,
-      search: false,
-      sorter:true,
-      render:(text,record,index) => {
-        if (Math.abs(record.es_down) < 0.01){
-          return record.es_down.toExponential(4)
-        }else {
-          return record.es_down.toFixed(4)
-        }
-      }
-    },
-    {
       title: <strong style={{ fontFamily: 'sans-serif' }}>ES Up P-adj</strong>,
       key: 'es_up_padj',
       dataIndex: 'es_up_padj',
@@ -357,6 +341,22 @@ export default function Page(props: any) {
           return record.es_up_padj.toExponential(4)
         }else {
           return record.es_up_padj.toFixed(4)
+        }
+      }
+    },
+    {
+      title: <strong style={{ fontFamily: 'sans-serif' }}>ES Down</strong>,
+      key: 'es_down',
+      dataIndex: 'es_down',
+      tooltip: 'Enrichment Score of disease down regulated genes in the drug-induced pre-rank gene list',
+      ellipsis: true,
+      search: false,
+      sorter:true,
+      render:(text,record,index) => {
+        if (Math.abs(record.es_down) < 0.01){
+          return record.es_down.toExponential(4)
+        }else {
+          return record.es_down.toFixed(4)
         }
       }
     },
@@ -699,22 +699,6 @@ export default function Page(props: any) {
       }
     },
     {
-      title: <strong style={{ fontFamily: 'sans-serif' }}>ES Down</strong>,
-      key: 'es_down',
-      dataIndex: 'es_down',
-      tooltip: 'Enrichment Score of disease down regulated genes in the drug-induced pre-rank gene list',
-      ellipsis: true,
-      search: false,
-      sorter:true,
-      render:(text,record,index) => {
-        if (Math.abs(record.es_down) < 0.01){
-          return record.es_down.toExponential(4)
-        }else {
-          return record.es_down.toFixed(4)
-        }
-      }
-    },
-    {
       title: <strong style={{ fontFamily: 'sans-serif' }}>ES Up P-adj</strong>,
       key: 'es_up_padj',
       dataIndex: 'es_up_padj',
@@ -727,6 +711,22 @@ export default function Page(props: any) {
           return record.es_up_padj.toExponential(4)
         }else {
           return record.es_up_padj.toFixed(4)
+        }
+      }
+    },
+    {
+      title: <strong style={{ fontFamily: 'sans-serif' }}>ES Down</strong>,
+      key: 'es_down',
+      dataIndex: 'es_down',
+      tooltip: 'Enrichment Score of disease down regulated genes in the drug-induced pre-rank gene list',
+      ellipsis: true,
+      search: false,
+      sorter:true,
+      render:(text,record,index) => {
+        if (Math.abs(record.es_down) < 0.01){
+          return record.es_down.toExponential(4)
+        }else {
+          return record.es_down.toFixed(4)
         }
       }
     },
@@ -925,34 +925,36 @@ export default function Page(props: any) {
           <Title level={2}>
             Dataset ID: <span style={{ color: '#F15412' }}>{dataset?.datasetid}</span>
           </Title>
-          <Col md={22}>
+        </Row>
+        <Row>
+          <Col md={11}>
             <Descriptions title={"Dataset Meta Information"} bordered={true} >
               <Descriptions.Item label="Dataset Name">{dataset?.dataset}</Descriptions.Item>
-              <Descriptions.Item label="Trait">{dataset?.trait}</Descriptions.Item>
+              <Descriptions.Item label="Trait" span={2}>{dataset?.trait}</Descriptions.Item>
               <Descriptions.Item label="PMID"><a href={"https://pubmed.ncbi.nlm.nih.gov/"+dataset?.pmid} target={"_blank"}>{dataset?.pmid}</a></Descriptions.Item>
-              <Descriptions.Item label="Sample Size">{dataset?.total}</Descriptions.Item>
+              <Descriptions.Item label="Sample Size"  span={2}>{dataset?.total}</Descriptions.Item>
               <Descriptions.Item label="Number of Cases">{dataset?.n_case}</Descriptions.Item>
-              <Descriptions.Item label="Number of Controls">{dataset?.n_control}</Descriptions.Item>
+              <Descriptions.Item label="Number of Controls"  span={2}>{dataset?.n_control}</Descriptions.Item>
             </Descriptions>
           </Col>
-        </Row>
-        <Divider/>
-        <Row justify={'center'}>
-          <Col md={22}>
-            <Descriptions title={"deTS Calculated Causal Tissues"} bordered={true} >
+          <Col md={1}>
+            <Divider type={"vertical"}/>
+          </Col>
+          <Col md={11}>
+            <Descriptions title={"Trait-relevant Tissues Identified by deTS"} bordered={true} >
               <Descriptions.Item label="TOP 1">{detsresult.top_1?.replace("_"," ")}</Descriptions.Item>
+              <Descriptions.Item label="Raw P-value 1" span={2}>{detsresult.pvalue_1 < 0.001 ? detsresult.pvalue_1?.toExponential(4) : detsresult.pvalue_1?.toFixed(4)}</Descriptions.Item>
               <Descriptions.Item label="TOP 2">{detsresult.top_2?.replace("_"," ")}</Descriptions.Item>
+              <Descriptions.Item label="Raw P-value 2" span={2}>{detsresult.pvalue_2 < 0.001 ? detsresult.pvalue_2?.toExponential(4) : detsresult.pvalue_2?.toFixed(4)}</Descriptions.Item>
               <Descriptions.Item label="TOP 3">{detsresult.top_3?.replace("_"," ")}</Descriptions.Item>
-              <Descriptions.Item label="P-value 1">{detsresult.pvalue_1 < 0.001 ? detsresult.pvalue_1?.toExponential(4) : detsresult.pvalue_1?.toFixed(4)}</Descriptions.Item>
-              <Descriptions.Item label="P-value 2">{detsresult.pvalue_2 < 0.001 ? detsresult.pvalue_2?.toExponential(4) : detsresult.pvalue_2?.toFixed(4)}</Descriptions.Item>
-              <Descriptions.Item label="P-value 3">{detsresult.pvalue_3 < 0.001 ? detsresult.pvalue_3?.toExponential(4) : detsresult.pvalue_3?.toFixed(4)}</Descriptions.Item>
+              <Descriptions.Item label="Raw P-value 3" span={2}>{detsresult.pvalue_3 < 0.001 ? detsresult.pvalue_3?.toExponential(4) : detsresult.pvalue_3?.toFixed(4)}</Descriptions.Item>
             </Descriptions>
           </Col>
         </Row>
         <Divider/>
         <Row justify={'center'}>
           <Title level={2}>
-            CMap Results Overview
+            CMap Result Overview
           </Title>
           <Col md={24}>
             <ProTable
@@ -1161,7 +1163,7 @@ export default function Page(props: any) {
         <Divider/>
         <Row justify={'center'}>
           <Title level={2}>
-            GEO Results Overview
+            GEO Result Overview
           </Title>
           <Col md={24}>
             <ProTable

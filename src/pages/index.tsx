@@ -565,7 +565,7 @@ export default function IndexPage() {
                 Network problems being solved 2022-06-22
               </Timeline.Item>
               <Timeline.Item style={{ fontSize: '1.2em' }}>
-                All analysis were finished on 2022-6-21
+                All analyses were finished on 2022-6-21
               </Timeline.Item>
               <Timeline.Item style={{ fontSize: '1.2em' }}>
                 All GWAS datasets were collected on 2022-03-15

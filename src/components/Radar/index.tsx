@@ -50,7 +50,7 @@ export default function Index(props: any) {
             type: 'radar',
             data: [
               {
-                value: [-props.data.wtcs, -props.data.xsum, -props.data.css, -Math.log10(props.data.css_pvalue), -props.data.spearman,-props.data.pearson, -props.data.cosine],
+                value: [-props.data.wtcs.toFixed(3), -props.data.xsum.toFixed(3), -props.data.css.toFixed(3), -Math.log10(props.data.css_pvalue).toFixed(3), -props.data.spearman.toFixed(3),-props.data.pearson.toFixed(3), -props.data.cosine.toFixed(3)],
                 name: 'Actual Spending',
                 areaStyle: {
                   color: new echarts.graphic.RadialGradient(0.1, 0.6, 1, [

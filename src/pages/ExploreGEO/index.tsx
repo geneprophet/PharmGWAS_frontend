@@ -341,7 +341,7 @@ export default function Page(props:any) {
       <Divider/>
       <Row justify={'center'}>
         <Title level={2} >
-          Overview  of the Six Evaluation Methods
+          Overview of the reuslts from six connectivity methods
         </Title>
       </Row>
       <Row justify={'center'}>
@@ -389,7 +389,7 @@ export default function Page(props:any) {
       <Divider/>
       <Row justify={'center'}>
         <Title level={2}>
-          Details of Extreme Regulated Genes
+          Details of extremely regulated genes
         </Title>
       </Row>
       <Row justify={'center'}>

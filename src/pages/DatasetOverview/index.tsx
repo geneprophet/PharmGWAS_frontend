@@ -91,7 +91,7 @@ export default function Page(props: any) {
       key: 'datasetid',
       dataIndex: 'datasetid',
       ellipsis: true,
-      // width: 150,
+      width: 150,
       search: false,
       sorter: true,
       render: (text: string, record: any) => (
@@ -110,6 +110,7 @@ export default function Page(props: any) {
       key: 'dataset',
       dataIndex: 'dataset',
       ellipsis: true,
+      width: 150,
       sorter: true,
       renderFormItem: () => {
         const options = datasetnamelist.map((item) => (
@@ -178,6 +179,7 @@ export default function Page(props: any) {
       key: 'source',
       dataIndex: 'source',
       ellipsis: true,
+      width: 150,
       search: false,
       sorter: true,
       render: (text: string, record: any) => (
@@ -195,6 +197,7 @@ export default function Page(props: any) {
       ellipsis: true,
       search: true,
       sorter: true,
+      width:200,
       renderFormItem: () => {
         const options = traitlist.map((item) => (
           <Select.Option key={item} value={item} type={item}>
@@ -425,7 +428,7 @@ export default function Page(props: any) {
             options={false}
             dataSource={datasets}
             loading={loading}
-            scroll={{ x: 2000 }}
+            scroll={{ x: 1200 }}
             rowKey={(record: any) => {
               return record.id.toString() + 'table';
             }}
