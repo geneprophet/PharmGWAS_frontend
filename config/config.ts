@@ -29,12 +29,12 @@ export default defineConfig({
   theme: {
     '@primary-color': '#0c64b6',
   },
-  // favicon: 'https://ngdc.cncb.ac.cn/braincatalog/img/favicon.ico',
-  // headScripts: [
-  //   {
-  //     content: `var _hmt = _hmt || []; (function() {var hm = document.createElement("script");hm.src = "https://hm.baidu.com/hm.js?b43152d40264dadd1c7c5984feeee5e4";var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(hm, s);})();`,
-  //   },
-  // ],
+  favicon: 'https://ngdc.cncb.ac.cn/pharmgwas/img/favicon.ico',
+  headScripts: [
+    {
+      content: `var _hmt = _hmt || []; (function() {var hm = document.createElement("script");hm.src = "https://hm.baidu.com/hm.js?4d1079128b03d56379e3b9bd954af2cc";var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(hm, s);})();`,
+    },
+  ],
   metas: [
     {
       name: 'viewport',

@@ -175,7 +175,7 @@ export default function Page(props: any) {
       },
       render: (text: string, record: any) => (
         <span>
-          <a href={URL_PREFIX + '/datasetresult/' + record.dataset} target={'_blank'}>
+          <a href={URL_PREFIX + '/datasetresult/' + record.dataset}>
             <Space style={{ fontWeight: 'bold' }}>
               {record.dataset}
               <AnalysisIcon />

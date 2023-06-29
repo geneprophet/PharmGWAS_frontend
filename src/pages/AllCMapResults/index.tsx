@@ -62,7 +62,7 @@ export default function Page() {
       sorter: true,
       render: (text: string, record: any) => (
         <span>
-          <a href={URL_PREFIX + '/explorecmap/' + record.dataset + "/" + record.tissue + "/" + record.sig_index} target={'_blank'}>
+          <a href={URL_PREFIX + '/explorecmap/' + record.dataset + "/" + record.tissue + "/" + record.sig_index}>
             <Space style={{ fontWeight: 'bold' }}>
               {'PCMAP'+record.id.toString().padStart(10,'0')}
               <AnalysisIcon />

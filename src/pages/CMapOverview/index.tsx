@@ -102,7 +102,7 @@ export default function Page(props: any) {
       tooltip:'Unique identifier for the signature',
       render: (text: string, record: any) => (
         <span>
-          <a href={URL_PREFIX + '/cmapresult/' + record.sig_index} target={'_blank'}>
+          <a href={URL_PREFIX + '/cmapresult/' + record.sig_index}>
             <Space style={{ fontWeight: 'bold' }}>
               {record.sig_id}
               <AnalysisIcon />
