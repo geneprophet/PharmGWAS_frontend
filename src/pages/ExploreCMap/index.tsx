@@ -316,7 +316,7 @@ export default function Page(props:any) {
             <Breadcrumb.Item>
               <a href={URL_PREFIX + "/datasetresult/" + dataset?.dataset}>
                 <strong style={{ fontFamily: 'sans-serif' }}>
-                  {dataset?.datasetid}
+                  {dataset?.dataset}
                 </strong>
               </a>
             </Breadcrumb.Item>

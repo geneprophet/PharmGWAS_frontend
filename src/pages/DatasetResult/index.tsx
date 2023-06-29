@@ -963,7 +963,7 @@ export default function Page(props: any) {
               <Breadcrumb.Item>
                 <a href="">
                   <strong style={{ fontFamily: 'sans-serif' }}>
-                    {dataset?.datasetid}
+                    {dataset?.dataset}
                   </strong>
                 </a>
               </Breadcrumb.Item>
@@ -973,14 +973,14 @@ export default function Page(props: any) {
         <Divider />
         <Row justify={'center'}>
           <Title level={2}>
-            Dataset ID: <span style={{ color: '#F15412' }}>{dataset?.datasetid}</span>
+            Dataset Name: <span style={{ color: '#F15412' }}>{dataset?.dataset}</span>
           </Title>
         </Row>
         <Row>
           <Col md={11}>
             <Descriptions title={"Dataset Meta Information"} bordered={true} >
-              <Descriptions.Item label="Dataset Name">{dataset?.dataset}</Descriptions.Item>
               <Descriptions.Item label="Trait" span={2}>{dataset?.trait}</Descriptions.Item>
+              <Descriptions.Item label="Dataset Source">{dataset?.source}</Descriptions.Item>
               <Descriptions.Item label="PMID"><a href={"https://pubmed.ncbi.nlm.nih.gov/"+dataset?.pmid} target={"_blank"}>{dataset?.pmid}</a></Descriptions.Item>
               <Descriptions.Item label="Sample Size"  span={2}>{dataset?.total}</Descriptions.Item>
               <Descriptions.Item label="Number of Cases">{dataset?.n_case}</Descriptions.Item>

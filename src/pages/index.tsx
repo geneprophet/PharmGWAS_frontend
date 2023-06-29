@@ -415,11 +415,11 @@ export default function IndexPage() {
                   <p>
                     3)	To infer disease-drug pairs by integrative analysis of the imputed gene expression signatures with drug-induced gene expression signatures.
                   </p>
-                  In total, PharmGWAS deposites <span style={{color:"red"}}>977,466</span> disease-drug pairs derived from
+                  In total, PharmGWAS deposites <span style={{color:"red"}}>663,029</span> disease-drug pairs derived from
                   <a href={'https://clue.io'} target={'_blank'}>
                     {' '}Connectivity Map (CMap){' '}
                   </a>
-                  signatures and <span style={{color:"red"}}>9,089</span> disease-drug pairs from
+                  signatures and <span style={{color:"red"}}>5,712</span> disease-drug pairs from
                   <a href={'https://www.ncbi.nlm.nih.gov/geo'} target={'_blank'}>
                     {' '}GEO{' '}
                   </a>
@@ -556,7 +556,7 @@ export default function IndexPage() {
           >
             <Timeline style={{ width: '100%' }}>
               <Timeline.Item style={{ fontSize: '1.2em' }} color={"green"}>
-                PharmGWAS Version 1.0 is released on 2022-06-30
+                PharmGWAS Version 1.0 is released on 2022-06-29
               </Timeline.Item>
               <Timeline.Item style={{ fontSize: '1.2em' }}>
                 Bugs fixed on 2022-06-28
