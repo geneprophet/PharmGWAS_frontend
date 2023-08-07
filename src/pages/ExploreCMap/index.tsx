@@ -227,7 +227,7 @@ export default function Page(props:any) {
           gene_name_list2.add(item.gene_name);
         });
         let intersect = new Set([...gene_name_list1].filter(x => gene_name_list2.has(x)));
-        let str = "Intersecting Genes: "
+        let str = "Overlapping  Genes: "
         intersect.forEach((x)=>{
           str=str+x+", ";
         });
@@ -267,7 +267,7 @@ export default function Page(props:any) {
         gene_name_list2.add(item.gene_name);
       });
       let intersect = new Set([...gene_name_list1].filter(x => gene_name_list2.has(x)));
-      let str = "Intersecting Genes: "
+      let str = "Overlapping Genes: "
       intersect.forEach((x)=>{
         str=str+x+", ";
       });

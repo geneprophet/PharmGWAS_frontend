@@ -981,9 +981,9 @@ export default function Page(props: any) {
             <Descriptions title={"Dataset Meta Information"} bordered={true} >
               <Descriptions.Item label="Trait" span={2}>{dataset?.trait}</Descriptions.Item>
               <Descriptions.Item label="Dataset Source">{dataset?.source}</Descriptions.Item>
-              <Descriptions.Item label="PMID"><a href={"https://pubmed.ncbi.nlm.nih.gov/"+dataset?.pmid} target={"_blank"}>{dataset?.pmid}</a></Descriptions.Item>
+              <Descriptions.Item label="PMID"  span={2} ><a href={"https://pubmed.ncbi.nlm.nih.gov/"+dataset?.pmid} target={"_blank"}>{dataset?.pmid}</a></Descriptions.Item>
               <Descriptions.Item label="Sample Size"  span={2}>{dataset?.total}</Descriptions.Item>
-              <Descriptions.Item label="Number of Cases">{dataset?.n_case}</Descriptions.Item>
+              <Descriptions.Item label="Number of Cases" span={2}>{dataset?.n_case}</Descriptions.Item>
               <Descriptions.Item label="Number of Controls"  span={2}>{dataset?.n_control}</Descriptions.Item>
             </Descriptions>
           </Col>
