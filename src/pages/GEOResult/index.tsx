@@ -512,7 +512,7 @@ export default function Page(props:any) {
         </Title>
         <Col md={22}>
           <Descriptions title={"Signature Meta Information"} bordered={true} >
-            <Descriptions.Item label="GEO Series">{geosignature?.series_id}</Descriptions.Item>
+            <Descriptions.Item label="GEO Series"><a href={"https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc="+geosignature?.series_id} target={"_blank"}>{geosignature?.series_id}</a></Descriptions.Item>
             <Descriptions.Item label="Signature Description" span={2}>{geosignature?.description}</Descriptions.Item>
             <Descriptions.Item label="Number of Cases">{geosignature?.pert_num}</Descriptions.Item>
             <Descriptions.Item label="Case Samples" span={2}>{geosignature?.pert_gsm}</Descriptions.Item>

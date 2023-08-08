@@ -352,7 +352,7 @@ export default function Page(props:any) {
       <Divider/>
       <Row justify={'center'}>
         <Title level={2}>
-          GSEA of disease up/down regulated genes in the pre-ranked list of GEO signature
+          GSEA of disease up and down regulated genes in the pre-ranked gene list of GEO signature
         </Title>
       </Row>
       <Row justify={'center'}>
@@ -375,7 +375,7 @@ export default function Page(props:any) {
       <Divider/>
       <Row justify={'center'}>
         <Title level={2}>
-          Reverse Intersection Analysis
+          Reverse intersection analysis of up and down regulated genes of disease and perturbation
         </Title>
       </Row>
       <Row justify={'center'}>
@@ -389,7 +389,7 @@ export default function Page(props:any) {
       <Divider/>
       <Row justify={'center'}>
         <Title level={2}>
-          Details of extremely regulated genes
+          Z-scores of up and down regulated genes of disease and perturbation
         </Title>
       </Row>
       <Row justify={'center'}>

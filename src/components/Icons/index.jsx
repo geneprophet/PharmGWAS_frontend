@@ -398,6 +398,14 @@ const landscapeSvg = () => (
     ></path>
   </svg>
 );
+const detailSvg = () => (
+  <svg t="1691407375381" className="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
+       p-id="13391" id="mx_n_1691407375381" width="1em" height="1em">
+    <path
+      d="M955.456 67.392c-3.968-3.584-9.664-4.416-14.464-2.112L71.744 527.168C67.072 529.408 64.064 534.208 64 539.456 63.936 544.704 66.88 549.568 71.488 551.872l246.016 123.2c4.48 2.24 9.856 1.728 13.888-1.344l239.168-232.256-154.624 258.624c-2.112 2.688-3.136 6.4-2.944 10.112l14.592 237.76c0.32 5.248 3.136 9.792 7.168 11.392C435.84 959.808 436.928 960 438.016 960c3.008 0 5.888-1.6 7.872-4.544l105.92-154.56 161.408 78.72c3.52 1.728 7.552 1.792 11.136 0.192 3.584-1.6 6.272-4.672 7.424-8.448L959.36 81.728C960.96 76.608 959.424 70.976 955.456 67.392z"
+      p-id="13392" fill="#0c64b6"></path>
+  </svg>
+);
 const drugSvg = () => (
   <svg t="1685604254586" className="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
        p-id="2519" width="1em" height="1em">
@@ -469,3 +477,4 @@ export const CompoundIcon = (props) => <Icon component={compoundSvg} {...props} 
 export const CmapIcon = (props) => <Icon component={cmapSvg} {...props} />;
 export const DrugIcon = (props) => <Icon component={drugSvg} {...props} />;
 export const VSIcon = (props) => <Icon component={vsSvg} {...props} />;
+export const DetailIcon = (props) => <Icon component={detailSvg} {...props} />;

@@ -553,7 +553,7 @@ export default function Page() {
       <Divider />
       <Row justify={'center'}>
         <Title level={2}>
-          GEO Result Overview
+          All GEO Results Overview
         </Title>
       </Row>
       <Row>

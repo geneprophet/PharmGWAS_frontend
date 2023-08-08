@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styles from './index.less';
-import { Breadcrumb, Col, Descriptions, Divider, Row, Typography, Image,Spin  } from "antd";
+import { Breadcrumb, Col, Descriptions, Divider, Row, Typography, Image, Spin, Space } from "antd";
 import { URL_PREFIX ,uniqueArray,IMG_PREFIX} from '@/common/constants';
 import { getRemoteDataset } from "@/pages/DatasetOverview/service";
 import { getRemoteCMapResult } from "@/pages/DatasetResult/service";
@@ -345,7 +345,7 @@ export default function Page(props:any) {
             <Descriptions.Item label="Trait Name">{dataset?.trait}</Descriptions.Item>
             <Descriptions.Item label="Dataset Name">{dataset?.dataset}</Descriptions.Item>
             <Descriptions.Item label="Tissue">{cmapresult?.tissue.replace("_"," ")}</Descriptions.Item>
-            <Descriptions.Item label="CMap Name">{cmapsignatures?.cmap_name}</Descriptions.Item>
+            <Descriptions.Item label="CMap Name"><a href={"https://pubchem.ncbi.nlm.nih.gov/#query="+cmapsignatures?.inchi_key} target={"_blank"}>{cmapsignatures?.cmap_name}</a></Descriptions.Item>
             <Descriptions.Item label="CMap Signature ID">{cmapsignatures?.sig_id}</Descriptions.Item>
             <Descriptions.Item label="InChiKey">{cmapsignatures?.inchi_key}</Descriptions.Item>
             <Descriptions.Item label="Cell Line">{cmapsignatures?.cell_iname}</Descriptions.Item>
@@ -368,7 +368,7 @@ export default function Page(props:any) {
       <Divider/>
       <Row justify={'center'}>
         <Title level={2}>
-          GSEA of disease up/down regulated genes in the pre-ranked list of CMap signature
+          GSEA of disease up and down regulated genes in the pre-ranked gene list of CMap signature
         </Title>
       </Row>
       <Row justify={'center'}>
@@ -389,9 +389,9 @@ export default function Page(props:any) {
         </Col>
       </Row>
       <Divider/>
-      <Row justify={'center'}>
-        <Title level={2}>
-          Reverse Intersection Analysis
+      <Row justify={'center'} >
+        <Title level={2} style={{ marginTop: '15px'}}>
+          Reverse intersection analysis of up and down regulated genes of disease and drug
         </Title>
       </Row>
       <Row justify={'center'}>
@@ -405,7 +405,7 @@ export default function Page(props:any) {
       <Divider/>
       <Row justify={'center'}>
         <Title level={2}>
-          Details of extremely regulated genes
+          Z-scores of up and down regulated genes of disease and drug
         </Title>
       </Row>
       <Row justify={'center'}>

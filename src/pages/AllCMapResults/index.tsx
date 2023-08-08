@@ -621,7 +621,7 @@ export default function Page() {
       <Divider />
         <Row justify={'center'}>
           <Title level={2}>
-            CMap Result Overview
+            All CMap Results Overview
           </Title>
           <Col md={24}>
             <ProTable

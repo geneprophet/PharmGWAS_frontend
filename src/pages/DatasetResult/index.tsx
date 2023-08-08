@@ -10,7 +10,7 @@ import { Breadcrumb, Col, Divider, Row, Select, Space, Table,Descriptions,Typogr
 const { Title, Text, Paragraph } = Typography;
 import { URL_PREFIX ,uniqueArray} from '@/common/constants';
 import {
-  AnalysisIcon
+  AnalysisIcon,DetailIcon
 } from "@/components/Icons/index";
 import { ProTable } from "@ant-design/pro-table";
 import { Parser } from 'json2csv';
@@ -318,6 +318,16 @@ export default function Page(props: any) {
           </Select>
         );
       },
+      render: (text: string, record: any) => (
+        <span>
+          <a href={"https://pubchem.ncbi.nlm.nih.gov/#query=" + record.cmap_name} target={'_blank'}>
+            <Space style={{ fontWeight: 'bold' }}>
+              {record.cmap_name}
+              <DetailIcon />
+            </Space>
+          </a>
+        </span>
+      ),
     },
     {
       title: <strong style={{ fontFamily: 'sans-serif' }}>WTCS</strong>,
