@@ -3,7 +3,7 @@ import styles from './index.less';
 import { getRemoteCMap, getRemoteCMapLike } from "@/pages/CMapOverview/service";
 import { Breadcrumb, Col, Divider, Row, Select, Space, Table } from "antd";
 import {
-  AnalysisIcon
+  AnalysisIcon,DetailIcon
 } from "../../components/Icons/index";
 import { URL_PREFIX ,uniqueArray} from '@/common/constants';
 import { ProTable } from "@ant-design/pro-table";
@@ -196,6 +196,31 @@ export default function Page(props: any) {
           </Select>
         );
       },
+      render: (text: string, record: any) => {
+        if (record.inchi_key.length == 0 ){
+          return (
+            <span>
+          <a href={"https://pubchem.ncbi.nlm.nih.gov/#query=" + record.cmap_name} target={'_blank'}>
+            <Space style={{ fontWeight: 'bold' }}>
+              {record.cmap_name}
+              <DetailIcon />
+            </Space>
+          </a>
+          </span>
+          )
+        }else {
+          return (
+            <span>
+          <a href={"https://pubchem.ncbi.nlm.nih.gov/#query=" + record.inchi_key} target={'_blank'}>
+            <Space style={{ fontWeight: 'bold' }}>
+              {record.cmap_name}
+              <DetailIcon />
+            </Space>
+          </a>
+          </span>
+          )
+        }
+      }
     },
     {
       title: <strong style={{ fontFamily: 'sans-serif' }}>Cell Line</strong>,

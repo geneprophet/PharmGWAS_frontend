@@ -296,9 +296,9 @@ export default function Page() {
           </Select>
         );
       },
-      // render:(text,record,index) => (
-      //   <a href={URL_PREFIX + '/georesult/' + record.accession} target={"_blank"}>{record.accession}</a>
-      // )
+      render:(text,record,index) => (
+        <a href={'https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=' + record.accession.split("_")[0]} target={"_blank"}>{record.accession}</a>
+      )
     },
     {
       title: <strong style={{ fontFamily: 'sans-serif' }}>WTCS</strong>,

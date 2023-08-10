@@ -4,7 +4,7 @@ import { Breadcrumb, Col, Divider, Row, Select, Space, Table, Typography } from 
 import { URL_PREFIX ,uniqueArray} from '@/common/constants';
 import { getRemoteAllCMapResult, getRemoteAllCMapResultLike } from "@/pages/AllCMapResults/service";
 import {
-  AnalysisIcon
+  AnalysisIcon,DetailIcon
 } from "@/components/Icons/index";
 import { Parser } from 'json2csv';
 const { Title, Text, Paragraph } = Typography;
@@ -367,6 +367,16 @@ export default function Page() {
           </Select>
         );
       },
+      render: (text: string, record: any) => (
+        <span>
+          <a href={"https://pubchem.ncbi.nlm.nih.gov/#query=" + record.cmap_name} target={'_blank'}>
+            <Space style={{ fontWeight: 'bold' }}>
+              {record.cmap_name}
+              <DetailIcon />
+            </Space>
+          </a>
+        </span>
+      ),
     },
     {
       title: <strong style={{ fontFamily: 'sans-serif' }}>WTCS</strong>,
