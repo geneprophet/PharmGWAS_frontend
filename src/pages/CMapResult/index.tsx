@@ -361,6 +361,24 @@ export default function Page(props: any) {
       }
     },
     {
+      title: <strong style={{ fontFamily: 'sans-serif' }}>XSum P</strong>,
+      key: 'xsum_pvalue',
+      dataIndex: 'xsum_pvalue',
+      tooltip: 'The p value of XSum',
+      ellipsis: true,
+      search: false,
+      sorter:true,
+      render:(text,record,index) => {
+        if(Math.abs(record.xsum_pvalue) == 0){
+          return <span>&lt;0.0001</span>
+        }else if (Math.abs(record.xsum_pvalue) < 0.01){
+          return record.xsum_pvalue.toExponential(4)
+        }else {
+          return record.xsum_pvalue.toFixed(4)
+        }
+      }
+    },
+    {
       title: <strong style={{ fontFamily: 'sans-serif' }}>CSS</strong>,
       key: 'css',
       dataIndex: 'css',
