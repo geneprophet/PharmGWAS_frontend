@@ -36,9 +36,9 @@ export default function Index(props: any) {
             indicator: [
               { name: 'WTCS', max: 1 },
               { name: 'XSum', max: 25 },
-              { name: '-log10(XSum p-value)', max: 5 },
+              { name: 'log10(XSum p-value)', max: 5 },
               { name: 'CSS', max: 0.2 },
-              { name: '-log10(CSS p-value)', max: 2.7 },
+              { name: 'log10(CSS p-value)', max: 2.7 },
               { name: 'Spearman', max: 0.3 },
               { name: 'Pearson', max: 0.3 },
               { name: 'Cosine', max: 0.3 }
@@ -70,7 +70,7 @@ export default function Index(props: any) {
                     show: true,
                     formatter: function (params) {
                       if (params.value == 5){
-                        return ">5";
+                        return "<-5";
                       }else{
                         return -params.value;
                       }
@@ -110,9 +110,9 @@ export default function Index(props: any) {
             indicator: [
               { name: 'WTCS', max: 1 },
               { name: 'XSum', max: 25 },
-              { name: '-log10(XSum p-value)', max: 5 },
+              { name: 'log10(XSum p-value)', max: 5 },
               { name: 'CSS', max: 0.2 },
-              { name: '-log10(CSS p-value)', max: 2.7 },
+              { name: 'log10(CSS p-value)', max: 2.7 },
               { name: 'Spearman', max: 0.3 },
               { name: 'Pearson', max: 0.3 },
               { name: 'Cosine', max: 0.3 }
