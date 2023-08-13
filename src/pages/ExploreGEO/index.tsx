@@ -333,7 +333,7 @@ export default function Page(props:any) {
             <Descriptions.Item label="Trait Name">{dataset?.trait}</Descriptions.Item>
             <Descriptions.Item label="Dataset Name">{dataset?.dataset}</Descriptions.Item>
             <Descriptions.Item label="Tissue">{georesult?.tissue.replace("_"," ")}</Descriptions.Item>
-            <Descriptions.Item label="GEO Signature">{geosignatures?.accession}</Descriptions.Item>
+            <Descriptions.Item label="GEO Signature"><a href={"https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc="+geosignatures?.series_id} target={"_blank"}>{geosignatures?.accession}</a></Descriptions.Item>
             <Descriptions.Item label="Signature Description" span={2}>{geosignatures?.description}</Descriptions.Item>
           </Descriptions>
         </Col>

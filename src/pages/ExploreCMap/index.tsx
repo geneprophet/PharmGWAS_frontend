@@ -345,9 +345,9 @@ export default function Page(props:any) {
             <Descriptions.Item label="Trait Name">{dataset?.trait}</Descriptions.Item>
             <Descriptions.Item label="Dataset Name">{dataset?.dataset}</Descriptions.Item>
             <Descriptions.Item label="Tissue">{cmapresult?.tissue.replace("_"," ")}</Descriptions.Item>
-            <Descriptions.Item label="CMap Name"><a href={"https://pubchem.ncbi.nlm.nih.gov/#query="+cmapsignatures?.inchi_key} target={"_blank"}>{cmapsignatures?.cmap_name}</a></Descriptions.Item>
+            <Descriptions.Item label="CMap Name"><a href={"https://pubchem.ncbi.nlm.nih.gov/#query="+cmapsignatures?.cmap_name} target={"_blank"}>{cmapsignatures?.cmap_name}</a></Descriptions.Item>
             <Descriptions.Item label="CMap Signature ID">{cmapsignatures?.sig_id}</Descriptions.Item>
-            <Descriptions.Item label="InChiKey">{cmapsignatures?.inchi_key}</Descriptions.Item>
+            <Descriptions.Item label="InChiKey"><a href={"https://pubchem.ncbi.nlm.nih.gov/#query="+cmapsignatures?.inchi_key} target={"_blank"}>{cmapsignatures?.inchi_key}</a></Descriptions.Item>
             <Descriptions.Item label="Cell Line">{cmapsignatures?.cell_iname}</Descriptions.Item>
             <Descriptions.Item label="Dose">{cmapsignatures?.pert_idose}</Descriptions.Item>
             <Descriptions.Item label="Time">{cmapsignatures?.pert_itime}</Descriptions.Item>

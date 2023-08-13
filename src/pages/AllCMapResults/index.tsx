@@ -367,16 +367,31 @@ export default function Page() {
           </Select>
         );
       },
-      render: (text: string, record: any) => (
-        <span>
+      render: (text: string, record: any) => {
+        if (record.inchi_key.length == 0 ){
+          return (
+            <span>
           <a href={"https://pubchem.ncbi.nlm.nih.gov/#query=" + record.cmap_name} target={'_blank'}>
             <Space style={{ fontWeight: 'bold' }}>
               {record.cmap_name}
               <DetailIcon />
             </Space>
           </a>
-        </span>
-      ),
+          </span>
+          )
+        }else {
+          return (
+            <span>
+          <a href={"https://pubchem.ncbi.nlm.nih.gov/#query=" + record.inchi_key} target={'_blank'}>
+            <Space style={{ fontWeight: 'bold' }}>
+              {record.cmap_name}
+              <DetailIcon />
+            </Space>
+          </a>
+          </span>
+          )
+        }
+      }
     },
     {
       title: <strong style={{ fontFamily: 'sans-serif' }}>WTCS</strong>,

@@ -318,16 +318,31 @@ export default function Page(props: any) {
           </Select>
         );
       },
-      render: (text: string, record: any) => (
-        <span>
+      render: (text: string, record: any) => {
+        if (record.inchi_key.length == 0 ){
+          return (
+            <span>
           <a href={"https://pubchem.ncbi.nlm.nih.gov/#query=" + record.cmap_name} target={'_blank'}>
             <Space style={{ fontWeight: 'bold' }}>
               {record.cmap_name}
               <DetailIcon />
             </Space>
           </a>
-        </span>
-      ),
+          </span>
+          )
+        }else {
+          return (
+            <span>
+          <a href={"https://pubchem.ncbi.nlm.nih.gov/#query=" + record.inchi_key} target={'_blank'}>
+            <Space style={{ fontWeight: 'bold' }}>
+              {record.cmap_name}
+              <DetailIcon />
+            </Space>
+          </a>
+          </span>
+          )
+        }
+      }
     },
     {
       title: <strong style={{ fontFamily: 'sans-serif' }}>WTCS</strong>,
@@ -371,6 +386,7 @@ export default function Page(props: any) {
       ellipsis: true,
       search: false,
       sorter:true,
+      width: 140,
       render:(text,record,index) => {
         if (Math.abs(record.es_up_padj) < 0.01){
           return record.es_up_padj.toExponential(4)
@@ -741,6 +757,9 @@ export default function Page(props: any) {
           </Select>
         );
       },
+      render:(text,record,index) => (
+        <a href={'https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=' + record.accession.split("_")[0]} target={"_blank"}>{record.accession}</a>
+      )
     },
     {
       title: <strong style={{ fontFamily: 'sans-serif' }}>WTCS</strong>,
@@ -784,6 +803,7 @@ export default function Page(props: any) {
       ellipsis: true,
       search: false,
       sorter:true,
+      width: 135,
       render:(text,record,index) => {
         if (Math.abs(record.es_up_padj) < 0.01){
           return record.es_up_padj.toExponential(4)
@@ -1059,7 +1079,7 @@ export default function Page(props: any) {
               options={false}
               dataSource={cmapresult}
               loading={loading}
-              scroll={{ x: 2400 }}
+              scroll={{ x: 2500 }}
               rowKey={(record: any) => {
                 return record.id.toString() + 'table';
               }}
@@ -1268,7 +1288,7 @@ export default function Page(props: any) {
               options={false}
               dataSource={georesults}
               loading={loading2}
-              scroll={{ x: 2400 }}
+              scroll={{ x: 2500 }}
               rowKey={(record: any) => {
                 return record.id.toString() + 'table2';
               }}

@@ -8,75 +8,151 @@ export default function Index(props: any) {
     // console.log(props.data);
     if (props.data) {
       const chart = echarts.init(chartRef.current); //echart初始化容器
-      let option = {
-        // title: {
-        //   text: 'Basic Radar Chart'
-        // },
-        // legend: {
-        //   data: ['Allocated Budget', 'Actual Spending']
-        // },
-        toolbox: {
-          feature: {
-            saveAsImage: {
-              show: true,
-              name:"Overview of the Six Evaluation Methods",
-              title: 'Download plot as png' },
+      if (props.data.xsum_pvalue == 0 || props.data.xsum_pvalue < 0.00001){
+        let option = {
+          // title: {
+          //   text: 'Basic Radar Chart'
+          // },
+          // legend: {
+          //   data: ['Allocated Budget', 'Actual Spending']
+          // },
+          toolbox: {
+            feature: {
+              saveAsImage: {
+                show: true,
+                name:"Overview of the Six Evaluation Methods",
+                title: 'Download plot as png' },
+            },
           },
-        },
-        radar: {
-          // shape: 'circle',
-          axisName: {
-            // formatter: '[{value}]',
-            color: '#428BD4',
-            fontWeight: 'bolder',
-            fontFamily: 'sans-serif',
-            fontSize: '20'
+          radar: {
+            // shape: 'circle',
+            axisName: {
+              // formatter: '[{value}]',
+              color: '#428BD4',
+              fontWeight: 'bolder',
+              fontFamily: 'sans-serif',
+              fontSize: '20'
+            },
+            indicator: [
+              { name: 'WTCS', max: 1 },
+              { name: 'XSum', max: 25 },
+              { name: '-log10(XSum p-value)', max: 5 },
+              { name: 'CSS', max: 0.2 },
+              { name: '-log10(CSS p-value)', max: 2.7 },
+              { name: 'Spearman', max: 0.3 },
+              { name: 'Pearson', max: 0.3 },
+              { name: 'Cosine', max: 0.3 }
+            ],
+            splitNumber:4,
+            scale:false,
           },
-          indicator: [
-            { name: 'WTCS', max: 1 },
-            { name: 'XSum', max: 25 },
-            { name: 'CSS', max: 0.2 },
-            { name: '-log10(CSS P-value)', max: 2.7 },
-            { name: 'Spearman', max: 0.3 },
-            { name: 'Pearson', max: 0.3 },
-            { name: 'Cosine', max: 0.3 }
-          ],
-          splitNumber:4,
-          scale:false,
-        },
-        series: [
-          {
-            name: 'Budget vs spending',
-            type: 'radar',
-            data: [
-              {
-                value: [-props.data.wtcs.toFixed(3), -props.data.xsum.toFixed(3), -props.data.css.toFixed(3), -Math.log10(props.data.css_pvalue).toFixed(3), -props.data.spearman.toFixed(3),-props.data.pearson.toFixed(3), -props.data.cosine.toFixed(3)],
-                name: 'Actual Spending',
-                areaStyle: {
-                  color: new echarts.graphic.RadialGradient(0.1, 0.6, 1, [
-                    {
-                      color: 'rgba(255, 145, 124, 0.1)',
-                      offset: 0
-                    },
-                    {
-                      color: 'rgba(255, 145, 124, 0.9)',
-                      offset: 1
+          series: [
+            {
+              name: 'Budget vs spending',
+              type: 'radar',
+              data: [
+                {
+                  value: [-props.data.wtcs.toFixed(3), -props.data.xsum.toFixed(3), 5, -props.data.css.toFixed(3), -Math.log10(props.data.css_pvalue).toFixed(3), -props.data.spearman.toFixed(3),-props.data.pearson.toFixed(3), -props.data.cosine.toFixed(3)],
+                  name: 'Actual Spending',
+                  areaStyle: {
+                    color: new echarts.graphic.RadialGradient(0.1, 0.6, 1, [
+                      {
+                        color: 'rgba(255, 145, 124, 0.1)',
+                        offset: 0
+                      },
+                      {
+                        color: 'rgba(255, 145, 124, 0.9)',
+                        offset: 1
+                      }
+                    ])
+                  },
+                  label: {
+                    show: true,
+                    formatter: function (params) {
+                      if (params.value == 5){
+                        return ">5";
+                      }else{
+                        return -params.value;
+                      }
                     }
-                  ])
-                },
-                label: {
-                  show: true,
-                  formatter: function (params) {
-                    return -params.value;
                   }
                 }
-              }
-            ]
-          }
-        ]
-      };
-
-      chart.setOption(option);
+              ]
+            }
+          ]
+        };
+        chart.setOption(option);
+      }else{
+        let option = {
+          // title: {
+          //   text: 'Basic Radar Chart'
+          // },
+          // legend: {
+          //   data: ['Allocated Budget', 'Actual Spending']
+          // },
+          toolbox: {
+            feature: {
+              saveAsImage: {
+                show: true,
+                name:"Overview of the Six Evaluation Methods",
+                title: 'Download plot as png' },
+            },
+          },
+          radar: {
+            // shape: 'circle',
+            axisName: {
+              // formatter: '[{value}]',
+              color: '#428BD4',
+              fontWeight: 'bolder',
+              fontFamily: 'sans-serif',
+              fontSize: '20'
+            },
+            indicator: [
+              { name: 'WTCS', max: 1 },
+              { name: 'XSum', max: 25 },
+              { name: '-log10(XSum p-value)', max: 5 },
+              { name: 'CSS', max: 0.2 },
+              { name: '-log10(CSS p-value)', max: 2.7 },
+              { name: 'Spearman', max: 0.3 },
+              { name: 'Pearson', max: 0.3 },
+              { name: 'Cosine', max: 0.3 }
+            ],
+            splitNumber:4,
+            scale:false,
+          },
+          series: [
+            {
+              name: 'Budget vs spending',
+              type: 'radar',
+              data: [
+                {
+                  value: [-props.data.wtcs.toFixed(3), -props.data.xsum.toFixed(3), -Math.log10(props.data.xsum_pvalue).toFixed(3), -props.data.css.toFixed(3), -Math.log10(props.data.css_pvalue).toFixed(3), -props.data.spearman.toFixed(3),-props.data.pearson.toFixed(3), -props.data.cosine.toFixed(3)],
+                  name: 'Actual Spending',
+                  areaStyle: {
+                    color: new echarts.graphic.RadialGradient(0.1, 0.6, 1, [
+                      {
+                        color: 'rgba(255, 145, 124, 0.1)',
+                        offset: 0
+                      },
+                      {
+                        color: 'rgba(255, 145, 124, 0.9)',
+                        offset: 1
+                      }
+                    ])
+                  },
+                  label: {
+                    show: true,
+                    formatter: function (params) {
+                      return -params.value;
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        };
+        chart.setOption(option);
+      }
     }
   }, [props]);
 
