@@ -271,7 +271,7 @@ export default function Page() {
           <div id={'overview'}>
             <Title level={1}>2. Overview</Title>
             <Paragraph>
-              PharmGWAS is a knowledgebase for genetically-informed drug repurposing for thousands of complex diseases. It utilizes proof-of-concept approaches to identify drug repurposing candidates by integrating GWAS-imputed transcriptome profiles and drug perturbation data. In the current release, we have collected 1,948 GWAS datasets, 720,216 small compound signatures from the Expanded CMap LINCS Resource 2020 (hereafter referred to as CMap), and 4,269 perturbation signatures from GEO. We implemented six connectivity methods to infer candidate drugs for each complex disease based on their GReX imputed from GWAS results. These methods resulted in 811,457 disease-drug pairs from the CMap and 8,695 from the GEO resources. PharmGWAS thus provides a valuable reference resource for the discovery of new drugs, design of combinatory treatments, and identification of drug resistance and drug side effects.
+              PharmGWAS is a knowledgebase for genetically-informed drug repurposing for thousands of complex diseases. It utilizes proof-of-concept approaches to identify drug repurposing candidates by integrating GWAS-imputed transcriptome profiles and drug perturbation data. In the current release, we have collected 1,929 GWAS datasets, 720,216 small compound signatures from the Expanded CMap LINCS Resource 2020 (hereafter referred to as CMap), and 4,269 perturbation signatures from GEO. We implemented six connectivity methods to infer candidate drugs for each complex disease based on their GReX imputed from GWAS results. These methods resulted in 811,457 disease-drug pairs from the CMap and 8,695 from the GEO resources. PharmGWAS thus provides a valuable reference resource for the discovery of new drugs, design of combinatory treatments, and identification of drug resistance and drug side effects.
             </Paragraph>
             <Row justify={'center'}>
                 <Image src={overview} preview={false} width={'75%'} />
@@ -396,7 +396,7 @@ export default function Page() {
                   6.2 Browse - GWAS Datasets
                 </Title>
                 <Paragraph>
-                  This page contains 1948 GWAS datasets that can be easily accessed using the advanced search and filter options. By clicking the Dataset ID, you can browse the detailed information about the datasets and its corresponding results for drug repurposing.
+                  This page contains 1,929 GWAS datasets that can be easily accessed using the advanced search and filter options. By clicking the Dataset ID, you can browse the detailed information about the datasets and its corresponding results for drug repurposing.
                 </Paragraph>
                 <Image src={usage_2} preview={false}/>
                 <Paragraph>

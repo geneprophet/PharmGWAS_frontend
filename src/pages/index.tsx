@@ -382,7 +382,7 @@ export default function IndexPage() {
                   }}
                 >
                   <p>
-                    PharmGWAS is a comprehensive catalog for drug repurposing by leveraging a validated framework that links GWAS and drug perturbation data. The current release contains  <span style={{color:"red"}}>1,948</span> GWAS datasets, the <span style={{color:"red"}}>720,216</span> small molecule compound signatures of Expanded CMap LINCS Resource 2020, and <span style={{color:"red"}}>4,269</span> perturbation signatures from GEO. The analysis framework roughly includes three steps:
+                    PharmGWAS is a comprehensive catalog for drug repurposing by leveraging a validated framework that links GWAS and drug perturbation data. The current release contains  <span style={{color:"red"}}>1,929</span> GWAS datasets, the <span style={{color:"red"}}>720,216</span> small molecule compound signatures of Expanded CMap LINCS Resource 2020, and <span style={{color:"red"}}>4,269</span> perturbation signatures from GEO. The analysis framework roughly includes three steps:
                   </p>
                   <p>
                     1)	To infer disease-relevant tissues based on GWAS summary statistics using
@@ -453,7 +453,7 @@ export default function IndexPage() {
                     GWAS Datasets
                   </strong>
                 }
-                value={1948}
+                value={1929}
                 valueStyle={{ color: '#3f8600' }}
                 prefix={<PeopleIcon />}
               />
