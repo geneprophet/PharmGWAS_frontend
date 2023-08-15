@@ -244,6 +244,17 @@ export default function Page() {
                   [styles.hide]: !current.startsWith('#usage'),
                 })}
               />
+              <Link
+                href="#usage_detail"
+                title={
+                  <div>
+                    <p>6.6 Detail Page for Disease-Drug Pair</p>
+                  </div>
+                }
+                className={classnames({
+                  [styles.hide]: !current.startsWith('#usage'),
+                })}
+              />
             </Link>
           </Anchor>
         </Col>
@@ -271,7 +282,8 @@ export default function Page() {
           <div id={'overview'}>
             <Title level={1}>2. Overview</Title>
             <Paragraph>
-              PharmGWAS is a knowledgebase for genetically-informed drug repurposing for thousands of complex diseases. It utilizes proof-of-concept approaches to identify drug repurposing candidates by integrating GWAS-imputed transcriptome profiles and drug perturbation data. In the current release, we have collected 1,929 GWAS datasets, 720,216 small compound signatures from the Expanded CMap LINCS Resource 2020 (hereafter referred to as CMap), and 4,269 perturbation signatures from GEO. We implemented six connectivity methods to infer candidate drugs for each complex disease based on their GReX imputed from GWAS results. These methods resulted in 811,457 disease-drug pairs from the CMap and 8,695 from the GEO resources. PharmGWAS thus provides a valuable reference resource for the discovery of new drugs, design of combinatory treatments, and identification of drug resistance and drug side effects.
+              PharmGWAS aims to translate GWAS signals into clinical practice. Currently, PharmGWAS contains 1,929 GWAS datasets curated from GWAS Catalog, UKBB, and several large consortiums. Moreover, 720,216 compound-perturbed gene expression signatures were collected from CMap2.0 and an additional 4,269 perturbed signatures were collected from GEO. We implemented our standard pipeline to infer candidate disease-drug pairs for each GWAS dataset. The outline of PharmGWAS is illustrated in Figure 1. Currently, PharmGWAS deposits a total of 811,457 genetically-informed disease-drug pairs derived from CMap signatures and 8,695 pairs from GEO signatures. To the best of our knowledge, PharmGWAS is the first systematic and comprehensive database to identify drug repurposing candidates for nearly all available disease traits.
+              {/*PharmGWAS is a knowledgebase for genetically-informed drug repurposing for thousands of complex diseases. It utilizes proof-of-concept approaches to identify drug repurposing candidates by integrating GWAS-imputed transcriptome profiles and drug perturbation data. In the current release, we have collected 1,929 GWAS datasets, 720,216 small compound signatures from the Expanded CMap LINCS Resource 2020 (hereafter referred to as CMap), and 4,269 perturbation signatures from GEO. We implemented six connectivity methods to infer candidate drugs for each complex disease based on their GReX imputed from GWAS results. These methods resulted in 811,457 disease-drug pairs from the CMap and 8,695 from the GEO resources. PharmGWAS thus provides a valuable reference resource for the discovery of new drugs, design of combinatory treatments, and identification of drug resistance and drug side effects.*/}
             </Paragraph>
             <Row justify={'center'}>
                 <Image src={overview} preview={false} width={'75%'} />
@@ -281,15 +293,18 @@ export default function Page() {
           <div id={'collection'}>
             <Title level={1}>3. Data Collection</Title>
             <Paragraph>
-              All GWAS datasets used in PharmGWAS were collected from three major sources, which are the GWAS Catalog, UK BioBank (UKBB) and other major consortiums (see below).
+              All GWAS datasets used in PharmGWAS were collected from three major sources, which are the GWAS Catalog, UK BioBank (UKBB) and some large consortiums dedicated to diverse diseases (see below).
             </Paragraph>
             <Table dataSource={dataSource} columns={columns} bordered={true} pagination={false} />
+            <p/>
             <Paragraph>
-              The drug-induced gene expression profiles were retrieved from two sources: the Expanded CMap LINCS Resource 2020 (https://clue.io/data/CMap2020#LINCS2020) and GEO RNA-Seq Signatures downloaded from SigCom LINCS (https://maayanlab.cloud/sigcom-lincs/#/Download).
+              The drug-induced gene expression profiles were retrieved from two sources: the Expanded CMap LINCS Resource 2020 (hereafter referred to as CMap2.0) and the SigCom LINCS resource. For CMap2.0, we downloaded the level 5 data of small molecule compounds along with the metadata including information of compounds, dosage, time, genes, and cell lines. SigCom LINCS is a webserver that provides service to process and analyze over a million gene expression signatures. We downloaded the level 5 data from the SigCom LINCS resource (file name: Automatic Human GEO RNA-seq Signatures; access date: May 29, 2023), which included 4269 signatures that could also be used for connectivity analyses.
+              {/*The drug-induced gene expression profiles were retrieved from two sources: the Expanded CMap LINCS Resource 2020 (https://clue.io/data/CMap2020#LINCS2020) and GEO RNA-Seq Signatures downloaded from SigCom LINCS (https://maayanlab.cloud/sigcom-lincs/#/Download).*/}
             </Paragraph>
           </div>
           <div id={'analysis'}>
             <Title level={1}>4. Data Analysis</Title>
+            <Paragraph>We constructed a standard pipeline to infer genetically-informed drugs. First, because gene expression data could be quite tissue-specific, we defined disease-associated genes based on the GWAS data and conducted tissue-specific enrichment analysis (TSEA) to identify disease-relevant tissues for TWAS analyses. Second, we conducted TWAS in the predicted tissues and obtained the imputed GReX. Third, we conducted connectivity analyses to infer drug candidates by integrating GWAS-informed signature (GReX) and drug-induced signatures. Finally, we defined candidate disease-drug pairs by combining the results of the six connectivity methods.</Paragraph>
             <Paragraph>The analysis pipeline of GWAS-based drug repurposing contains five major steps. </Paragraph>
             <Paragraph>(1)	To prioritize disease-associated genes by using MAGMA, a gene analysis tool with GWAS summary statistics as input.  </Paragraph>
             <Paragraph>(2)	To infer disease-relevant tissues by the Tissue-Specific Enrichment Analysis (TSEA) using deTS and the disease-associated genes from step (1).  </Paragraph>
@@ -387,7 +402,7 @@ export default function Page() {
                   6.1 Home Page
                 </Title>
                 <Paragraph>
-                  The home page provides an overview search function for users to query the database using trait keywords for GAWS Datasets, CMap Name for CMap Signatures, GEO keyword for GEO signatures. Moreover, the home page provides summarizes the main resources in the database, including the number of datasets, signatures, connectivity methods and results disease-drug pairs.
+                  The search function available in the homepage supports keyword-based quick queries for multiple forms of items, such as names of diseases, CMap signatures, or GEO signatures. Moreover, the home page provides summarizes the main resources in the database, including the number of datasets, signatures, connectivity methods and results disease-drug pairs.
                 </Paragraph>
                 <Image src={usage_1} preview={false}/>
               </div>
@@ -396,11 +411,11 @@ export default function Page() {
                   6.2 Browse - GWAS Datasets
                 </Title>
                 <Paragraph>
-                  This page contains 1,929 GWAS datasets that can be easily accessed using the advanced search and filter options. By clicking the Dataset ID, you can browse the detailed information about the datasets and its corresponding results for drug repurposing.
+                  This page contains 1,929 GWAS datasets that can be easily accessed using the advanced search and filter options. By clicking the Dataset ID, you can browse the detailed information about the dataset and its corresponding results for drug repurposing.
                 </Paragraph>
                 <Image src={usage_2} preview={false}/>
                 <Paragraph>
-                  The detailed page for single dataset including four major components: Dataset Meta Information, deTS Calculated Causal Tissues, drug candidates derived from CMap signatures (CMap Results Overview) and GEO signatures (GEO Results Overview). The advanced search and filter function were also provided in this page. By clicking the Association ID, you can link to the Explore Page of the corresponding result item.
+                  The detailed page for individual dataset including four major components: Dataset Meta Information, deTS Calculated Causal Tissues, drug candidates derived from CMap signatures (CMap Results Overview) and GEO signatures (GEO Results Overview). The advanced search and filter function were also provided in this page. By clicking the Association ID, you can link to the Detail Page of the corresponding result item. By clicking on the "CMap Name" column, users can access the details of the corresponding compound in PubChem, such as chemical and physical properties, clinical trials, consolidated references, patents, and so on.
                 </Paragraph>
                 <Image src={usage_3} preview={false}/>
               </div>
@@ -409,7 +424,7 @@ export default function Page() {
                   6.3 Browse - CMap Signatures
                 </Title>
                 <Paragraph>
-                  The CMap Signarues page contains 720,216 small molecule compound CMap signatures that can be easily accessed using the advanced search and filter options. By clicking the Signature ID, you can browse the detailed information about the signature and its corresponding results with all GWAS datasets for drug repurposing.
+                  The CMap Signarues page contains 720,216 small molecule compound CMap signatures that can be easily accessed using the advanced search and filter options. By clicking the Signature ID, you can browse the detailed information about the signature and its corresponding results with all GWAS datasets for drug repurposing. By clicking on the "CMap Name" column, users can access the details of the corresponding compound in PubChem, such as chemical and physical properties, clinical trials, consolidated references, patents, and so on.
                 </Paragraph>
                 <Image src={usage_4} preview={false}/>
                 <Paragraph>
@@ -435,11 +450,18 @@ export default function Page() {
                   6.5 CMap and GEO Results
                 </Title>
                 <Paragraph>
-                  The CMap Results page and GEO Results page contains the overall disease-drug pairs derived from corresponding kind signatures. You can easily explore these results by advance search and filter function. By clicking the Association ID, you will led to the detailed page for each association.
+                  The modules for “CMap Results” and “GEO Results” provide an opportunity to directly search for disease-drug pairs across datasets and signatures. An advanced search function has also been provided. Users can jump to the detail page of disease-drug pairs by clicking on the “Association ID” in the CMap Results and GEO Results pages.
+                  {/*The CMap Results page and GEO Results page contains the overall disease-drug pairs derived from corresponding kind signatures. You can easily explore these results by advance search and filter function. By clicking the Association ID, you will led to the detailed page for each association.*/}
                 </Paragraph>
                 <Image src={usage_8} preview={false}/>
+              </div>
+              <div id={'usage_detail'}>
+                <Title level={2}>
+                  6.6 Detail Page for Disease-Drug Pair
+                </Title>
                 <Paragraph>
-                  The page for single association contains the comprehensive details about the corresponding drug-disease pair, including four major components: Meta Information of the disease and drug, the overview of the six connectivity methods of evaluation, the GSEA results for the S-PrediXcan signatures in the pre-ranked gene list of CMap/GEO signature, the reverse intersection analysis using the extreme genes of the two kinds of signatures (Disease: S-PrediXcan and Drug: CMap or GEO), and the bar plot about the detail gene list of the extreme genes with its corresponding Z-scores.
+                  The “detail page” about individual disease-drug pairs contains five sections. First, meta-information about the corresponding disease and drug is shown at the top of the page. Second, we use a radargram to provide an overview of the results from six connectivity methods. The larger the area enclosed by the results of the six methods, the more reliable the drug candidate is. Third, to assess whether the disease-upregulated genes appear toward the bottom of drug-induced profiles and disease-downregulated genes appear toward the top of drug-induced profiles, the GSEA plots of disease upregulated and downregulated genes in the pre-ranked list of drug signature are provided. Next, the reverse intersection analysis of disease-upregulated genes with drug-downregulated genes are illustrated in Venn diagrams, and similarly for disease-downregulated genes with drug-upregulated genes. Finally, the corresponding Z scores of upregulated and downregulated genes in disease and drug signatures are displayed in the histograms.
+                  {/*The page for single association contains the comprehensive details about the corresponding drug-disease pair, including four major components: Meta Information of the disease and drug, the overview of the six connectivity methods of evaluation, the GSEA results for the S-PrediXcan signatures in the pre-ranked gene list of CMap/GEO signature, the reverse intersection analysis using the extreme genes of the two kinds of signatures (Disease: S-PrediXcan and Drug: CMap or GEO), and the bar plot about the detail gene list of the extreme genes with its corresponding Z-scores.*/}
                 </Paragraph>
                 <Image src={usage_9} preview={false}/>
                 <Image src={usage_10} preview={false}/>
