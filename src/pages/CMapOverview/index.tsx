@@ -55,13 +55,12 @@ export default function Page(props: any) {
           setTotal(res.meta.total);
         });
       }else {
-        getRemoteCMap({
+        getRemoteCMapLike({
           pageSize: pagesize,
           pageIndex: pageindex,
           keyword: name,
           pert_id:  undefined,
           sig_id:  undefined,
-          sig_index:  undefined,
           cmap_name:  undefined,
           cell_iname: undefined,
           pert_idose:  undefined,
@@ -176,6 +175,8 @@ export default function Page(props: any) {
                 cell_iname: keywords.cell_iname,
                 pert_idose:keywords.pert_idose,
                 pert_itime:keywords.pert_itime,
+                sort_field:undefined,
+                sort_direction:undefined,
               });
               if (remoteKeywords) {
                 const nameList = new Set();
@@ -278,6 +279,8 @@ export default function Page(props: any) {
                 cell_iname: value,
                 pert_idose:keywords.pert_idose,
                 pert_itime:keywords.pert_itime,
+                sort_field:undefined,
+                sort_direction:undefined,
               });
               if (remoteKeywords) {
                 const nameList = new Set();
@@ -355,6 +358,8 @@ export default function Page(props: any) {
                 cell_iname: keywords.cell_iname,
                 pert_idose:value,
                 pert_itime:keywords.pert_itime,
+                sort_field:undefined,
+                sort_direction:undefined,
               });
               if (remoteKeywords) {
                 const nameList = new Set();
@@ -431,6 +436,8 @@ export default function Page(props: any) {
                 cell_iname: keywords.cell_iname,
                 pert_idose:keywords.pert_idose,
                 pert_itime:value,
+                sort_field:undefined,
+                sort_direction:undefined,
               });
               if (remoteKeywords) {
                 const nameList = new Set();
@@ -594,24 +601,45 @@ export default function Page(props: any) {
               setKeywords({ ...keywords, sort_field: sorter.field });
               setKeywords({ ...keywords, sort_direction: sorter.order });
               setLoading(true);
-              getRemoteCMap({
-                pageSize: pagination.pageSize,
-                pageIndex: pagination.current,
-                keyword:name,
-                pert_id:  keywords.pert_id,
-                sig_id:  keywords.sig_id,
-                sig_index:  undefined,
-                cmap_name:  keywords.cmap_name,
-                cell_iname: keywords.cell_iname,
-                pert_idose:  keywords.pert_idose,
-                pert_itime:  keywords.pert_itime,
-                sort_field: sorter.field,
-                sort_direction: sorter.order,
-              }).then((res) => {
-                setCmapsignatures(res.data);
-                setLoading(false);
-                setTotal(res.meta.total);
-              });
+              if (name){
+                getRemoteCMapLike({
+                  pageSize: pagination.pageSize,
+                  pageIndex: pagination.current,
+                  keyword:name,
+                  pert_id:  keywords.pert_id,
+                  sig_id:  keywords.sig_id,
+                  cmap_name:  keywords.cmap_name,
+                  cell_iname: keywords.cell_iname,
+                  pert_idose:  keywords.pert_idose,
+                  pert_itime:  keywords.pert_itime,
+                  sort_field: sorter.field,
+                  sort_direction: sorter.order,
+                }).then((res) => {
+                  setCmapsignatures(res.data);
+                  setLoading(false);
+                  setTotal(res.meta.total);
+                });
+              }else {
+                getRemoteCMap({
+                  pageSize: pagination.pageSize,
+                  pageIndex: pagination.current,
+                  keyword:name,
+                  pert_id:  keywords.pert_id,
+                  sig_id:  keywords.sig_id,
+                  sig_index:  undefined,
+                  cmap_name:  keywords.cmap_name,
+                  cell_iname: keywords.cell_iname,
+                  pert_idose:  keywords.pert_idose,
+                  pert_itime:  keywords.pert_itime,
+                  sort_field: sorter.field,
+                  sort_direction: sorter.order,
+                }).then((res) => {
+                  setCmapsignatures(res.data);
+                  setLoading(false);
+                  setTotal(res.meta.total);
+                });
+              }
+
             }}
             rowSelection={{
               fixed: true,

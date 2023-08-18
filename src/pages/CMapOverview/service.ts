@@ -84,6 +84,8 @@ export const getRemoteCMapLike = async ({
                                           cell_iname,
                                           pert_idose,
                                           pert_itime,
+                                          sort_field,
+                                          sort_direction
                                            }: {
   pageSize: number | undefined;
   pageIndex: number | undefined;
@@ -94,6 +96,8 @@ export const getRemoteCMapLike = async ({
   cell_iname: string | undefined;
   pert_idose: string | undefined;
   pert_itime: string | undefined;
+  sort_field: string | undefined;
+  sort_direction: string | undefined;
 }) => {
   return extendRequest(API_PREFIX + '/cmapsignaturelike', {
     method: 'get',
@@ -107,6 +111,8 @@ export const getRemoteCMapLike = async ({
       cell_iname: cell_iname,
       pert_idose: pert_idose,
       pert_itime: pert_itime,
+      sort_field:sort_field,
+      sort_direction:sort_direction
     },
   })
     .then(function (response) {

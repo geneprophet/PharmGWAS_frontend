@@ -62,24 +62,33 @@ export const getRemoteGEO = async ({
 export const getRemoteGEOLike = async ({
                                           pageSize,
                                           pageIndex,
+                                         keyword,
                                          accession,
                                          series_id,
                                          description,
+                                         sort_field,
+                                         sort_direction
                                         }: {
   pageSize: number | undefined;
   pageIndex: number | undefined;
+  keyword: string | undefined;
   accession: string | undefined;
   series_id: string | undefined;
   description: string | undefined;
+  sort_field: string | undefined;
+  sort_direction: string | undefined;
 }) => {
   return extendRequest(API_PREFIX + '/geosignaturelike', {
     method: 'get',
     params: {
       pageSize: pageSize,
       pageIndex: pageIndex,
+      keyword:keyword,
       accession: accession,
       series_id: series_id,
       description: description,
+      sort_field:sort_field,
+      sort_direction:sort_direction
     },
   })
     .then(function (response) {

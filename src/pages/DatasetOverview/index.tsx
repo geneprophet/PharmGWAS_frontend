@@ -67,6 +67,8 @@ export default function Page(props: any) {
           trait:undefined,
           pmid:undefined,
           dataset:undefined,
+          sort_field:undefined,
+          sort_direction:undefined
         }).then((res) => {
           // console.log(res.data);
           setLoading(false);
@@ -153,6 +155,8 @@ export default function Page(props: any) {
                 trait: keywords.trait,
                 pmid: keywords.pmid,
                 dataset: value,
+                sort_field:undefined,
+                sort_direction:undefined
               });
               if (remoteKeywords) {
                 const nameList = new Set();
@@ -249,6 +253,8 @@ export default function Page(props: any) {
                 trait: value,
                 pmid: keywords.pmid,
                 dataset: keywords.dataset,
+                sort_field:undefined,
+                sort_direction:undefined,
               });
               if (remoteKeywords) {
                 const nameList = new Set();
@@ -357,6 +363,8 @@ export default function Page(props: any) {
                 trait: keywords.trait,
                 pmid: value,
                 dataset: keywords.dataset,
+                sort_field:undefined,
+                sort_direction:undefined,
               });
               if (remoteKeywords) {
                 const nameList = new Set();
@@ -501,20 +509,37 @@ export default function Page(props: any) {
               setKeywords({ ...keywords, sort_field: sorter.field });
               setKeywords({ ...keywords, sort_direction: sorter.order });
               setLoading(true);
-              getRemoteDataset({
-                pageSize: pagination.pageSize,
-                pageIndex: pagination.current,
-                keyword:name,
-                trait:keywords.trait,
-                pmid:keywords.pmid,
-                dataset:keywords.dataset,
-                sort_field: sorter.field,
-                sort_direction: sorter.order,
-              }).then((res) => {
-                setDatasets(res.data);
-                setLoading(false);
-                setTotal(res.meta.total);
-              });
+              if (name){
+                getRemoteDatasetLike({
+                  pageSize: pagination.pageSize,
+                  pageIndex: pagination.current,
+                  keyword:name,
+                  trait:keywords.trait,
+                  pmid:keywords.pmid,
+                  dataset:keywords.dataset,
+                  sort_field: sorter.field,
+                  sort_direction: sorter.order,
+                }).then((res) => {
+                  setDatasets(res.data);
+                  setLoading(false);
+                  setTotal(res.meta.total);
+                });
+              }else {
+                getRemoteDataset({
+                  pageSize: pagination.pageSize,
+                  pageIndex: pagination.current,
+                  keyword:name,
+                  trait:keywords.trait,
+                  pmid:keywords.pmid,
+                  dataset:keywords.dataset,
+                  sort_field: sorter.field,
+                  sort_direction: sorter.order,
+                }).then((res) => {
+                  setDatasets(res.data);
+                  setLoading(false);
+                  setTotal(res.meta.total);
+                });
+              }
             }}
             rowSelection={{
               fixed: true,

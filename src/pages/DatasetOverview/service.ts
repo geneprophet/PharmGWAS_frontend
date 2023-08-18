@@ -68,7 +68,9 @@ export const getRemoteDatasetLike = async ({
                                              keyword,
                                              trait,
                                              pmid,
-                                             dataset
+                                             dataset,
+                                             sort_field,
+                                             sort_direction
                                        }: {
   pageSize: number | undefined;
   pageIndex: number | undefined;
@@ -76,6 +78,8 @@ export const getRemoteDatasetLike = async ({
   trait: string | undefined;
   pmid: string | undefined;
   dataset: string | undefined;
+  sort_field: string | undefined;
+  sort_direction: string | undefined;
 }) => {
   return extendRequest(API_PREFIX + '/datasetlike', {
     method: 'get',
@@ -85,7 +89,9 @@ export const getRemoteDatasetLike = async ({
       keyword:keyword,
       trait: trait,
       pmid:pmid,
-      dataset:dataset
+      dataset:dataset,
+      sort_field:sort_field,
+      sort_direction:sort_direction
     },
   })
     .then(function (response) {

@@ -45,13 +45,15 @@ export default function Page(props: any) {
           setTotal(res.meta.total);
         });
       }else{
-        setKeywords({ ...keywords, description: name });
         getRemoteGEOLike({
           pageSize: pagesize,
           pageIndex: pageindex,
+          keyword:name,
           accession:  undefined,
           series_id:  undefined,
-          description:  name,
+          description:  undefined,
+          sort_field: undefined,
+          sort_direction: undefined
         }).then((res) => {
           setLoading(false);
           setGeosignatures(res.data);
@@ -109,12 +111,14 @@ export default function Page(props: any) {
             placeholder={'input and select a GEO Series'}
             filterOption={false}
             onFocus={async () => {
-              const remoteKeywords = await getRemoteGEOLike({
+              const remoteKeywords = await getRemoteGEO({
                 pageSize: 100,
                 pageIndex: 1,
                 accession: keywords.accession,
                 series_id:undefined,
                 description: keywords.description,
+                sort_field: undefined,
+                sort_direction: undefined
               });
               if (remoteKeywords) {
                 const nameList = new Set();
@@ -130,9 +134,12 @@ export default function Page(props: any) {
               const remoteKeywords = await getRemoteGEOLike({
                 pageSize: 100,
                 pageIndex: 1,
+                keyword:name,
                 accession: keywords.accession,
                 series_id: value,
                 description: keywords.description,
+                sort_field: undefined,
+                sort_direction: undefined
               });
               if (remoteKeywords) {
                 const nameList = new Set();
@@ -183,12 +190,14 @@ export default function Page(props: any) {
             placeholder={'input and select a Description'}
             filterOption={false}
             onFocus={async () => {
-              const remoteKeywords = await getRemoteGEOLike({
+              const remoteKeywords = await getRemoteGEO({
                 pageSize: 100,
                 pageIndex: 1,
                 accession: keywords.accession,
                 series_id:keywords.series_id,
-                description: name,
+                description: undefined,
+                sort_field: undefined,
+                sort_direction: undefined
               });
               if (remoteKeywords) {
                 const nameList = new Set();
@@ -204,9 +213,12 @@ export default function Page(props: any) {
               const remoteKeywords = await getRemoteGEOLike({
                 pageSize: 100,
                 pageIndex: 1,
+                keyword:name,
                 accession: keywords.accession,
                 series_id: keywords.series_id,
                 description: value,
+                sort_field: undefined,
+                sort_direction: undefined
               });
               if (remoteKeywords) {
                 const nameList = new Set();
@@ -364,19 +376,37 @@ export default function Page(props: any) {
               setKeywords({ ...keywords, sort_field: sorter.field });
               setKeywords({ ...keywords, sort_direction: sorter.order });
               setLoading(true);
-              getRemoteGEO({
-                pageSize: pagination.pageSize,
-                pageIndex: pagination.current,
-                accession:  keywords.accession,
-                series_id:  keywords.series_id,
-                description:  keywords.description,
-                sort_field: sorter.field,
-                sort_direction: sorter.order,
-              }).then((res) => {
-                setGeosignatures(res.data);
-                setLoading(false);
-                setTotal(res.meta.total);
-              });
+              if (name){
+                getRemoteGEOLike({
+                  pageSize: pagination.pageSize,
+                  pageIndex: pagination.current,
+                  keyword:name,
+                  accession:  keywords.accession,
+                  series_id:  keywords.series_id,
+                  description:  keywords.description,
+                  sort_field: sorter.field,
+                  sort_direction: sorter.order,
+                }).then((res) => {
+                  setGeosignatures(res.data);
+                  setLoading(false);
+                  setTotal(res.meta.total);
+                });
+              }else {
+                getRemoteGEO({
+                  pageSize: pagination.pageSize,
+                  pageIndex: pagination.current,
+                  accession:  keywords.accession,
+                  series_id:  keywords.series_id,
+                  description:  keywords.description,
+                  sort_field: sorter.field,
+                  sort_direction: sorter.order,
+                }).then((res) => {
+                  setGeosignatures(res.data);
+                  setLoading(false);
+                  setTotal(res.meta.total);
+                });
+              }
+
             }}
             rowSelection={{
               fixed: true,
