@@ -25,8 +25,8 @@ export default function Page() {
       tissue:  undefined,
       cmap_name:undefined,
       sig_index:  undefined,
-      sort_field: undefined,
-      sort_direction: undefined
+      sort_field: "id",
+      sort_direction: "ascend",
     }).then((res)=>{
       setLoading(false);
       setCmapresult(res.data);
@@ -390,6 +390,23 @@ export default function Page() {
           </a>
           </span>
           )
+        }
+      }
+    },
+    {
+      title: <strong style={{ fontFamily: 'sans-serif' }}>Meta Score</strong>,
+      key: 'meta_score',
+      dataIndex: 'meta_score',
+      tooltip: 'Meta Score amalgamates the significance derived from all six methods',
+      ellipsis: true,
+      search: false,
+      sorter:true,
+      width: 135,
+      render:(text,record,index) => {
+        if (Math.abs(record.meta_score) < 0.01){
+          return record.meta_score.toExponential(4)
+        }else {
+          return record.meta_score.toFixed(4)
         }
       }
     },

@@ -24,8 +24,8 @@ export default function Page() {
         tissue:undefined,
         accession:undefined,
         sig_index:undefined,
-        sort_field:undefined,
-        sort_direction:undefined,
+        sort_field: "id",
+        sort_direction: "ascend",
       }).then((res)=>{
         setLoading(false);
         setGeoresult(res.data);
@@ -299,6 +299,23 @@ export default function Page() {
       render:(text,record,index) => (
         <a href={'https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=' + record.accession.split("_")[0]} target={"_blank"}>{record.accession}</a>
       )
+    },
+    {
+      title: <strong style={{ fontFamily: 'sans-serif' }}>Meta Score</strong>,
+      key: 'meta_score',
+      dataIndex: 'meta_score',
+      tooltip: 'Meta Score amalgamates the significance derived from all six methods',
+      ellipsis: true,
+      search: false,
+      sorter:true,
+      width: 135,
+      render:(text,record,index) => {
+        if (Math.abs(record.meta_score) < 0.01){
+          return record.meta_score.toExponential(4)
+        }else {
+          return record.meta_score.toFixed(4)
+        }
+      }
     },
     {
       title: <strong style={{ fontFamily: 'sans-serif' }}>WTCS</strong>,
