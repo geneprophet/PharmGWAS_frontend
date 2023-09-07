@@ -158,3 +158,23 @@ export const getRemoteCmapZscoreDown = async ({
       return false;
     });
 };
+
+export const getRemoteCompound = async ({
+                                              input,
+                                              value,
+                                          operation
+                                            }: {
+  input: string | undefined;
+  value: string | undefined;
+  operation: string | undefined;
+}) => {
+  return extendRequest( 'https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/'+ input +'/'+ value+'/'+operation+'/JSON', {
+    method: 'get',
+  })
+    .then(function (response) {
+      return response;
+    })
+    .catch(function (error) {
+      return false;
+    });
+};

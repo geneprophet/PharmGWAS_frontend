@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styles from './index.less';
-import { Breadcrumb, Col, Descriptions, Divider, Image, Row, Typography } from "antd";
+import { Anchor, Breadcrumb, Col, Descriptions, Divider, Image, Row, Typography } from "antd";
 const { Title, Text, Paragraph } = Typography;
 import { URL_PREFIX ,uniqueArray,IMG_PREFIX} from '@/common/constants';
 import notapplied from '@/assets/notapplied.png';
@@ -18,6 +18,7 @@ import Radar from "@/components/Radar";
 import Bar from "@/components/Bar";
 import { getRemoteGEOZscoreDown, getRemoteGEOZscoreUp } from "@/pages/ExploreGEO/service";
 import Venn from "@/components/Venn";
+const { Link } = Anchor;
 export default function Page(props:any) {
   interface SearchKeywords {
     dataset: string | undefined;
@@ -288,6 +289,17 @@ export default function Page(props:any) {
       });
     }
   },[spredixcandown,geozscoreup]);
+  const [current, setCurrent] = useState('');
+  const onChange = (link: string) => {
+    // console.log('Anchor:OnChange', link);
+    setCurrent(link);
+  };
+  const [targetOffset, setTargetOffset] = useState<number | undefined>(
+    undefined,
+  );
+  useEffect(() => {
+    setTargetOffset(window.innerHeight / 10);
+  }, []);
 
   return (
     <div>
@@ -324,83 +336,113 @@ export default function Page(props:any) {
         </Col>
       </Row>
       <Divider/>
-      <Row justify={'center'} >
+      <Row justify={'center'}>
         <Title level={2}>
           GEO Result ID: <span style={{ color: '#F15412' }}>{'PGEO'+georesult?.id.toString().padStart(10,'0')}</span>
         </Title>
-        <Col md={22}>
-          <Descriptions title={"Meta Information"} bordered={true} >
-            <Descriptions.Item label="Trait Name">{dataset?.trait}</Descriptions.Item>
-            <Descriptions.Item label="Dataset Name">{dataset?.dataset}</Descriptions.Item>
-            <Descriptions.Item label="Tissue">{georesult?.tissue.replace("_"," ")}</Descriptions.Item>
-            <Descriptions.Item label="GEO Signature"><a href={"https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc="+geosignatures?.series_id} target={"_blank"}>{geosignatures?.accession}</a></Descriptions.Item>
-            <Descriptions.Item label="Signature Description" span={2}>{geosignatures?.description}</Descriptions.Item>
-          </Descriptions>
+      </Row>
+      <Row justify={'space-around'}>
+        <Col xs={3} sm={3} md={3}>
+          <Anchor affix={true} targetOffset={targetOffset} onChange={onChange}>
+            <Link href="#meta" title="1. Meta"></Link>
+            <Link href="#overview" title="2. Overview"></Link>
+            <Link href="#gsea" title="3. GSEA Plots"></Link>
+            <Link href="#intersection" title="4. Reverse Intersection"></Link>
+            <Link href="#zscores" title="5. Z-scores"></Link>
+          </Anchor>
+        </Col>
+        <Col
+          xs={21}
+          sm={21}
+          md={20}
+          lg={21}
+        >
+          <div id={"meta"}>
+            <Row justify={'center'} >
+              <Col md={22}>
+                <Descriptions title={"Meta Information"} bordered={true} >
+                  <Descriptions.Item label="Trait Name">{dataset?.trait}</Descriptions.Item>
+                  <Descriptions.Item label="Dataset Name">{dataset?.dataset}</Descriptions.Item>
+                  <Descriptions.Item label="Tissue">{georesult?.tissue.replace("_"," ")}</Descriptions.Item>
+                  <Descriptions.Item label="GEO Signature"><a href={"https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc="+geosignatures?.series_id} target={"_blank"}>{geosignatures?.accession}</a></Descriptions.Item>
+                  <Descriptions.Item label="Signature Description" span={2}>{geosignatures?.description}</Descriptions.Item>
+                </Descriptions>
+              </Col>
+            </Row>
+          </div>
+          <Divider/>
+          <div id={'overview'}>
+            <Row justify={'center'}>
+              <Title level={2} >
+                Overview of the reuslts from six connectivity methods
+              </Title>
+            </Row>
+            <Row justify={'center'}>
+              <Col md={12}>
+                <Radar data={georesult} />
+              </Col>
+            </Row>
+            <Divider/>
+          </div>
+          <div id={'gsea'}>
+            <Row justify={'center'}>
+              <Title level={2}>
+                GSEA of disease up and down regulated genes in the pre-ranked gene list of GEO signature
+              </Title>
+            </Row>
+            <Row justify={'center'}>
+              <Col md={12} style={{textAlign:'center'}}>
+                <Image
+                  preview={false}
+                  fallback={notapplied}
+                  src={IMG_PREFIX + "GEO/" + keywords?.dataset + '/' +  keywords?.tissue + '/gsea/' + 'signature_' + keywords?.sig_index + '__spredixcan_up_gene.jpg'}
+                />
+              </Col>
+              <Col md={12} style={{textAlign:'center'}}>
+                <Image
+                  // width={200}
+                  preview={false}
+                  fallback={notapplied}
+                  src={IMG_PREFIX + "GEO/" + keywords?.dataset + '/' +  keywords?.tissue + '/gsea/' + 'signature_' + keywords?.sig_index + '__spredixcan_down_gene.jpg'}
+                />
+              </Col>
+            </Row>
+            <Divider/>
+          </div>
+          <div id={'intersection'}>
+            <Row justify={'center'}>
+              <Title level={2}>
+                Reverse intersection analysis of up and down regulated genes of disease and perturbation
+              </Title>
+            </Row>
+            <Row justify={'center'}>
+              <Col md={12}>
+                <Venn data={venndata1}/>
+              </Col>
+              <Col md={12}>
+                <Venn data={venndata2}/>
+              </Col>
+            </Row>
+            <Divider/>
+          </div>
+          <div id={'zscores'}>
+            <Row justify={'center'}>
+              <Title level={2}>
+                Z-scores of up and down regulated genes of disease and perturbation
+              </Title>
+            </Row>
+            <Row justify={'center'}>
+              <Col md={12}>
+                <Bar data={bardata1}/>
+              </Col>
+              <Col md={12}>
+                <Bar data={bardata2}/>
+              </Col>
+            </Row>
+            <Divider/>
+          </div>
         </Col>
       </Row>
-      <Divider/>
-      <Row justify={'center'}>
-        <Title level={2} >
-          Overview of the reuslts from six connectivity methods
-        </Title>
-      </Row>
-      <Row justify={'center'}>
-        <Col md={12}>
-          <Radar data={georesult} />
-        </Col>
-      </Row>
-      <Divider/>
-      <Row justify={'center'}>
-        <Title level={2}>
-          GSEA of disease up and down regulated genes in the pre-ranked gene list of GEO signature
-        </Title>
-      </Row>
-      <Row justify={'center'}>
-        <Col md={12} style={{textAlign:'center'}}>
-          <Image
-            preview={false}
-            fallback={notapplied}
-            src={IMG_PREFIX + "GEO/" + keywords?.dataset + '/' +  keywords?.tissue + '/gsea/' + 'signature_' + keywords?.sig_index + '__spredixcan_up_gene.jpg'}
-          />
-        </Col>
-        <Col md={12} style={{textAlign:'center'}}>
-          <Image
-            // width={200}
-            preview={false}
-            fallback={notapplied}
-            src={IMG_PREFIX + "GEO/" + keywords?.dataset + '/' +  keywords?.tissue + '/gsea/' + 'signature_' + keywords?.sig_index + '__spredixcan_down_gene.jpg'}
-          />
-        </Col>
-      </Row>
-      <Divider/>
-      <Row justify={'center'}>
-        <Title level={2}>
-          Reverse intersection analysis of up and down regulated genes of disease and perturbation
-        </Title>
-      </Row>
-      <Row justify={'center'}>
-        <Col md={12}>
-          <Venn data={venndata1}/>
-        </Col>
-        <Col md={12}>
-          <Venn data={venndata2}/>
-        </Col>
-      </Row>
-      <Divider/>
-      <Row justify={'center'}>
-        <Title level={2}>
-          Z-scores of up and down regulated genes of disease and perturbation
-        </Title>
-      </Row>
-      <Row justify={'center'}>
-        <Col md={12}>
-          <Bar data={bardata1}/>
-        </Col>
-        <Col md={12}>
-          <Bar data={bardata2}/>
-        </Col>
-      </Row>
-      <Divider/>
     </div>
   );
 }

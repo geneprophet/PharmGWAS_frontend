@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styles from './index.less';
-import { Breadcrumb, Col, Descriptions, Divider, Row, Typography, Image, Spin, Space } from "antd";
+import { Breadcrumb, Col, Descriptions, Divider, List, Row, Typography, Image, Spin, Space, Anchor } from "antd";
 import { URL_PREFIX ,uniqueArray,IMG_PREFIX} from '@/common/constants';
 import { getRemoteDataset } from "@/pages/DatasetOverview/service";
 import { getRemoteCMapResult } from "@/pages/DatasetResult/service";
@@ -11,11 +11,13 @@ import Bar from '@/components/Bar';
 import Venn from '@/components/Venn';
 import {
   getRemoteCmapZscoreDown,
-  getRemoteCmapZscoreUp,
+  getRemoteCmapZscoreUp, getRemoteCompound,
   getRemoteSpredixcanDown,
   getRemoteSpredixcanUP
 } from "@/pages/ExploreCMap/service";
+import classnames from "classnames";
 const { Title, Text, Paragraph } = Typography;
+const { Link } = Anchor;
 //http://127.0.0.1:8000/pharmgwas/explore/CARDIoGRAMplusC4D__28209224__Coronary_Artery_Disease/Artery_Coronary/abiraterone
 export default function Page(props:any) {
   interface SearchKeywords {
@@ -296,6 +298,64 @@ export default function Page(props:any) {
     }
   },[spredixcandown,cmapzscoreup]);
 
+  const [listdata, setListdata] = useState([]);
+
+  useEffect(()=>{
+    if (cmapresult){
+      let a = [];
+      a.push(cmapresult.wtcs);
+      a.push(cmapresult.xsum);
+      a.push(cmapresult.xsum_pvalue);
+      a.push(cmapresult.css);
+      a.push(cmapresult.css_pvalue);
+      a.push(cmapresult.spearman);
+      a.push(cmapresult.pearson);
+      a.push(cmapresult.cosine);
+      a.push(cmapresult.meta_score);
+      // console.log(a);
+      setListdata(a);
+    }
+  },[cmapresult])
+  const [current, setCurrent] = useState('');
+  const onChange = (link: string) => {
+    // console.log('Anchor:OnChange', link);
+    setCurrent(link);
+  };
+  const [targetOffset, setTargetOffset] = useState<number | undefined>(
+    undefined,
+  );
+  useEffect(() => {
+    setTargetOffset(window.innerHeight / 10);
+  }, []);
+
+  const [compound, setCompound] = useState(undefined);
+  useEffect(()=>{
+    if (cmapresult){
+      if (cmapresult.cmap_name == "lisofylline"){
+        getRemoteCompound({input:'name',value:cmapresult.cmap_name,operation:'description'}).then((res)=>{
+          console.log(res);
+          setCompound(res.InformationList.Information[1].Description);
+        }).catch((res)=>{
+          setCompound("Sorry, can not retrieve the description from PubChem successfully");
+        })
+      }else if (cmapresult.inchi_key != ""){
+        getRemoteCompound({input:'inchikey',value:cmapresult.inchi_key,operation:'description'}).then((res)=>{
+          console.log(res);
+          setCompound(res.InformationList.Information[1].Description);
+        }).catch((res)=>{
+          setCompound("Sorry, can not retrieve the description from PubChem successfully");
+        })
+      }else {
+        getRemoteCompound({input:'name',value:cmapresult.cmap_name,operation:'description'}).then((res)=>{
+          console.log(res);
+          setCompound(res.InformationList.Information[1].Description);
+        }).catch((res)=>{
+          setCompound("Sorry, can not retrieve the description from PubChem successfully");
+        })
+      }
+    }
+  },[cmapresult]);
+
   return (
     <div>
       <Row>
@@ -336,86 +396,138 @@ export default function Page(props:any) {
         </Col>
       </Row>
       <Divider />
-      <Row justify={'center'} >
+      <Row justify={'center'}>
         <Title level={2}>
           CMap Result ID: <span style={{ color: '#F15412' }}>{'PCMAP'+cmapresult?.id.toString().padStart(10,'0')}</span>
         </Title>
-        <Col md={22}>
-          <Descriptions title={"Meta Information"} bordered={true} >
-            <Descriptions.Item label="Trait Name">{dataset?.trait}</Descriptions.Item>
-            <Descriptions.Item label="Dataset Name">{dataset?.dataset}</Descriptions.Item>
-            <Descriptions.Item label="Tissue">{cmapresult?.tissue.replace("_"," ")}</Descriptions.Item>
-            <Descriptions.Item label="CMap Name"><a href={"https://pubchem.ncbi.nlm.nih.gov/#query="+cmapsignatures?.cmap_name} target={"_blank"}>{cmapsignatures?.cmap_name}</a></Descriptions.Item>
-            <Descriptions.Item label="CMap Signature ID">{cmapsignatures?.sig_id}</Descriptions.Item>
-            <Descriptions.Item label="InChiKey"><a href={"https://pubchem.ncbi.nlm.nih.gov/#query="+cmapsignatures?.inchi_key} target={"_blank"}>{cmapsignatures?.inchi_key}</a></Descriptions.Item>
-            <Descriptions.Item label="Cell Line">{cmapsignatures?.cell_iname}</Descriptions.Item>
-            <Descriptions.Item label="Dose">{cmapsignatures?.pert_idose}</Descriptions.Item>
-            <Descriptions.Item label="Time">{cmapsignatures?.pert_itime}</Descriptions.Item>
-          </Descriptions>
-        </Col>
       </Row>
       <Divider/>
-      <Row justify={'center'}>
-        <Title level={2} >
-          Overview of the reuslts from six connectivity methods
-        </Title>
-      </Row>
-      <Row justify={'center'}>
-        <Col md={12}>
-          <Radar data={cmapresult} />
+      <Row justify={'space-around'}>
+        <Col xs={3} sm={3} md={3}>
+          <Anchor affix={true} targetOffset={targetOffset} onChange={onChange}>
+            <Link href="#meta" title="1. Meta"></Link>
+            <Link href="#overview" title="2. Overview"></Link>
+            <Link href="#gsea" title="3. GSEA Plots"></Link>
+            <Link href="#intersection" title="4. Reverse Intersection"></Link>
+            <Link href="#zscores" title="5. Z-scores"></Link>
+          </Anchor>
+        </Col>
+        <Col
+            xs={21}
+            sm={21}
+            md={20}
+            lg={21}
+          >
+          <div id={"meta"}>
+            <Row justify={'center'} >
+              <Col md={24}>
+                <Descriptions title={"Meta Information (For more details, click on the CMap Name or InChiKey)"} bordered={true} >
+                  <Descriptions.Item label="Trait Name">{dataset?.trait}</Descriptions.Item>
+                  <Descriptions.Item label="Dataset Name">{dataset?.dataset}</Descriptions.Item>
+                  <Descriptions.Item label="Tissue">{cmapresult?.tissue.replace("_"," ")}</Descriptions.Item>
+                  <Descriptions.Item label="CMap Name"><a href={"https://pubchem.ncbi.nlm.nih.gov/#query="+cmapsignatures?.cmap_name} target={"_blank"}>{cmapsignatures?.cmap_name}</a></Descriptions.Item>
+                  <Descriptions.Item label="CMap Signature ID">{cmapsignatures?.sig_id}</Descriptions.Item>
+                  <Descriptions.Item label="InChiKey"><a href={"https://pubchem.ncbi.nlm.nih.gov/#query="+cmapsignatures?.inchi_key} target={"_blank"}>{cmapsignatures?.inchi_key}</a></Descriptions.Item>
+                  <Descriptions.Item label="Cell Line">{cmapsignatures?.cell_iname}</Descriptions.Item>
+                  <Descriptions.Item label="Dose">{cmapsignatures?.pert_idose}</Descriptions.Item>
+                  <Descriptions.Item label="Time">{cmapsignatures?.pert_itime}</Descriptions.Item>
+                  <Descriptions.Item label="Compound Summary">{compound}</Descriptions.Item>
+                </Descriptions>
+              </Col>
+            </Row>
+          </div>
+          <Divider/>
+          <div id={'overview'}>
+            <Row justify={"center"}>
+              {/*<Col md={5} style={{display:"none"}}>*/}
+              {/*  <List*/}
+              {/*    header={<Title level={4}>Detail</Title>}*/}
+              {/*    // footer={<div>Footer</div>}*/}
+              {/*    bordered*/}
+              {/*    dataSource={listdata}*/}
+              {/*    renderItem={(item) => (*/}
+              {/*      <List.Item>*/}
+              {/*        <Typography.Text mark>[ITEM]</Typography.Text> {item}*/}
+              {/*      </List.Item>*/}
+              {/*    )}*/}
+              {/*  />*/}
+              {/*</Col>*/}
+              <Col md={24}>
+                <Row justify={'center'}>
+                  <Title level={2} >
+                    Overview of the reuslts from six connectivity methods
+                  </Title>
+                </Row>
+                <Row justify={'center'}>
+                  <Col md={12}>
+                    <Radar data={cmapresult} />
+                  </Col>
+                </Row>
+              </Col>
+            </Row>
+          </div>
+          <Divider/>
+          <div id={'gsea'}>
+            <Row justify={'center'}>
+              <Title level={2}>
+                GSEA of disease up and down regulated genes in the pre-ranked gene list of CMap signature
+              </Title>
+            </Row>
+            <Row justify={'center'}>
+              <Col md={12} style={{textAlign:'center'}}>
+                <Title level={4}>S-PrediXcan Up regulated genes (NES:{cmapresult?.es_up.toFixed(4)}, p-adjust:{cmapresult?.es_up_padj.toExponential(4)})</Title>
+                <Image
+                  preview={false}
+                  fallback={notapplied}
+                  src={IMG_PREFIX + keywords?.dataset + '/' +  keywords?.tissue + '/gsea/' + 'signature_' + keywords?.sig_index + '__spredixcan_up_gene.jpg'}
+                />
+              </Col>
+              <Col md={12} style={{textAlign:'center'}}>
+                <Title level={4}>S-PrediXcan Down regulated genes (NES: {cmapresult?.es_down.toFixed(4)}, p-adjust: {cmapresult?.es_down_padj.toExponential(4)})</Title>
+                <Image
+                  // width={200}
+                  preview={false}
+                  fallback={notapplied}
+                  src={IMG_PREFIX + keywords?.dataset + '/' +  keywords?.tissue + '/gsea/' + 'signature_' + keywords?.sig_index + '__spredixcan_down_gene.jpg'}
+                />
+              </Col>
+            </Row>
+          </div>
+          <Divider/>
+          <div id={'intersection'}>
+            <Row justify={'center'} >
+              <Title level={2} style={{ marginTop: '15px'}}>
+                Reverse intersection analysis of up and down regulated genes of disease and drug
+              </Title>
+            </Row>
+            <Row justify={'center'}>
+              <Col md={12}>
+                <Venn data={venndata1}/>
+              </Col>
+              <Col md={12}>
+                <Venn data={venndata2}/>
+              </Col>
+            </Row>
+          </div>
+          <Divider/>
+          <div id={'zscores'}>
+            <Row justify={'center'}>
+              <Title level={2}>
+                Z-scores of up and down regulated genes of disease and drug
+              </Title>
+            </Row>
+            <Row justify={'center'}>
+              <Col md={12}>
+                <Bar data={bardata1}/>
+              </Col>
+              <Col md={12}>
+                <Bar data={bardata2}/>
+              </Col>
+            </Row>
+          </div>
         </Col>
       </Row>
-      <Divider/>
-      <Row justify={'center'}>
-        <Title level={2}>
-          GSEA of disease up and down regulated genes in the pre-ranked gene list of CMap signature
-        </Title>
-      </Row>
-      <Row justify={'center'}>
-        <Col md={12} style={{textAlign:'center'}}>
-          <Image
-            preview={false}
-            fallback={notapplied}
-            src={IMG_PREFIX + keywords?.dataset + '/' +  keywords?.tissue + '/gsea/' + 'signature_' + keywords?.sig_index + '__spredixcan_up_gene.jpg'}
-          />
-        </Col>
-        <Col md={12} style={{textAlign:'center'}}>
-          <Image
-            // width={200}
-            preview={false}
-            fallback={notapplied}
-            src={IMG_PREFIX + keywords?.dataset + '/' +  keywords?.tissue + '/gsea/' + 'signature_' + keywords?.sig_index + '__spredixcan_down_gene.jpg'}
-          />
-        </Col>
-      </Row>
-      <Divider/>
-      <Row justify={'center'} >
-        <Title level={2} style={{ marginTop: '15px'}}>
-          Reverse intersection analysis of up and down regulated genes of disease and drug
-        </Title>
-      </Row>
-      <Row justify={'center'}>
-        <Col md={12}>
-          <Venn data={venndata1}/>
-        </Col>
-        <Col md={12}>
-          <Venn data={venndata2}/>
-        </Col>
-      </Row>
-      <Divider/>
-      <Row justify={'center'}>
-        <Title level={2}>
-          Z-scores of up and down regulated genes of disease and drug
-        </Title>
-      </Row>
-      <Row justify={'center'}>
-        <Col md={12}>
-          <Bar data={bardata1}/>
-        </Col>
-        <Col md={12}>
-          <Bar data={bardata2}/>
-        </Col>
-      </Row>
+
       <Divider/>
     </div>
   );

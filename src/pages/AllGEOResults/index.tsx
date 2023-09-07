@@ -301,23 +301,6 @@ export default function Page() {
       )
     },
     {
-      title: <strong style={{ fontFamily: 'sans-serif' }}>Meta Score</strong>,
-      key: 'meta_score',
-      dataIndex: 'meta_score',
-      tooltip: 'Meta Score amalgamates the significance derived from all six methods',
-      ellipsis: true,
-      search: false,
-      sorter:true,
-      width: 135,
-      render:(text,record,index) => {
-        if (Math.abs(record.meta_score) < 0.01){
-          return record.meta_score.toExponential(4)
-        }else {
-          return record.meta_score.toFixed(4)
-        }
-      }
-    },
-    {
       title: <strong style={{ fontFamily: 'sans-serif' }}>WTCS</strong>,
       key: 'wtcs',
       dataIndex: 'wtcs',
@@ -560,6 +543,23 @@ export default function Page() {
           return record.xcos.toExponential(4)
         }else {
           return record.xcos.toFixed(4)
+        }
+      }
+    },
+    {
+      title: <strong style={{ fontFamily: 'sans-serif' }}>Meta Score</strong>,
+      key: 'meta_score',
+      dataIndex: 'meta_score',
+      tooltip: 'Meta Score amalgamates the significance derived from all six methods',
+      ellipsis: true,
+      search: false,
+      sorter:true,
+      width: 135,
+      render:(text,record,index) => {
+        if (Math.abs(record.meta_score) < 0.01){
+          return record.meta_score.toExponential(4)
+        }else {
+          return record.meta_score.toFixed(4)
         }
       }
     },
