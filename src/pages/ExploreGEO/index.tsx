@@ -392,6 +392,7 @@ export default function Page(props:any) {
             </Row>
             <Row justify={'center'}>
               <Col md={12} style={{textAlign:'center'}}>
+                <Title level={4}>S-PrediXcan Up regulated genes (NES:{georesult?.es_up.toFixed(4)}, p-adjust:{georesult?.es_up_padj.toExponential(4)})</Title>
                 <Image
                   preview={false}
                   fallback={notapplied}
@@ -399,6 +400,7 @@ export default function Page(props:any) {
                 />
               </Col>
               <Col md={12} style={{textAlign:'center'}}>
+                <Title level={4}>S-PrediXcan Down regulated genes (NES: {georesult?.es_down.toFixed(4)}, p-adjust: {georesult?.es_down_padj.toExponential(4)})</Title>
                 <Image
                   // width={200}
                   preview={false}

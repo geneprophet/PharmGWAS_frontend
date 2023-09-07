@@ -256,6 +256,7 @@ export default function Page() {
                 })}
               />
             </Link>
+            <Link href="#faq" title="7. FAQ"></Link>
           </Anchor>
         </Col>
         <Col
@@ -393,80 +394,120 @@ export default function Page() {
                 The three metrics (Spearman, Pearson and Cosine correlation) can also be adapted to just use a fixed number of ‘extreme’ genes that are most upregulated or downregulated by the disease. XPearson is the extreme Pearson correlation; XSpearman is the extreme Spearman rank correlation; XCosine is the extreme Cosine correlation.
               </Paragraph>
             </div>
-            <div id={'usage'}>
-              <Title level={1}>
-                6	Database Usage
+          </div>
+          <div id={'usage'}>
+            <Title level={1}>
+              6	Database Usage
+            </Title>
+            <div id={'usage_home'}>
+              <Title level={2}>
+                6.1 Home Page
               </Title>
-              <div id={'usage_home'}>
-                <Title level={2}>
-                  6.1 Home Page
-                </Title>
-                <Paragraph>
-                  The search function available in the homepage supports keyword-based quick queries for multiple forms of items, such as names of diseases, CMap signatures, or GEO signatures. Moreover, the home page provides summarizes the main resources in the database, including the number of datasets, signatures, connectivity methods and results disease-drug pairs.
-                </Paragraph>
-                <Image src={usage_1} preview={false}/>
-              </div>
-              <div id={'usage_dataset'}>
-                <Title level={2}>
-                  6.2 Browse - GWAS Datasets
-                </Title>
-                <Paragraph>
-                  This page contains 1,929 GWAS datasets that can be easily accessed using the advanced search and filter options. By clicking the Dataset ID, you can browse the detailed information about the dataset and its corresponding results for drug repurposing.
-                </Paragraph>
-                <Image src={usage_2} preview={false}/>
-                <Paragraph>
-                  The detailed page for individual dataset including four major components: Dataset Meta Information, deTS Calculated Causal Tissues, drug candidates derived from CMap signatures (CMap Results Overview) and GEO signatures (GEO Results Overview). The advanced search and filter function were also provided in this page. By clicking the Association ID, you can link to the Detail Page of the corresponding result item. By clicking on the "CMap Name" column, users can access the details of the corresponding compound in PubChem, such as chemical and physical properties, clinical trials, consolidated references, patents, and so on.
-                </Paragraph>
-                <Image src={usage_3} preview={false}/>
-              </div>
-              <div id={'usage_cmap'}>
-                <Title level={2}>
-                  6.3 Browse - CMap Signatures
-                </Title>
-                <Paragraph>
-                  The CMap Signarues page contains 720,216 small molecule compound CMap signatures that can be easily accessed using the advanced search and filter options. By clicking the Signature ID, you can browse the detailed information about the signature and its corresponding results with all GWAS datasets for drug repurposing. By clicking on the "CMap Name" column, users can access the details of the corresponding compound in PubChem, such as chemical and physical properties, clinical trials, consolidated references, patents, and so on.
-                </Paragraph>
-                <Image src={usage_4} preview={false}/>
-                <Paragraph>
-                  The detailed page for single signature including two major components: Signature Meta Information and the overview of the drug repurposing results based on this signature. By clicking on the Association ID, you can link to the Explore Page of the corresponding result item.
-                </Paragraph>
-                <Image src={usage_5} preview={false}/>
-              </div>
-              <div id={'usage_geo'}>
-                <Title level={2}>
-                  6.4 Browse - GEO Signatures
-                </Title>
-                <Paragraph>
-                  This page contains the 4269 perturbation signatures from GEO, which were download from SigCom LINCS. These signatures can be easily accessed using the advanced search and filter options. By clicking the Signature ID, you can browse the detailed information about the signature and its corresponding results with all GWAS datasets for drug repurposing.
-                </Paragraph>
-                <Image src={usage_6} preview={false}/>
-                <Paragraph>
-                  The CMap Signarues page contains 720,216 small molecule compound CMap signatures that can be easily accessed using the advanced search and filter options. By clicking the Signature ID, you can browse the detailed information about the signature and its corresponding results with all GWAS datasets for drug repurposing.
-                </Paragraph>
-                <Image src={usage_7} preview={false}/>
-              </div>
-              <div id={'usage_explore'}>
-                <Title level={2}>
-                  6.5 CMap and GEO Results
-                </Title>
-                <Paragraph>
-                  The modules for “CMap Results” and “GEO Results” provide an opportunity to directly search for disease-drug pairs across datasets and signatures. An advanced search function has also been provided. Users can jump to the detail page of disease-drug pairs by clicking on the “Association ID” in the CMap Results and GEO Results pages.
-                  {/*The CMap Results page and GEO Results page contains the overall disease-drug pairs derived from corresponding kind signatures. You can easily explore these results by advance search and filter function. By clicking the Association ID, you will led to the detailed page for each association.*/}
-                </Paragraph>
-                <Image src={usage_8} preview={false}/>
-              </div>
-              <div id={'usage_detail'}>
-                <Title level={2}>
-                  6.6 Detail Page for Disease-Drug Pair
-                </Title>
-                <Paragraph>
-                  The “detail page” about individual disease-drug pairs contains five sections. First, meta-information about the corresponding disease and drug is shown at the top of the page. Second, we use a radargram to provide an overview of the results from six connectivity methods. The larger the area enclosed by the results of the six methods, the more reliable the drug candidate is. Third, to assess whether the disease-upregulated genes appear toward the bottom of drug-induced profiles and disease-downregulated genes appear toward the top of drug-induced profiles, the GSEA plots of disease upregulated and downregulated genes in the pre-ranked list of drug signature are provided. Next, the reverse intersection analysis of disease-upregulated genes with drug-downregulated genes are illustrated in Venn diagrams, and similarly for disease-downregulated genes with drug-upregulated genes. Finally, the corresponding Z scores of upregulated and downregulated genes in disease and drug signatures are displayed in the histograms.
-                  {/*The page for single association contains the comprehensive details about the corresponding drug-disease pair, including four major components: Meta Information of the disease and drug, the overview of the six connectivity methods of evaluation, the GSEA results for the S-PrediXcan signatures in the pre-ranked gene list of CMap/GEO signature, the reverse intersection analysis using the extreme genes of the two kinds of signatures (Disease: S-PrediXcan and Drug: CMap or GEO), and the bar plot about the detail gene list of the extreme genes with its corresponding Z-scores.*/}
-                </Paragraph>
-                <Image src={usage_9} preview={false}/>
-                <Image src={usage_10} preview={false}/>
-                <Image src={usage_11} preview={false}/>
-              </div>
+              <Paragraph>
+                The search function available in the homepage supports keyword-based quick queries for multiple forms of items, such as names of diseases, CMap signatures, or GEO signatures. Moreover, the home page provides summarizes the main resources in the database, including the number of datasets, signatures, connectivity methods and results disease-drug pairs.
+              </Paragraph>
+              <Image src={usage_1} preview={false}/>
+            </div>
+            <div id={'usage_dataset'}>
+              <Title level={2}>
+                6.2 Browse - GWAS Datasets
+              </Title>
+              <Paragraph>
+                This page contains 1,929 GWAS datasets that can be easily accessed using the advanced search and filter options. By clicking the Dataset ID, you can browse the detailed information about the dataset and its corresponding results for drug repurposing.
+              </Paragraph>
+              <Image src={usage_2} preview={false}/>
+              <Paragraph>
+                The detailed page for individual dataset including four major components: Dataset Meta Information, deTS Calculated Causal Tissues, drug candidates derived from CMap signatures (CMap Results Overview) and GEO signatures (GEO Results Overview). The advanced search and filter function were also provided in this page. By clicking the Association ID, you can link to the Detail Page of the corresponding result item. By clicking on the "CMap Name" column, users can access the details of the corresponding compound in PubChem, such as chemical and physical properties, clinical trials, consolidated references, patents, and so on.
+              </Paragraph>
+              <Image src={usage_3} preview={false}/>
+            </div>
+            <div id={'usage_cmap'}>
+              <Title level={2}>
+                6.3 Browse - CMap Signatures
+              </Title>
+              <Paragraph>
+                The CMap Signarues page contains 720,216 small molecule compound CMap signatures that can be easily accessed using the advanced search and filter options. By clicking the Signature ID, you can browse the detailed information about the signature and its corresponding results with all GWAS datasets for drug repurposing. By clicking on the "CMap Name" column, users can access the details of the corresponding compound in PubChem, such as chemical and physical properties, clinical trials, consolidated references, patents, and so on.
+              </Paragraph>
+              <Image src={usage_4} preview={false}/>
+              <Paragraph>
+                The detailed page for single signature including two major components: Signature Meta Information and the overview of the drug repurposing results based on this signature. By clicking on the Association ID, you can link to the Explore Page of the corresponding result item.
+              </Paragraph>
+              <Image src={usage_5} preview={false}/>
+            </div>
+            <div id={'usage_geo'}>
+              <Title level={2}>
+                6.4 Browse - GEO Signatures
+              </Title>
+              <Paragraph>
+                This page contains the 4269 perturbation signatures from GEO, which were download from SigCom LINCS. These signatures can be easily accessed using the advanced search and filter options. By clicking the Signature ID, you can browse the detailed information about the signature and its corresponding results with all GWAS datasets for drug repurposing.
+              </Paragraph>
+              <Image src={usage_6} preview={false}/>
+              <Paragraph>
+                The CMap Signarues page contains 720,216 small molecule compound CMap signatures that can be easily accessed using the advanced search and filter options. By clicking the Signature ID, you can browse the detailed information about the signature and its corresponding results with all GWAS datasets for drug repurposing.
+              </Paragraph>
+              <Image src={usage_7} preview={false}/>
+            </div>
+            <div id={'usage_explore'}>
+              <Title level={2}>
+                6.5 CMap and GEO Results
+              </Title>
+              <Paragraph>
+                The modules for “CMap Results” and “GEO Results” provide an opportunity to directly search for disease-drug pairs across datasets and signatures. An advanced search function has also been provided. Users can jump to the detail page of disease-drug pairs by clicking on the “Association ID” in the CMap Results and GEO Results pages.
+                {/*The CMap Results page and GEO Results page contains the overall disease-drug pairs derived from corresponding kind signatures. You can easily explore these results by advance search and filter function. By clicking the Association ID, you will led to the detailed page for each association.*/}
+              </Paragraph>
+              <Image src={usage_8} preview={false}/>
+            </div>
+            <div id={'usage_detail'}>
+              <Title level={2}>
+                6.6 Detail Page for Disease-Drug Pair
+              </Title>
+              <Paragraph>
+                The “detail page” about individual disease-drug pairs contains five sections. First, meta-information about the corresponding disease and drug is shown at the top of the page. Second, we use a radargram to provide an overview of the results from six connectivity methods. The larger the area enclosed by the results of the six methods, the more reliable the drug candidate is. Third, to assess whether the disease-upregulated genes appear toward the bottom of drug-induced profiles and disease-downregulated genes appear toward the top of drug-induced profiles, the GSEA plots of disease upregulated and downregulated genes in the pre-ranked list of drug signature are provided. Next, the reverse intersection analysis of disease-upregulated genes with drug-downregulated genes are illustrated in Venn diagrams, and similarly for disease-downregulated genes with drug-upregulated genes. Finally, the corresponding Z scores of upregulated and downregulated genes in disease and drug signatures are displayed in the histograms.
+                {/*The page for single association contains the comprehensive details about the corresponding drug-disease pair, including four major components: Meta Information of the disease and drug, the overview of the six connectivity methods of evaluation, the GSEA results for the S-PrediXcan signatures in the pre-ranked gene list of CMap/GEO signature, the reverse intersection analysis using the extreme genes of the two kinds of signatures (Disease: S-PrediXcan and Drug: CMap or GEO), and the bar plot about the detail gene list of the extreme genes with its corresponding Z-scores.*/}
+              </Paragraph>
+              <Image src={usage_9} preview={false}/>
+              <Image src={usage_10} preview={false}/>
+              <Image src={usage_11} preview={false}/>
+            </div>
+          </div>
+          <div id={'faq'}>
+            <Title level={1}>
+              7	Frequently Asked Questions (FAQ)
+            </Title>
+            <div>
+              <Title level={2}>
+                7.1 How to select a GWAS dataset ?
+              </Title>
+              <Paragraph>
+                We recommend considering sample size, year, and other factors when selecting GWAS datasets for phenotypes of interest. High-quality GWAS datasets will provide more reliable results.
+              </Paragraph>
+            </div>
+            <Divider/>
+            <div>
+              <Title level={2}>
+                7.2 How to interpret the results ?
+              </Title>
+              <Paragraph>
+                We recommend to consider the effects of tissues when interpreting the results because the genetically regulated expression profiles (GReX) are imputed based on tissue-specific models. In addition, we also integrate various annotation information about the compounds from PubChem to help users in interpreting the results. By clicking on the "CMap Name" or "InchiKey" will lead to the detail page about the compound in PubChem.
+              </Paragraph>
+            </div>
+            <Divider/>
+            <div>
+              <Title level={2}>
+                7.3 How to download the results in PharmGWAS ?
+              </Title>
+              <Paragraph>
+                The download function is embedded in the web page so that users can first select the items and then the download button is displayed on the top of the table. Unfortunately, PharmGWAS does not currently support downloading all results at once!
+              </Paragraph>
+            </div>
+            <Divider/>
+            <div>
+              <Title level={2}>
+                7.4 How to cite ?
+              </Title>
+              <Paragraph>
+                Coming soon...
+              </Paragraph>
             </div>
           </div>
         </Col>
