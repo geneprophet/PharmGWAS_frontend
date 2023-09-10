@@ -52,8 +52,8 @@ export default function Page(props:any) {
         tissue:undefined,
         accession:name,
         sig_index:undefined,
-        sort_field:undefined,
-        sort_direction:undefined,
+        sort_field: 'id',
+        sort_direction: 'ascend',
       }).then((res)=>{
         setLoading(false);
         setGeoresult(res.data);
@@ -248,6 +248,16 @@ export default function Page(props:any) {
           </Select>
         );
       },
+    },
+    {
+      title: <strong style={{ fontFamily: 'sans-serif' }}>Meta Score</strong>,
+      key: 'meta_score',
+      dataIndex: 'meta_score',
+      tooltip: 'Meta Score amalgamates the significance derived from all six methods',
+      ellipsis: true,
+      search: false,
+      sorter:true,
+      width: 135,
     },
     {
       title: <strong style={{ fontFamily: 'sans-serif' }}>WTCS</strong>,
@@ -494,23 +504,6 @@ export default function Page(props:any) {
         }
       }
     },
-    {
-      title: <strong style={{ fontFamily: 'sans-serif' }}>Meta Score</strong>,
-      key: 'meta_score',
-      dataIndex: 'meta_score',
-      tooltip: 'Meta Score amalgamates the significance derived from all six methods',
-      ellipsis: true,
-      search: false,
-      sorter:true,
-      width: 135,
-      render:(text,record,index) => {
-        if (Math.abs(record.meta_score) < 0.01){
-          return record.meta_score.toExponential(4)
-        }else {
-          return record.meta_score.toFixed(4)
-        }
-      }
-    },
   ]
 
   return (
@@ -597,8 +590,8 @@ export default function Page(props:any) {
                 tissue:  keywords.tissue,
                 accession:name,
                 sig_index:  undefined,
-                sort_field: undefined,
-                sort_direction: undefined,
+                sort_field: 'id',
+                sort_direction: 'ascend',
               }).then((res) => {
                 setGeoresult(res.data);
                 setLoading(false);
@@ -615,8 +608,8 @@ export default function Page(props:any) {
                 tissue:  undefined,
                 accession:name,
                 sig_index:  undefined,
-                sort_field: undefined,
-                sort_direction: undefined,
+                sort_field: 'id',
+                sort_direction: 'ascend',
               }).then((res) => {
                 setGeoresult(res.data);
                 setLoading(false);

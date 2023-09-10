@@ -80,8 +80,8 @@ export default function Page(props: any) {
         tissue:  undefined,
         cmap_name:undefined,
         sig_index:  undefined,
-        sort_field: undefined,
-        sort_direction: undefined
+        sort_field: 'id',
+        sort_direction: 'ascend',
       }).then((res) => {
         setLoading(false);
         setCmapresult(res.data);
@@ -105,8 +105,8 @@ export default function Page(props: any) {
         tissue:  undefined,
         accession:undefined,
         sig_index:  undefined,
-        sort_field: undefined,
-        sort_direction: undefined
+        sort_field: 'id',
+        sort_direction: 'ascend',
       }).then((res) => {
         setLoading2(false);
         setGeoresults(res.data);
@@ -345,6 +345,16 @@ export default function Page(props: any) {
       }
     },
     {
+      title: <strong style={{ fontFamily: 'sans-serif' }}>Meta Score</strong>,
+      key: 'meta_score',
+      dataIndex: 'meta_score',
+      tooltip: 'Meta Score amalgamates the significance derived from all six methods',
+      ellipsis: true,
+      search: false,
+      sorter:true,
+      width: 135,
+    },
+    {
       title: <strong style={{ fontFamily: 'sans-serif' }}>WTCS</strong>,
       key: 'wtcs',
       dataIndex: 'wtcs',
@@ -587,23 +597,6 @@ export default function Page(props: any) {
           return record.xcos.toExponential(4)
         }else {
           return record.xcos.toFixed(4)
-        }
-      }
-    },
-    {
-      title: <strong style={{ fontFamily: 'sans-serif' }}>Meta Score</strong>,
-      key: 'meta_score',
-      dataIndex: 'meta_score',
-      tooltip: 'Meta Score amalgamates the significance derived from all six methods',
-      ellipsis: true,
-      search: false,
-      sorter:true,
-      width: 135,
-      render:(text,record,index) => {
-        if (Math.abs(record.meta_score) < 0.01){
-          return record.meta_score.toExponential(4)
-        }else {
-          return record.meta_score.toFixed(4)
         }
       }
     },
@@ -779,6 +772,16 @@ export default function Page(props: any) {
       )
     },
     {
+      title: <strong style={{ fontFamily: 'sans-serif' }}>Meta Score</strong>,
+      key: 'meta_score',
+      dataIndex: 'meta_score',
+      tooltip: 'Meta Score amalgamates the significance derived from all six methods',
+      ellipsis: true,
+      search: false,
+      sorter:true,
+      width: 135,
+    },
+    {
       title: <strong style={{ fontFamily: 'sans-serif' }}>WTCS</strong>,
       key: 'wtcs',
       dataIndex: 'wtcs',
@@ -1024,23 +1027,6 @@ export default function Page(props: any) {
         }
       }
     },
-    {
-      title: <strong style={{ fontFamily: 'sans-serif' }}>Meta Score</strong>,
-      key: 'meta_score',
-      dataIndex: 'meta_score',
-      tooltip: 'Meta Score amalgamates the significance derived from all six methods',
-      ellipsis: true,
-      search: false,
-      sorter:true,
-      width: 135,
-      render:(text,record,index) => {
-        if (Math.abs(record.meta_score) < 0.01){
-          return record.meta_score.toExponential(4)
-        }else {
-          return record.meta_score.toFixed(4)
-        }
-      }
-    },
   ]
 
   return (
@@ -1142,8 +1128,8 @@ export default function Page(props: any) {
                   tissue:  keywords.tissue,
                   cmap_name:keywords.cmap_name,
                   sig_index:  undefined,
-                  sort_field: undefined,
-                  sort_direction: undefined,
+                  sort_field: 'id',
+                  sort_direction: 'ascend',
                 }).then((res) => {
                   setCmapresult(res.data);
                   setLoading(false);
@@ -1160,8 +1146,8 @@ export default function Page(props: any) {
                   tissue:  undefined,
                   cmap_name:undefined,
                   sig_index: undefined,
-                  sort_field: undefined,
-                  sort_direction: undefined,
+                  sort_field: 'id',
+                  sort_direction: 'ascend',
                 }).then((res) => {
                   setCmapresult(res.data);
                   setLoading(false);
@@ -1351,8 +1337,8 @@ export default function Page(props: any) {
                   tissue:  keywords.tissue,
                   accession:keywords.accession,
                   sig_index:  undefined,
-                  sort_field: undefined,
-                  sort_direction: undefined,
+                  sort_field: 'id',
+                  sort_direction: 'ascend',
                 }).then((res) => {
                   setGeoresults(res.data);
                   setLoading2(false);
@@ -1369,8 +1355,8 @@ export default function Page(props: any) {
                   tissue:  undefined,
                   accession:undefined,
                   sig_index: undefined,
-                  sort_field: undefined,
-                  sort_direction: undefined,
+                  sort_field: 'id',
+                  sort_direction: 'ascend',
                 }).then((res) => {
                   setGeoresults(res.data);
                   setLoading2(false);
