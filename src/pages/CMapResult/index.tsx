@@ -262,7 +262,7 @@ export default function Page(props: any) {
       sorter:true,
     },
     {
-      title: <strong style={{ fontFamily: 'sans-serif' }}>Meta Score</strong>,
+      title: <strong style={{ fontFamily: 'sans-serif' }}>Meta-Score</strong>,
       key: 'meta_score',
       dataIndex: 'meta_score',
       tooltip: 'Meta Score amalgamates the significance derived from all six methods',
