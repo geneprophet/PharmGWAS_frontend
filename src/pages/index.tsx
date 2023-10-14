@@ -654,13 +654,13 @@ export default function IndexPage() {
               }}
             >
               {
-                'Database Resources of the National Genomics Data Center, China National Center for Bioinformation in 2023. Nucleic Acids Res. 2023 Jan 6; 51(D1):D18-D28. PMID: '
+                'PharmGWAS: a GWAS-based knowledgebase for drug repurposing. Nucleic Acids Research,2023;gkad832. doi: '
               }
               <a
-                href={'https://pubmed.ncbi.nlm.nih.gov/36420893/'}
+                href={'https://doi.org/10.1093/nar/gkad832'}
                 target={'_blank'}
               >
-                36420893
+                10.1093/nar/gkad832
               </a>
             </Text>
           </Card>
