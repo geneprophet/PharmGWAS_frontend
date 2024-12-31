@@ -415,7 +415,7 @@ export default function IndexPage() {
                   <p>
                     3)	To infer disease-drug pairs by integrative analysis of the imputed gene expression signatures with drug-induced gene expression signatures.
                   </p>
-                  In total, PharmGWAS deposites <span style={{color:"red"}}>732,947</span> disease-drug pairs derived from
+                  In total, PharmGWAS deposits <span style={{color:"red"}}>732,947</span> disease-drug pairs derived from
                   <a href={'https://clue.io'} target={'_blank'}>
                     {' '}Connectivity Map (CMap){' '}
                   </a>
